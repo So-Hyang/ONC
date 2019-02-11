@@ -32,8 +32,7 @@ BEGIN_MESSAGE_MAP(CCalendarView, CView)
 	ON_WM_CONTEXTMENU()
 	ON_WM_RBUTTONUP()
 	ON_WM_LBUTTONDBLCLK()
-	ON_BN_CLICKED(101, &CCalendarView::OnLeftRightBtnClicked)
-	ON_BN_CLICKED(102, &CCalendarView::OnLeftRightBtnClicked)
+	ON_COMMAND_RANGE(101,102, CCalendarView::OnLeftRightBtnClicked)
 	ON_BN_CLICKED(103, &CCalendarView::OnCalendarTodayBtnClicked)
 	ON_BN_CLICKED(104, &CCalendarView::OnCalendarReadBtnClicked)
 	ON_WM_PAINT()
@@ -49,10 +48,26 @@ CCalendarView::CCalendarView()
 }
 
 ////버튼 클릭 이벤트
-void CCalendarView::OnLeftRightBtnClicked()
+void CCalendarView::OnLeftRightBtnClicked(UINT uiID)
 {
-	MessageBox(L"OnLeftRightBtnClicked");
-
+	switch (uiID) {
+	case 101://left 버튼
+		cur_Month--;
+		if (cur_Month == 0) {
+			cur_Month = 12;
+			cur_Year--;
+		}
+		break;
+	case 102://right 버튼
+		cur_Month++;
+		if (cur_Month == 13) {
+			cur_Month = 1;
+			cur_Year++;
+		}
+		break;
+	}
+	CalcaulateCalendar();
+	DrawCalendar();
 }
 
 void CCalendarView::OnCalendarReadBtnClicked()
@@ -99,7 +114,7 @@ void CCalendarView::OnCalendarReadBtnClicked()
 
 void CCalendarView::OnCalendarTodayBtnClicked()
 {
-	MessageBox(L"OnCalendarTodayBtnClicked");
+	GetCurrentYearMonth();
 	CalcaulateCalendar();
 	DrawCalendar();
 }
@@ -215,15 +230,17 @@ void CCalendarView::OnInitialUpdate()
 {
 	CView::OnInitialUpdate();
 
+	GetCurrentYearMonth();
+
 	// TODO: 여기에 특수화된 코드를 추가 및/또는 기본 클래스를 호출합니다.
 	leftbtn = new CButton();
 	rightbtn = new CButton();
 	todaybtn = new CButton();
 	readbtn = new CButton();
 
-	leftbtn->Create(L"leftbtn", BS_DEFPUSHBUTTON, CRect(650, 20, 700, 50), this, 101);
-	rightbtn->Create(L"rightbtn", BS_DEFPUSHBUTTON, CRect(650, 70, 700, 100), this, 102);
-	todaybtn->Create(L"todaybtn", BS_DEFPUSHBUTTON, CRect(650, 140, 700, 170), this, 103);
+	leftbtn->Create(L"<-", BS_DEFPUSHBUTTON, CRect(calbkpos.x + 366, 20, calbkpos.x + 400, 42), this, 101);
+	rightbtn->Create(L"->", BS_DEFPUSHBUTTON, CRect(calbkpos.x + 466, 20, calbkpos.x + 500, 42), this, 102);
+	todaybtn->Create(L"오늘", BS_DEFPUSHBUTTON, CRect(calbkpos.x + 412, 20, calbkpos.x + 454, 42), this, 103);
 	readbtn->Create(L"readbtn", BS_DEFPUSHBUTTON, CRect(readbtnpos.x+670, readbtnpos.y+15, readbtnpos.x + 740, readbtnpos.y + 40), this, 104);
 
 	leftbtn->ShowWindow(SW_SHOW); //여기 위치가 맞는지 확인하기
@@ -383,5 +400,12 @@ void CCalendarView::DrawCalendar()
 			date_num++;
 		}
 	}
+}
+
+void CCalendarView::GetCurrentYearMonth()
+{
+	CTime cur_time = CTime::GetCurrentTime();
+	cur_Year = cur_time.GetYear();
+	cur_Month = cur_time.GetMonth();
 }
 

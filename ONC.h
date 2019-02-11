@@ -10,6 +10,8 @@
 #include "resource.h"       // 주 기호입니다.
 #include <iostream>
 #include <vector>
+
+#include <ctime>
 using namespace std;
 
 // CONCApp:

@@ -15,7 +15,7 @@ protected: // serialization에서만 만들어집니다.
 public:
 	CONCDoc* GetDocument() const;
 
-	void OnLeftRightBtnClicked();
+	void OnLeftRightBtnClicked(UINT uiID);
 
 	void OnCalendarReadBtnClicked();
 
@@ -45,6 +45,8 @@ public:
 
 	void DrawCalendar();//달력 그리는 함수 임의로 추가함
 
+	void GetCurrentYearMonth(); //현재 년도, 월 불러오는 함수
+
 
 
 
@@ -59,8 +61,8 @@ public:
 	int BackgroundAdd = IDB_BITMAP_CALENDAR_BK;
 	CString day[7] = { L"일" ,L"월", L"화", L"수", L"목", L"금", L"토" };
 	CString date[35] = {};
-	int cur_Month = 02;
-	int cur_Year = 2019;
+	int cur_Month = 0;
+	int cur_Year = 0;
 
 
 // 재정의입니다.
