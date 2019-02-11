@@ -29,7 +29,7 @@ public:
 		pImages->PrepareDrawImage(ds);
 
 		CMFCToolBarMenuButton::OnDraw(pDC, rect, pImages, bHorz, bCustomizeMode, bHighlight, bDrawBorder, bGrayDisabledButtons);
-
+		//cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 		pImages->EndDrawImage(ds);
 	}
 };
