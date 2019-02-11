@@ -29,8 +29,8 @@ public:
 		pImages->PrepareDrawImage(ds);
 
 		CMFCToolBarMenuButton::OnDraw(pDC, rect, pImages, bHorz, bCustomizeMode, bHighlight, bDrawBorder, bGrayDisabledButtons);
-		//cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 		pImages->EndDrawImage(ds);
+		/////테스트로 일단 문자 추가해봅니다.
 	}
 };
 
