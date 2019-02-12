@@ -17,7 +17,7 @@
 #define new DEBUG_NEW
 #endif
 
-static const POINT readbtnpos = { 10,450 };
+static const POINT readbtnpos = { 516,465 };
 static const POINT calbkpos = { 0,0 };
 
 // CCalendarView
@@ -92,10 +92,10 @@ void CCalendarView::OnCalendarReadBtnClicked()
 
 	Noticebrush.CreateSolidBrush(newColor);
 	Oldbrush = DC.SelectObject(&Noticebrush);
-	DC.Rectangle(readbtnpos.x+45, readbtnpos.y, readbtnpos.x + 760, readbtnpos.y + 50); 
+	DC.Rectangle(58, readbtnpos.y - 15, readbtnpos.x + 110, readbtnpos.y + 35);  
 	DC.SetTextColor(RGB(255, 255, 255));
 	DC.SetBkColor(newColor);
-	DC.TextOut(readbtnpos.x + 70, readbtnpos.y + 19, emergencymsg);
+	DC.TextOut(80, readbtnpos.y + 4, emergencymsg); 
 
 	////
 	MemDC.CreateCompatibleDC(&DC);
@@ -103,9 +103,9 @@ void CCalendarView::OnCalendarReadBtnClicked()
 	bmp.GetBitmap(&bmpInfo);
 	pOldBmp = MemDC.SelectObject(&bmp);
 	MemDC.SelectObject(&bmp);
-	DC.BitBlt(readbtnpos.x, readbtnpos.y+5, bmpInfo.bmWidth, bmpInfo.bmHeight, &MemDC, 0, 0, SRCCOPY);
+	DC.BitBlt(10, readbtnpos.y - 10, bmpInfo.bmWidth, bmpInfo.bmHeight, &MemDC, 0, 0, SRCCOPY); 
 	MemDC.SelectObject(pOldBmp);
-	///////
+	
 
 	DC.SelectObject(Oldbrush);
 	Noticebrush.DeleteObject();
@@ -238,10 +238,10 @@ void CCalendarView::OnInitialUpdate()
 	todaybtn = new CButton();
 	readbtn = new CButton();
 
-	leftbtn->Create(L"<-", BS_DEFPUSHBUTTON, CRect(calbkpos.x + 366, 20, calbkpos.x + 400, 42), this, 101);
-	rightbtn->Create(L"->", BS_DEFPUSHBUTTON, CRect(calbkpos.x + 466, 20, calbkpos.x + 500, 42), this, 102);
-	todaybtn->Create(L"오늘", BS_DEFPUSHBUTTON, CRect(calbkpos.x + 412, 20, calbkpos.x + 454, 42), this, 103);
-	readbtn->Create(L"readbtn", BS_DEFPUSHBUTTON, CRect(readbtnpos.x+670, readbtnpos.y+15, readbtnpos.x + 740, readbtnpos.y + 40), this, 104);
+	leftbtn->Create(L"<-", BS_DEFPUSHBUTTON, CRect(calbkpos.x + 416, 20, calbkpos.x + 450, 42), this, 101);
+	rightbtn->Create(L"->", BS_DEFPUSHBUTTON, CRect(calbkpos.x + 516, 20, calbkpos.x + 550, 42), this, 102);
+	todaybtn->Create(L"오늘", BS_DEFPUSHBUTTON, CRect(calbkpos.x + 462, 20, calbkpos.x + 504, 42), this, 103);
+	readbtn->Create(L"readbtn", BS_DEFPUSHBUTTON, CRect(readbtnpos.x, readbtnpos.y, readbtnpos.x + 70, readbtnpos.y + 25), this, 104);
 
 	leftbtn->ShowWindow(SW_SHOW); //여기 위치가 맞는지 확인하기
 	rightbtn->ShowWindow(SW_SHOW);
