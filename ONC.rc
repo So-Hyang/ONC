@@ -430,6 +430,17 @@ BEGIN
     PUSHBUTTON      "Button1",IDC_ADD,242,148,50,14
 END
 
+IDD_LOGIN DIALOGEX 0, 0, 309, 176
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION
+CAPTION "Dialog"
+FONT 10, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    PUSHBUTTON      "IP Authentication",IDC_IPCER,23,22,266,74
+    CTEXT           "PW :",IDC_STATIC,26,130,27,17
+    EDITTEXT        IDC_PWINPUT,61,128,147,17
+    PUSHBUTTON      "Button2",IDC_PWBUTTON,216,128,73,18,WS_DISABLED
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -493,6 +504,14 @@ BEGIN
         TOPMARGIN, 7
         BOTTOMMARGIN, 169
     END
+
+    IDD_LOGIN, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 302
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 169
+    END
 END
 #endif    // APSTUDIO_INVOKED
 
@@ -503,6 +522,11 @@ END
 //
 
 IDD_DIALOG_ADD AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_LOGIN AFX_DIALOG_LAYOUT
 BEGIN
     0
 END

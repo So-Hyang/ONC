@@ -12,6 +12,7 @@
 #include "ONCDoc.h"
 #include "CalendarView.h"
 #include "AddView.h"
+#include "Login.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -44,7 +45,8 @@ CCalendarView::CCalendarView()
 {
 	// TODO: 여기에 생성 코드를 추가합니다.
 	//dkskdksdkadfasfas
-
+	CLogin a;
+	a.DoModal();
 }
 
 ////버튼 클릭 이벤트
@@ -191,10 +193,11 @@ void CCalendarView::OnLButtonDblClk(UINT nFlags, CPoint point)////종우선배
 	//Static caption 설정
 	dlg.Caption = _T("강아지");
 	dlg.DoModal();
-
+	/*
 	if (IDOK == dlg.DoModal()) {
 		str11 = dlg.test;//
 	}
+	*/
 	//	dlg.CalEdit.GetWindowTextW(str);
 	//AfxMessageBox(str);
 
