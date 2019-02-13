@@ -194,9 +194,9 @@ void CCalendarView::OnLButtonDblClk(UINT nFlags, CPoint point)////종우선배
 	dlg.Caption = _T("강아지");
 	dlg.DoModal();
 	
-	if (IDOK == dlg.DoModal()) {
+	//if (IDOK == dlg.DoModal()) {
 		//str11 = dlg.test;//
-	}
+	//}
 	
 	//	dlg.CalEdit.GetWindowTextW(str);
 	//AfxMessageBox(str);
