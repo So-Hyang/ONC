@@ -44,7 +44,6 @@ END_MESSAGE_MAP()
 CCalendarView::CCalendarView()
 {
 	// TODO: 여기에 생성 코드를 추가합니다.
-	//dkskdksdkadfasfas
 	CLogin a;
 	a.DoModal();
 }

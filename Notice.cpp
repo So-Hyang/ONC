@@ -5,6 +5,7 @@
 #include "Resource.h"
 #include "MainFrm.h"
 #include "ONC.h"
+#include "DetailView.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE
@@ -29,6 +30,7 @@ BEGIN_MESSAGE_MAP(CPropertiesWnd, CDockablePane)
 	ON_WM_SIZE()
 	ON_WM_SETFOCUS()
 	ON_WM_SETTINGCHANGE()
+	ON_WM_LBUTTONDBLCLK()
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -135,3 +137,15 @@ void CPropertiesWnd::OnSettingChange(UINT uFlags, LPCTSTR lpszSection)
 void CPropertiesWnd::SetPropListFont()
 {
 }
+
+
+void CPropertiesWnd::OnLButtonDblClk(UINT nFlags, CPoint point)////종우선배
+{
+	CDetailView dlg;
+
+	CString str11;
+	dlg.Caption = _T("강아지");
+	dlg.DoModal();
+
+}
+
