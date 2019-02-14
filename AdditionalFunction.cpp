@@ -21,7 +21,7 @@ CFileView::CFileView()
 CFileView::~CFileView()
 {
 }
-
+/////fghf상호테스트용
 BEGIN_MESSAGE_MAP(CFileView, CDockablePane)
 	ON_WM_CREATE()
 	ON_WM_SIZE()
