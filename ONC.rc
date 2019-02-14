@@ -378,6 +378,11 @@ BEGIN
     MENUITEM "Windows 7(&D)",               ID_VIEW_APPLOOK_WINDOWS_7
 END
 
+IDR_MENU_NOTICE_N MENU
+BEGIN
+    MENUITEM "일정 타입",                       0
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //

@@ -191,16 +191,16 @@ void CCalendarView::OnLButtonDblClk(UINT nFlags, CPoint point)////종우선배
 	CString str11;
 	//Static caption 설정
 	dlg.Caption = _T("강아지");
-	dlg.DoModal();
+//	dlg.DoModal();
 	
-	//if (IDOK == dlg.DoModal()) {
-		//str11 = dlg.test;//
-	//}
+	if (IDOK == dlg.DoModal()) {
+		str11 = dlg.test;//
+	}
 	
 	//	dlg.CalEdit.GetWindowTextW(str);
-	//AfxMessageBox(str);
+	AfxMessageBox(str11);
 
-	//CView::OnLButtonDblClk(nFlags, point);
+	CView::OnLButtonDblClk(nFlags, point);
 }
 
 

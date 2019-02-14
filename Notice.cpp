@@ -31,6 +31,7 @@ BEGIN_MESSAGE_MAP(CPropertiesWnd, CDockablePane)
 	ON_WM_SETFOCUS()
 	ON_WM_SETTINGCHANGE()
 	ON_WM_LBUTTONDBLCLK()
+	ON_WM_CONTEXTMENU()
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -45,9 +46,9 @@ void CPropertiesWnd::AdjustLayout()
 
 	CRect rectClient;
 	GetClientRect(rectClient);
-	m_wndObjectCombo.SetWindowPos(NULL, rectClient.left, rectClient.top, rectClient.Width(), m_nComboHeight, SWP_NOACTIVATE | SWP_NOZORDER);
+	//m_wndObjectCombo.SetWindowPos(NULL, rectClient.left, rectClient.top, rectClient.Width(), m_nComboHeight, SWP_NOACTIVATE | SWP_NOZORDER);
 //	m_wndPropList.SetWindowPos(NULL, rectClient.left, rectClient.top + m_nComboHeight , rectClient.Width(), rectClient.Height() - (m_nComboHeight ), SWP_NOACTIVATE | SWP_NOZORDER);
-
+	
 };
 
 int CPropertiesWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
@@ -59,17 +60,13 @@ int CPropertiesWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	rectDummy.SetRectEmpty();
 
 	// 콤보 상자를 만듭니다.
-	const DWORD dwViewStyle = WS_CHILD | WS_VISIBLE | CBS_DROPDOWNLIST | WS_BORDER | CBS_SORT | WS_CLIPSIBLINGS | WS_CLIPCHILDREN;
 
-	if (!m_wndObjectCombo.Create(dwViewStyle, rectDummy, this, 1))
-	{
-		TRACE0("속성 콤보 상자를 만들지 못했습니다. \n");
-		return -1;      // 만들지 못했습니다.
-	}
+	
+	testbtn = new CButton();
+	testbtn->Create(L"<-", BS_DEFPUSHBUTTON, CRect(20, 20, 80, 80), this, 110);
+	testbtn->ShowWindow(SW_SHOW); //여기 위치가 맞는지 확인하기
 
-	m_wndObjectCombo.AddString(_T("응용 프로그램"));
-	m_wndObjectCombo.AddString(_T("속성 창"));
-	m_wndObjectCombo.SetCurSel(0);
+	
 
 
 	return 0;
@@ -141,11 +138,15 @@ void CPropertiesWnd::SetPropListFont()
 
 void CPropertiesWnd::OnLButtonDblClk(UINT nFlags, CPoint point)////종우선배
 {
-	CDetailView dlg;
+	CDetailView Dialog_detail;
 
-	CString str11;
-	dlg.Caption = _T("강아지");
-	dlg.DoModal();
+	Dialog_detail.DoModal();
 
+}
+
+void CPropertiesWnd::OnContextMenu(CWnd * pWnd, CPoint point)
+{
+	//theApp.GetContextMenuManager()->ShowPopupMenu(IDR_POPUP_EXPLORER, point.x, point.y, this, TRUE);
+	theApp.GetContextMenuManager()->ShowPopupMenu(IDR_MENU_NOTICE_N, point.x, point.y, this, TRUE);
 }
 
