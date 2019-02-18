@@ -253,7 +253,7 @@ void CClassView::FillClassView()
 {
 
 	//for(int k=0; k < vecUserinfo.size(), k++)
-	{
+	
 		//string a; 
 		//vecUserInfo.at().userID = a;
 	HTREEITEM hRoot = m_wndClassView.InsertItem(_T("NSL"), 0, 0);

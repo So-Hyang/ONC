@@ -140,6 +140,81 @@ void CCalendarView::OnDraw(CDC* /*pDC*/)
 	ASSERT_VALID(pDoc);
 	if (!pDoc)
 		return;
+	list_cal_11 = new CListBox();
+	list_cal_11->Create(LBS_STANDARD, CRect(0, 0, 20, 20), this, 200);
+	list_cal_12 = new CListBox();
+	list_cal_12->Create(LBS_STANDARD, CRect(0, 0, 20, 20), this, 200);
+	list_cal_13 = new CListBox();
+	list_cal_13->Create(LBS_STANDARD, CRect(0, 0, 20, 20), this, 200);
+	list_cal_14 = new CListBox();
+	list_cal_14->Create(LBS_STANDARD, CRect(0, 0, 20, 20), this, 200);
+	list_cal_15 = new CListBox();
+	list_cal_15->Create(LBS_STANDARD, CRect(0, 0, 20, 20), this, 200);
+	list_cal_16 = new CListBox();
+	list_cal_16->Create(LBS_STANDARD, CRect(0, 0, 20, 20), this, 200);
+	list_cal_17 = new CListBox();
+	list_cal_17->Create(LBS_STANDARD, CRect(0, 0, 20, 20), this, 200);
+
+	list_cal_21 = new CListBox();
+	list_cal_21->Create(LBS_STANDARD, CRect(0, 0, 20, 20), this, 200);
+	list_cal_22 = new CListBox();
+	list_cal_22->Create(LBS_STANDARD, CRect(0, 0, 20, 20), this, 200);
+	list_cal_23 = new CListBox();
+	list_cal_23->Create(LBS_STANDARD, CRect(0, 0, 20, 20), this, 200);
+	list_cal_24 = new CListBox();
+	list_cal_24->Create(LBS_STANDARD, CRect(0, 0, 20, 20), this, 200);
+	list_cal_25 = new CListBox();
+	list_cal_25->Create(LBS_STANDARD, CRect(0, 0, 20, 20), this, 200);
+	list_cal_26 = new CListBox();
+	list_cal_26->Create(LBS_STANDARD, CRect(0, 0, 20, 20), this, 200);
+	list_cal_27 = new CListBox();
+	list_cal_27->Create(LBS_STANDARD, CRect(0, 0, 20, 20), this, 200);
+
+	list_cal_31 = new CListBox();
+	list_cal_31->Create(LBS_STANDARD, CRect(0, 0, 20, 20), this, 200);
+	list_cal_32 = new CListBox();
+	list_cal_32->Create(LBS_STANDARD, CRect(0, 0, 20, 20), this, 200);
+	list_cal_33 = new CListBox();
+	list_cal_33->Create(LBS_STANDARD, CRect(0, 0, 20, 20), this, 200);
+	list_cal_34 = new CListBox();
+	list_cal_34->Create(LBS_STANDARD, CRect(0, 0, 20, 20), this, 200);
+	list_cal_35 = new CListBox();
+	list_cal_35->Create(LBS_STANDARD, CRect(0, 0, 20, 20), this, 200);
+	list_cal_36 = new CListBox();
+	list_cal_36->Create(LBS_STANDARD, CRect(0, 0, 20, 20), this, 200);
+	list_cal_37 = new CListBox();
+	list_cal_37->Create(LBS_STANDARD, CRect(0, 0, 20, 20), this, 200);
+
+	list_cal_41 = new CListBox();
+	list_cal_41->Create(LBS_STANDARD, CRect(0, 0, 20, 20), this, 200);
+	list_cal_42 = new CListBox();
+	list_cal_42->Create(LBS_STANDARD, CRect(0, 0, 20, 20), this, 200);
+	list_cal_43 = new CListBox();
+	list_cal_43->Create(LBS_STANDARD, CRect(0, 0, 20, 20), this, 200);
+	list_cal_44 = new CListBox();
+	list_cal_44->Create(LBS_STANDARD, CRect(0, 0, 20, 20), this, 200);
+	list_cal_45 = new CListBox();
+	list_cal_45->Create(LBS_STANDARD, CRect(0, 0, 20, 20), this, 200);
+	list_cal_46 = new CListBox();
+	list_cal_46->Create(LBS_STANDARD, CRect(0, 0, 20, 20), this, 200);
+	list_cal_47 = new CListBox();
+	list_cal_47->Create(LBS_STANDARD, CRect(0, 0, 20, 20), this, 200);
+
+	list_cal_51 = new CListBox();
+	list_cal_51->Create(LBS_STANDARD, CRect(0, 0, 20, 20), this, 200);
+	list_cal_52 = new CListBox();
+	list_cal_52->Create(LBS_STANDARD, CRect(0, 0, 20, 20), this, 200);
+	list_cal_53 = new CListBox();
+	list_cal_53->Create(LBS_STANDARD, CRect(0, 0, 20, 20), this, 200);
+	list_cal_54 = new CListBox();
+	list_cal_54->Create(LBS_STANDARD, CRect(0, 0, 20, 20), this, 200);
+	list_cal_55 = new CListBox();
+	list_cal_55->Create(LBS_STANDARD, CRect(0, 0, 20, 20), this, 200);
+	list_cal_56 = new CListBox();
+	list_cal_56->Create(LBS_STANDARD, CRect(0, 0, 20, 20), this, 200);
+	list_cal_57 = new CListBox();
+	list_cal_57->Create(LBS_STANDARD, CRect(0, 0, 20, 20), this, 200);
+
 
 	// TODO: 여기에 원시 데이터에 대한 그리기 코드를 추가합니다.
 }
@@ -187,18 +262,25 @@ void CCalendarView::OnContextMenu(CWnd* /* pWnd */, CPoint point)
 void CCalendarView::OnLButtonDblClk(UINT nFlags, CPoint point)////종우선배
 {
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+	POINT n_mouse;
+	CString n_date;
+	n_mouse = CalculateCursorPosition();
+	n_mouse = CalculateCoordinatevalueLocation(n_mouse);
+	ColorMatrix(n_mouse);
+	n_date = CalculateDateInformation(n_mouse);
+
+	
 	AddView dlg;
 	CString str11;
 	//Static caption 설정
-	dlg.Caption = _T("강아지");
-//	dlg.DoModal();
+	dlg.Caption = n_date;
 	
 	if (IDOK == dlg.DoModal()) {
-		str11 = dlg.test;//
+		str11 = dlg.test;
 	}
-	
 	//	dlg.CalEdit.GetWindowTextW(str);
 	AfxMessageBox(str11);
+
 
 	CView::OnLButtonDblClk(nFlags, point);
 }
@@ -321,21 +403,66 @@ void CCalendarView::CalcaulateCalendar()
 
 CPoint CCalendarView::CalculateCursorPosition()
 {
-	return CPoint();
+	CPoint mouse;
+	GetCursorPos(&mouse);
+	return mouse;
 }
 
 CPoint CCalendarView::CalculateCoordinatevalueLocation(CPoint xylocation)
 {
-	return CPoint();
+	CPoint location;
+	for (int i = 0; i < 5; i++) {
+		if (((i * 75)+240 <= xylocation.y) && (((i + 1) * 75)+240 > xylocation.y))
+		{
+
+			location.y = i;
+		}
+		for (int j = 0; j < 7; j++) {
+			if (((j * 90)+192 <= xylocation.x)&&(((j+1) * 90)+192 > xylocation.x))
+			{
+				location.x = j;
+			}
+		}
+	}
+	return location;
 }
 
-int CCalendarView::CalculateDateInformation(CPoint matrixlocation)
+CString CCalendarView::CalculateDateInformation(CPoint matrixlocation)
 {
-	return 0;
+	int matrixindex;
+	CString Y, M, D;
+	CString clickeddate;
+	for (int i = 0; i < 5; i++) {
+		if (matrixlocation.y == i)
+		{
+			for (int j = 0; j < 7; j++) {
+				if (matrixlocation.x == j)
+				{
+					matrixindex = (i * 7) + (j);
+				}
+			}
+		}
+	}
+	Y.Format(_T("%d"), cur_Year);
+	M.Format(_T("%d"), cur_Month);
+	D = date[matrixindex];
+	clickeddate = Y + L"." + M + L"." + D;
+
+	return clickeddate;
 }
 
 void CCalendarView::ColorMatrix(CPoint matrixlocation)
 {
+	CClientDC DC(this);
+	CBrush MyBrush;
+	CBrush *OldBrush;
+
+	MyBrush.CreateHatchBrush(HS_DIAGCROSS, RGB(0, 0, 255));
+	OldBrush = DC.SelectObject(&MyBrush);
+	DC.SetBkMode(TRANSPARENT);
+	DC.Rectangle(matrixlocation.x*90, (matrixlocation.y*74)+78, (matrixlocation.x +1)*90, ((matrixlocation.y+1)*74)+78);
+	DC.SelectObject(OldBrush);
+	MyBrush.DeleteObject();
 }
 
 void CCalendarView::CreateAddView(CString type, CString status, CString name, CString date)
@@ -356,7 +483,7 @@ void CCalendarView::ChangeColorEmergencyNotice(string color)
 	if (color == "")
 	{
 	}
-	else if (color == "Red") //문제: newcolor를 인식을 못함, 이함수의 의미존재 모르겠음
+	else if (color == "Red") 
 	{
 		newColor = RGB(255, 0, 0);
 	}
@@ -399,9 +526,13 @@ void CCalendarView::DrawCalendar()
 	for (int i = 0; i < 5; i++) {
 		for (int j = 0; j < 7; j++) {
 			DC.TextOutW(calbkpos.x + 10 + (j * 90), calbkpos.y + 80 + (i * 74), date[date_num]);
+
 			date_num++;
 		}
 	}
+
+	list_cal_11->ShowWindow(SW_SHOW);
+
 }
 
 void CCalendarView::GetCurrentYearMonth()
