@@ -6,8 +6,7 @@
 
 enum ListBoxID
 {
-	ListBox11 = 211,
-	ListBox12,
+	ListBox11 = 211, ListBox12 = 212, ListBox13 = 213
 
 };
 
@@ -17,7 +16,7 @@ protected: // serialization에서만 만들어집니다.
 	CCalendarView();
 	DECLARE_DYNCREATE(CCalendarView)
 
-// 특성입니다.
+	// 특성입니다.
 public:
 	CONCDoc* GetDocument() const;
 
@@ -56,11 +55,11 @@ public:
 
 
 
-// 작업입니다.
+								// 작업입니다.
 public:
 	CButton *leftbtn, *rightbtn, *todaybtn, *readbtn;
 	//CString btnlist[4] = { L"leftbtn", L"rightbtn", L"todaybtn", L"readbtn" }; /버튼 명료하게 선언하는 거 다시 시도하기
-	CListBox list_cal[42];
+	CListBox *list_cal[35];
 	CListBox *list_cal_11, *list_cal_12, *list_cal_13, *list_cal_14, *list_cal_15, *list_cal_16, *list_cal_17;
 	CListBox *list_cal_21, *list_cal_22, *list_cal_23, *list_cal_24, *list_cal_25, *list_cal_26, *list_cal_27;
 	CListBox *list_cal_31, *list_cal_32, *list_cal_33, *list_cal_34, *list_cal_35, *list_cal_36, *list_cal_37;
@@ -70,7 +69,7 @@ public:
 	COLORREF newColor;
 	bool temp_noticecolor_key = true; //긴급메세지 수신/읽기용 임시로 놔둔 방편
 	CString emergencymsg = L"2시까지 시완, 종우 교수님 방으로 호출"; //긴급메세지 변수
-	//달력 그리기용 변수
+													  //달력 그리기용 변수
 	int BackgroundAdd = IDB_BITMAP_CALENDAR_BK;
 	CString day[7] = { L"일" ,L"월", L"화", L"수", L"목", L"금", L"토" };
 	CString date[35] = {};
@@ -78,7 +77,7 @@ public:
 	int cur_Year = 0;
 
 
-// 재정의입니다.
+	// 재정의입니다.
 public:
 	virtual void OnDraw(CDC* pDC);  // 이 뷰를 그리기 위해 재정의되었습니다.
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
@@ -87,7 +86,7 @@ protected:
 	virtual void OnBeginPrinting(CDC* pDC, CPrintInfo* pInfo);
 	virtual void OnEndPrinting(CDC* pDC, CPrintInfo* pInfo);
 
-// 구현입니다.
+	// 구현입니다.
 public:
 	virtual ~CCalendarView();
 #ifdef _DEBUG
@@ -97,7 +96,7 @@ public:
 
 protected:
 
-// 생성된 메시지 맵 함수
+	// 생성된 메시지 맵 함수
 protected:
 	afx_msg void OnFilePrintPreview();
 	afx_msg void OnRButtonUp(UINT nFlags, CPoint point);
@@ -112,7 +111,9 @@ public:
 
 #ifndef _DEBUG  // CalendarView.cpp의 디버그 버전
 inline CONCDoc* CCalendarView::GetDocument() const
-   { return reinterpret_cast<CONCDoc*>(m_pDocument); }
+{
+	return reinterpret_cast<CONCDoc*>(m_pDocument);
+}
 #endif
 
 

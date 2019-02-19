@@ -6,11 +6,11 @@
 
 class COutputList : public CListBox
 {
-// 생성입니다.
+	// 생성입니다.
 public:
 	COutputList();
 	//CListBox m_List;
-// 구현입니다.
+	// 구현입니다.
 public:
 	virtual ~COutputList();
 
@@ -26,14 +26,14 @@ protected:
 
 class COutputWnd : public CDockablePane
 {
-// 생성입니다.
+	// 생성입니다.
 public:
 	COutputWnd();
 
 	CString TransferEmergencyMsg();
 	void UpdateFonts();
 
-// 특성입니다.
+	// 특성입니다.
 protected:
 	CMFCTabCtrl	m_wndTabs;
 
@@ -51,10 +51,10 @@ protected:
 
 	void AdjustHorzScroll(CListBox& wndListBox);
 
-// 구현입니다.
+	// 구현입니다.
 public:
 	virtual ~COutputWnd();
-	
+
 
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);

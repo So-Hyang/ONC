@@ -29,8 +29,8 @@ public:
 		pImages->PrepareDrawImage(ds);
 
 		CMFCToolBarMenuButton::OnDraw(pDC, rect, pImages, bHorz, bCustomizeMode, bHighlight, bDrawBorder, bGrayDisabledButtons);
-
 		pImages->EndDrawImage(ds);
+		/////테스트로 일단 문자 추가해봅니다.
 	}
 };
 
@@ -56,9 +56,6 @@ BEGIN_MESSAGE_MAP(CClassView, CDockablePane)
 	ON_COMMAND(IDB_BITMAP_EXIT, OnExitImageBtnClicked)
 	ON_COMMAND(ID_BITMAP_IN, OnInImageBtnClicked)
 	ON_COMMAND(ID_BITMAP_OUT, OnOutImageBtnClicked)
-	ON_COMMAND(ID_POPUP_PROFILE, &CClassView::OnPopupOpen)
-	//	ON_COMMAND(ID_POPUP_PROFILE, &CClassView::OnRightClicked)
-
 	ON_WM_PAINT()
 	ON_WM_SETFOCUS()
 END_MESSAGE_MAP()
@@ -141,51 +138,20 @@ void CClassView::OnContextMenu(CWnd* pWnd, CPoint point)
 
 	pWndTree->SetFocus();
 	CMenu menu;
-	/*	menu.LoadMenu(IDR_POPUP_SORT);
+	menu.LoadMenu(IDR_POPUP_SORT);
 
 	CMenu* pSumMenu = menu.GetSubMenu(0);
 
 	if (AfxGetMainWnd()->IsKindOf(RUNTIME_CLASS(CMDIFrameWndEx)))
 	{
-	CMFCPopupMenu* pPopupMenu = new CMFCPopupMenu;
+		CMFCPopupMenu* pPopupMenu = new CMFCPopupMenu;
 
-	if (!pPopupMenu->Create(this, point.x, point.y, (HMENU)pSumMenu->m_hMenu, FALSE, TRUE))
-	return;
+		if (!pPopupMenu->Create(this, point.x, point.y, (HMENU)pSumMenu->m_hMenu, FALSE, TRUE))
+			return;
 
-	((CMDIFrameWndEx*)AfxGetMainWnd())->OnShowPopupMenu(pPopupMenu);
-	UpdateDialogControls(this, FALSE);
+		((CMDIFrameWndEx*)AfxGetMainWnd())->OnShowPopupMenu(pPopupMenu);
+		UpdateDialogControls(this, FALSE);
 	}
-	*/
-	{
-
-		CMenu menu;
-		VERIFY(menu.LoadMenu(IDR_MENU1));
-		CMenu *pSub = menu.GetSubMenu(0);
-
-		int nCmd = pSub->TrackPopupMenuEx(
-			TPM_LEFTALIGN | TPM_RIGHTBUTTON | TPM_VERPOSANIMATION | TPM_RETURNCMD | TPM_NONOTIFY,
-			point.x, point.y, AfxGetMainWnd(), NULL);
-		if (nCmd)
-			SendMessage(WM_COMMAND, nCmd);
-	}
-}
-
-void CClassView::OnPopupOpen()
-{
-
-	HTREEITEM hTreeItem = m_wndClassView.GetSelectedItem();
-	selectedname = m_wndClassView.GetItemText(hTreeItem);
-
-
-	CONCApp *pApp = (CONCApp *)AfxGetApp();
-	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
-	CChildFrame *pChild = (CChildFrame *)pFrame->GetActiveFrame();
-	COpenDlg *pView = (COpenDlg *)pChild->GetActiveView();
-
-	pView->name = selectedname;
-	pView->UpdateWindow();
-	COpenDlg openDlg;
-	openDlg.DoModal();
 }
 
 void CClassView::AdjustLayout()
@@ -244,6 +210,8 @@ void CClassView::OnOutImageBtnClicked()
 {
 }
 
+
+
 void CClassView::OnPaint()
 {
 	CPaintDC dc(this); // 그리기를 위한 디바이스 컨텍스트입니다.
@@ -281,18 +249,13 @@ void CClassView::CreateExitView()
 }
 
 
-
-void CClassView::OnRightClicked()
-{
-
-}
 void CClassView::FillClassView()
 {
 
 	//for(int k=0; k < vecUserinfo.size(), k++)
-	
-		//string a; 
-		//vecUserInfo.at().userID = a;
+
+	//string a; 
+	//vecUserInfo.at().userID = a;
 	HTREEITEM hRoot = m_wndClassView.InsertItem(_T("NSL"), 0, 0);
 	/*m_wndClassView.SetItemState(hRoot, TVIS_BOLD, TVIS_BOLD);
 

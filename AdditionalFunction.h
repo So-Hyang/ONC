@@ -7,7 +7,7 @@ class CFileViewToolBar : public CMFCToolBar
 {
 	virtual void OnUpdateCmdUI(CFrameWnd* /*pTarget*/, BOOL bDisableIfNoHndler)
 	{
-		CMFCToolBar::OnUpdateCmdUI((CFrameWnd*) GetOwner(), bDisableIfNoHndler);
+		CMFCToolBar::OnUpdateCmdUI((CFrameWnd*)GetOwner(), bDisableIfNoHndler);
 	}
 
 	virtual BOOL AllowShowOnList() const { return FALSE; }
@@ -15,14 +15,14 @@ class CFileViewToolBar : public CMFCToolBar
 
 class CFileView : public CDockablePane
 {
-// 생성입니다.
+	// 생성입니다.
 public:
 	CFileView();
 
 	void AdjustLayout();
 	void OnChangeVisualStyle();
 
-// 특성입니다.
+	// 특성입니다.
 protected:
 
 	CViewTree m_wndFileView;
@@ -32,7 +32,7 @@ protected:
 protected:
 	void FillFileView();
 
-// 구현입니다.
+	// 구현입니다.
 public:
 	virtual ~CFileView();
 

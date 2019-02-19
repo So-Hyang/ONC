@@ -11,7 +11,7 @@ public:
 	LPCTSTR Caption;
 
 #ifdef AFX_DESIGN_TIME
-	enum { IDD = IDD_DIALOG_DETAIL};
+	enum { IDD = IDD_DIALOG_DETAIL };
 #endif
 
 protected:

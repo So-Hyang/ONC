@@ -6,7 +6,7 @@ class CPropertiesToolBar : public CMFCToolBar
 public:
 	virtual void OnUpdateCmdUI(CFrameWnd* /*pTarget*/, BOOL bDisableIfNoHndler)
 	{
-		CMFCToolBar::OnUpdateCmdUI((CFrameWnd*) GetOwner(), bDisableIfNoHndler);
+		CMFCToolBar::OnUpdateCmdUI((CFrameWnd*)GetOwner(), bDisableIfNoHndler);
 	}
 
 	virtual BOOL AllowShowOnList() const { return FALSE; }
@@ -14,13 +14,13 @@ public:
 
 class CPropertiesWnd : public CDockablePane
 {
-// 생성입니다.
+	// 생성입니다.
 public:
 	CPropertiesWnd();
 
 	void AdjustLayout();
 
-// 특성입니다.
+	// 특성입니다.
 public:
 	void SetVSDotNetLook(BOOL bSet)
 	{
@@ -35,7 +35,7 @@ protected:
 	CMFCPropertyGridCtrl m_wndPropList;
 	CButton *testbtn;
 
-// 구현입니다.
+	// 구현입니다.
 public:
 	virtual ~CPropertiesWnd();
 
