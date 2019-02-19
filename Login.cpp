@@ -9,7 +9,7 @@
 
 
 
-#include <vector>
+
 vector<PeopleInfo> dumi;
 
 using namespace std;

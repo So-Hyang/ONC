@@ -10,6 +10,19 @@ enum ListBoxID
 
 };
 
+struct CalendarInfo//DM 데이터 패킷
+{
+	unsigned int nType;
+	string TopicTitle;
+	string cUserID;
+	string cMsg;
+	string cDate;
+	string cPassWord;
+	string cSenderID;
+	string Participants;
+	bool PubPrivate;
+};
+
 class CCalendarView : public CView
 {
 protected: // serialization에서만 만들어집니다.
@@ -40,7 +53,7 @@ public:
 
 	void CreateAddView(CString type, CString status, CString name, CString date);
 
-	vector<CString> LoadListSchedule(CString type, CString status, CString name, CString date);
+	vector<CalendarInfo> LoadListSchedule(int type, CString status, CString name, string date);
 
 	void AddListSchedule(vector<CString> schedule, int date);
 
@@ -52,12 +65,17 @@ public:
 
 	void GetCurrentYearMonth(); //현재 년도, 월 불러오는 함수
 
+	void OnCalendatTabBtnClicked(UINT uiID);
+
+	void DrawCalendarList(vector<CalendarInfo> n_calendar);
+
+
 
 
 
 								// 작업입니다.
 public:
-	CButton *leftbtn, *rightbtn, *todaybtn, *readbtn;
+	CButton *leftbtn, *rightbtn, *todaybtn, *readbtn, *privatetab, *publictab;
 	//CString btnlist[4] = { L"leftbtn", L"rightbtn", L"todaybtn", L"readbtn" }; /버튼 명료하게 선언하는 거 다시 시도하기
 	CListBox *list_cal[35];
 	CListBox *list_cal_11, *list_cal_12, *list_cal_13, *list_cal_14, *list_cal_15, *list_cal_16, *list_cal_17;
@@ -69,12 +87,17 @@ public:
 	COLORREF newColor;
 	bool temp_noticecolor_key = true; //긴급메세지 수신/읽기용 임시로 놔둔 방편
 	CString emergencymsg = L"2시까지 시완, 종우 교수님 방으로 호출"; //긴급메세지 변수
-													  //달력 그리기용 변수
 	int BackgroundAdd = IDB_BITMAP_CALENDAR_BK;
 	CString day[7] = { L"일" ,L"월", L"화", L"수", L"목", L"금", L"토" };
-	CString date[35] = {};
+	CString t_date[35] = {};
 	int cur_Month = 0;
 	int cur_Year = 0;
+	CString status, name;
+	string s_date;
+	int type = 1;
+	vector<CalendarInfo> dm_calendarinfo{
+		{ 1, "", "ID", "contents1", "2018-10-22", "", "", "", true },{ 1, "", "ID", "contents2", "2019-02-20", "", "", "", true },{ 1, "", "ID", "contents3", "2019-02-28", "", "", "", true }
+	};
 
 
 	// 재정의입니다.
