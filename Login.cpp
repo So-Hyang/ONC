@@ -75,6 +75,7 @@ void CLogin::OnIPAuthenticationBtnClicked()
 	csUserIP = sUserIP.c_str();
 	GetDlgItem(IDC_IPCER)->EnableWindow(FALSE);
 	GetDlgItem(IDC_PWBUTTON)->EnableWindow(TRUE);
+	GetDlgItem(IDC_PWINPUT)->EnableWindow(TRUE);
 	GetDlgItem(IDC_IPCER)->SetWindowTextW(csUserIP);
 	
 	/*
@@ -122,6 +123,7 @@ void CLogin::OnLogOKBtnClicked()
 
 BOOL CLogin::PreTranslateMessage(MSG* pMsg)
 {
+	CString sContent;
 	// ESC 키
 	if ((pMsg->message == WM_KEYDOWN) && (pMsg->wParam == VK_ESCAPE))
 	{
@@ -133,6 +135,12 @@ BOOL CLogin::PreTranslateMessage(MSG* pMsg)
 	if ((pMsg->message == WM_KEYDOWN) && (pMsg->wParam == VK_RETURN))
 	{
 		// 여기에 원하는 동작의 코드를 삽입
+		CEdit *pEdit = (CEdit*)GetDlgItem(IDC_PWINPUT);
+		pEdit->GetWindowText(sContent);
+		if (sContent != "")
+		{
+			OnLogOKBtnClicked();
+		}
 		return true;
 	}
 	return CDialog::PreTranslateMessage(pMsg);

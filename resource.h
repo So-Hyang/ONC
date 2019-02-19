@@ -90,6 +90,9 @@
 #define IDR_TOOLBAR_USER                323
 #define IDD_DIALOG_ADD                  327
 #define IDD_LOGIN                       333
+#define IDD_DIALOG_DETAIL               334
+#define IDR_MENU_NOTICE_N               336
+#define IDD_DIALOG1                     337
 #define IDC_EDIT1                       1001
 #define IDC_Date                        1002
 #define IDC_COMBO1                      1003
@@ -98,18 +101,21 @@
 #define IDC_IPCER                       1007
 #define IDC_PWINPUT                     1008
 #define IDC_PWBUTTON                    1009
+#define IDC_LIST_NOTICE                 1010
 #define IDB_BITMAP_EXIT                 32776
 #define ID_BITMAP_OUT                   32778
 #define IDR_BITMAP_LS                   32779
 #define ID_BITMAP_IN                    32780
+#define ID_32781                        32781
+#define ID_TEXT_SAVE                    32782
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        335
-#define _APS_NEXT_COMMAND_VALUE         32781
-#define _APS_NEXT_CONTROL_VALUE         1010
+#define _APS_NEXT_RESOURCE_VALUE        339
+#define _APS_NEXT_COMMAND_VALUE         32787
+#define _APS_NEXT_CONTROL_VALUE         1011
 #define _APS_NEXT_SYMED_VALUE           310
 #endif
 #endif

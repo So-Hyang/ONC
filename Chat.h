@@ -9,19 +9,20 @@ class COutputList : public CListBox
 // 생성입니다.
 public:
 	COutputList();
-
+	//CListBox m_List;
 // 구현입니다.
 public:
 	virtual ~COutputList();
 
 protected:
 	afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);
-	afx_msg void OnEditCopy();
-	afx_msg void OnEditClear();
-	afx_msg void OnViewOutput();
+	afx_msg void OnTextSave();
 
 	DECLARE_MESSAGE_MAP()
 };
+
+
+
 
 class COutputWnd : public CDockablePane
 {
@@ -39,6 +40,9 @@ protected:
 	COutputList m_wndOutputBuild;
 	COutputList m_wndOutputDebug;
 	COutputList m_wndOutputFind;
+
+	CEdit m_wndInputEdit;
+	CButton m_wndInputBtn;
 
 protected:
 	void FillBuildWindow();
