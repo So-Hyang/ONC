@@ -4,6 +4,12 @@
 
 #pragma once
 
+enum ListBoxID
+{
+	ListBox11 = 211,
+	ListBox12,
+
+};
 
 class CCalendarView : public CView
 {
@@ -29,7 +35,7 @@ public:
 
 	CPoint CalculateCoordinatevalueLocation(CPoint xylocation);
 
-	int CalculateDateInformation(CPoint matrixlocation);
+	CString CalculateDateInformation(CPoint matrixlocation);
 
 	void ColorMatrix(CPoint matrixlocation);
 
@@ -54,6 +60,13 @@ public:
 public:
 	CButton *leftbtn, *rightbtn, *todaybtn, *readbtn;
 	//CString btnlist[4] = { L"leftbtn", L"rightbtn", L"todaybtn", L"readbtn" }; /버튼 명료하게 선언하는 거 다시 시도하기
+	CListBox list_cal[42];
+	CListBox *list_cal_11, *list_cal_12, *list_cal_13, *list_cal_14, *list_cal_15, *list_cal_16, *list_cal_17;
+	CListBox *list_cal_21, *list_cal_22, *list_cal_23, *list_cal_24, *list_cal_25, *list_cal_26, *list_cal_27;
+	CListBox *list_cal_31, *list_cal_32, *list_cal_33, *list_cal_34, *list_cal_35, *list_cal_36, *list_cal_37;
+	CListBox *list_cal_41, *list_cal_42, *list_cal_43, *list_cal_44, *list_cal_45, *list_cal_46, *list_cal_47;
+	CListBox *list_cal_51, *list_cal_52, *list_cal_53, *list_cal_54, *list_cal_55, *list_cal_56, *list_cal_57;
+
 	COLORREF newColor;
 	bool temp_noticecolor_key = true; //긴급메세지 수신/읽기용 임시로 놔둔 방편
 	CString emergencymsg = L"2시까지 시완, 종우 교수님 방으로 호출"; //긴급메세지 변수

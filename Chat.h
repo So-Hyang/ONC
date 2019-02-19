@@ -37,9 +37,16 @@ public:
 protected:
 	CMFCTabCtrl	m_wndTabs;
 
-	COutputList m_wndOutputBuild;
-	COutputList m_wndOutputDebug;
-	COutputList m_wndOutputFind;
+	COutputList m_FirstChat;
+	COutputList m_SecondChat;
+	COutputList m_ThirdChat;
+	COutputList m_FourthChat;
+	COutputList m_FifthChat;
+	COutputList m_SixthChat;
+	COutputList m_SeventhChat;
+	COutputList m_EighthChat;
+	COutputList m_NinthChat;
+	COutputList m_TenthChat;
 
 	CEdit m_wndInputEdit;
 	CButton m_wndInputBtn;

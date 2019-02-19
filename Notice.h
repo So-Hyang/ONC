@@ -33,6 +33,7 @@ protected:
 	CComboBox m_wndObjectCombo;
 	CPropertiesToolBar m_wndToolBar;
 	CMFCPropertyGridCtrl m_wndPropList;
+	CButton *testbtn;
 
 // 구현입니다.
 public:

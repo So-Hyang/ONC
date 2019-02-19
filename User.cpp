@@ -251,8 +251,13 @@ void CClassView::CreateExitView()
 
 void CClassView::FillClassView()
 {
+
+	//for(int k=0; k < vecUserinfo.size(), k++)
+	
+		//string a; 
+		//vecUserInfo.at().userID = a;
 	HTREEITEM hRoot = m_wndClassView.InsertItem(_T("NSL"), 0, 0);
-	m_wndClassView.SetItemState(hRoot, TVIS_BOLD, TVIS_BOLD);
+	/*m_wndClassView.SetItemState(hRoot, TVIS_BOLD, TVIS_BOLD);
 
 	HTREEITEM hClass = m_wndClassView.InsertItem(_T("Leader"), 1, 1, hRoot);
 	m_wndClassView.InsertItem(_T("차중혁"), 3, 3, hClass);
@@ -274,5 +279,5 @@ void CClassView::FillClassView()
 	m_wndClassView.InsertItem(_T("리즈키"), 3, 3, hClass);
 	m_wndClassView.InsertItem(_T("사디"), 3, 3, hClass);
 	m_wndClassView.InsertItem(_T("케빈"), 3, 3, hClass);
-	m_wndClassView.InsertItem(_T("피코"), 3, 3, hClass);
+	m_wndClassView.InsertItem(_T("피코"), 3, 3, hClass);*/
 }
