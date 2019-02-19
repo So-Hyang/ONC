@@ -4,6 +4,8 @@
 #include "Chat.h"
 #include "Resource.h"
 #include "MainFrm.h"
+#include "ChildFrm.h"
+#include "ONC.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -65,15 +67,9 @@ int COutputWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	BOOL bNameValid;
 
 	// 탭에 목록 창을 연결합니다.
-	bNameValid = strTabName.LoadString(IDS_BUILD_TAB);
-	ASSERT(bNameValid);
-	m_wndTabs.AddTab(&m_wndOutputBuild, strTabName, (UINT)0);
-	bNameValid = strTabName.LoadString(IDS_DEBUG_TAB);
-	ASSERT(bNameValid);
-	m_wndTabs.AddTab(&m_wndOutputDebug, strTabName, (UINT)1);
-	bNameValid = strTabName.LoadString(IDS_FIND_TAB);
-	ASSERT(bNameValid);
-	m_wndTabs.AddTab(&m_wndOutputFind, strTabName, (UINT)2);
+	m_wndTabs.AddTab(&m_wndOutputBuild, _T(""), (UINT)0);
+	m_wndTabs.AddTab(&m_wndOutputDebug, _T(""), (UINT)1);
+	m_wndTabs.AddTab(&m_wndOutputFind, _T(""), (UINT)2);
 
 	// 출력 탭을 더미 텍스트로 채웁니다.
 	FillBuildWindow();
@@ -205,4 +201,10 @@ void COutputList::OnContextMenu(CWnd* /*pWnd*/, CPoint point)
 
 void COutputList::OnTextSave()
 {
+
+	CONCApp *pApp = (CONCApp *)AfxGetApp();
+	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
+	CChildFrame *pChild = (CChildFrame *)pFrame->GetActiveFrame();
+	COutputWnd *plist = (COutputWnd*)pChild->GetPane(0);
+	
 }

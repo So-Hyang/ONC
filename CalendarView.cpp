@@ -45,7 +45,7 @@ CCalendarView::CCalendarView()
 {
 	// TODO: 여기에 생성 코드를 추가합니다.
 	CLogin a;
-	//a.DoModal();
+	a.DoModal();
 }
 
 ////버튼 클릭 이벤트
