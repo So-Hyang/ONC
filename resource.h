@@ -102,13 +102,15 @@
 #define ID_BITMAP_OUT                   32778
 #define IDR_BITMAP_LS                   32779
 #define ID_BITMAP_IN                    32780
+#define ID_32781                        32781
+#define ID_TEXT_SAVE                    32782
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        335
-#define _APS_NEXT_COMMAND_VALUE         32781
+#define _APS_NEXT_COMMAND_VALUE         32783
 #define _APS_NEXT_CONTROL_VALUE         1010
 #define _APS_NEXT_SYMED_VALUE           310
 #endif

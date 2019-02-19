@@ -36,9 +36,7 @@ int COutputWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	CRect rectDummy;
 	rectDummy.SetRectEmpty();
-
-
-
+	
 	// 탭 창을 만듭니다.
 	if (!m_wndTabs.Create(CMFCTabCtrl::STYLE_FLAT, rectDummy, this, 1))
 	{
@@ -48,6 +46,10 @@ int COutputWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	// 출력 창을 만듭니다.
 	const DWORD dwStyle = LBS_NOINTEGRALHEIGHT | WS_CHILD | WS_VISIBLE | WS_HSCROLL | WS_VSCROLL;
+	const DWORD edit_dwStyle = ES_AUTOVSCROLL | ES_MULTILINE | WS_CHILD | WS_VISIBLE | WS_BORDER | WS_VSCROLL;
+
+	m_wndInputEdit.Create(edit_dwStyle, CRect(0,0,100,100), this, 5426);
+	m_wndInputBtn.Create(_T("보내기"), WS_CHILD | WS_VISIBLE | WS_BORDER , CRect(0, 0, 100, 100),this,5427);
 
 	if (!m_wndOutputBuild.Create(dwStyle, rectDummy, &m_wndTabs, 2) ||
 		!m_wndOutputDebug.Create(dwStyle, rectDummy, &m_wndTabs, 3) ||
@@ -71,7 +73,7 @@ int COutputWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_wndTabs.AddTab(&m_wndOutputDebug, strTabName, (UINT)1);
 	bNameValid = strTabName.LoadString(IDS_FIND_TAB);
 	ASSERT(bNameValid);
-	m_wndTabs.AddTab(&m_wndOutputFind, strTabName, (UINT)2);
+	m_wndTabs.AddTab(&m_wndOutputFind, strTabName, (UINT)2);	
 
 	// 출력 탭을 더미 텍스트로 채웁니다.
 	FillBuildWindow();
@@ -87,8 +89,15 @@ void COutputWnd::OnSize(UINT nType, int cx, int cy)
 {
 	CDockablePane::OnSize(nType, cx, cy);
 
+	CRect rect;
+	GetClientRect(rect);
+	
 	// Tab 컨트롤은 전체 클라이언트 영역을 처리해야 합니다.
-	m_wndTabs.SetWindowPos (NULL, -1, -1, cx, cy, SWP_NOMOVE | SWP_NOACTIVATE | SWP_NOZORDER);
+	HDWP hdwp = ::BeginDeferWindowPos(3);
+	::DeferWindowPos(hdwp, m_wndTabs, HWND_TOP, -1, -1, cx, cy - 80, SWP_NOMOVE | SWP_NOACTIVATE | SWP_NOZORDER);
+	::DeferWindowPos(hdwp, m_wndInputEdit, HWND_TOP, rect.left, cy - 80, cx - 80, 80, SWP_NOZORDER | SWP_NOACTIVATE );
+	::DeferWindowPos(hdwp, m_wndInputBtn, HWND_TOP, cx-80, cy - 80, 80, 80, SWP_NOZORDER);
+	::EndDeferWindowPos(hdwp);
 }
 
 void COutputWnd::AdjustHorzScroll(CListBox& wndListBox)
@@ -114,6 +123,13 @@ void COutputWnd::FillBuildWindow()
 {
 	m_wndOutputBuild.AddString(_T("여기에 빌드 출력이 표시됩니다."));
 	m_wndOutputBuild.AddString(_T("출력이 목록 뷰 행에 표시되지만"));
+	m_wndOutputBuild.AddString(_T("표시 방법을 원하는 대로 변경할 수 있습니다."));
+	m_wndOutputBuild.AddString(_T("표시 방법을 원하는 대로 변경할 수 있습니다."));
+	m_wndOutputBuild.AddString(_T("표시 방법을 원하는 대로 변경할 수 있습니다."));
+	m_wndOutputBuild.AddString(_T("표시 방법을 원하는 대로 변경할 수 있습니다."));
+	m_wndOutputBuild.AddString(_T("표시 방법을 원하는 대로 변경할 수 있습니다."));
+	m_wndOutputBuild.AddString(_T("표시 방법을 원하는 대로 변경할 수 있습니다."));
+	m_wndOutputBuild.AddString(_T("표시 방법을 원하는 대로 변경할 수 있습니다."));
 	m_wndOutputBuild.AddString(_T("표시 방법을 원하는 대로 변경할 수 있습니다."));
 }
 
@@ -144,6 +160,7 @@ void COutputWnd::UpdateFonts()
 	m_wndOutputFind.SetFont(&afxGlobalData.fontRegular);
 }
 
+
 /////////////////////////////////////////////////////////////////////////////
 // COutputList1
 
@@ -157,9 +174,7 @@ COutputList::~COutputList()
 
 BEGIN_MESSAGE_MAP(COutputList, CListBox)
 	ON_WM_CONTEXTMENU()
-	ON_COMMAND(ID_EDIT_COPY, OnEditCopy)
-	ON_COMMAND(ID_EDIT_CLEAR, OnEditClear)
-	ON_COMMAND(ID_VIEW_OUTPUTWND, OnViewOutput)
+	ON_COMMAND(ID_TEXT_SAVE, OnTextSave)
 	ON_WM_WINDOWPOSCHANGING()
 END_MESSAGE_MAP()
 /////////////////////////////////////////////////////////////////////////////
@@ -186,26 +201,6 @@ void COutputList::OnContextMenu(CWnd* /*pWnd*/, CPoint point)
 	SetFocus();
 }
 
-void COutputList::OnEditCopy()
+void COutputList::OnTextSave()
 {
-	MessageBox(_T("출력 복사"));
-}
-
-void COutputList::OnEditClear()
-{
-	MessageBox(_T("출력 지우기"));
-}
-
-void COutputList::OnViewOutput()
-{
-	CDockablePane* pParentBar = DYNAMIC_DOWNCAST(CDockablePane, GetOwner());
-	CMDIFrameWndEx* pMainFrame = DYNAMIC_DOWNCAST(CMDIFrameWndEx, GetTopLevelFrame());
-
-	if (pMainFrame != NULL && pParentBar != NULL)
-	{
-		pMainFrame->SetFocus();
-		pMainFrame->ShowPane(pParentBar, FALSE, FALSE, FALSE);
-		pMainFrame->RecalcLayout();
-
-	}
 }
