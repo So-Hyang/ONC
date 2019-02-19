@@ -204,17 +204,23 @@ void CCalendarView::OnLButtonDblClk(UINT nFlags, CPoint point)////종우선배
 	ColorMatrix(n_matrix);
 	n_date = CalculateDateInformation(n_matrix);
 
-
-	AddView dlg;
-	CString str11;
-	//Static caption 설정
-	dlg.Caption = n_date;
-
-	if (IDOK == dlg.DoModal()) {
-		str11 = dlg.test;
+	if (n_date == "NULL") 
+	{
 	}
-	//	dlg.CalEdit.GetWindowTextW(str);
-	AfxMessageBox(str11);
+	else 
+	{
+		AddView dlg;
+		CString str11;
+		//Static caption 설정
+		dlg.Caption = n_date;
+
+		if (IDOK == dlg.DoModal()) {
+			str11 = dlg.test;
+		}
+		//	dlg.CalEdit.GetWindowTextW(str);
+		AfxMessageBox(str11);
+	}
+	
 
 
 	CView::OnLButtonDblClk(nFlags, point);
@@ -369,6 +375,10 @@ void CCalendarView::CalcaulateCalendar()
 		else {//공백으로 처리할 부분이 없을 때
 			if (this_month_date >  0) { //이번 달에 남은 날짜가 있을 경우
 				t_date[i].Format(_T("%d"), num_date); //날짜 표시
+				if (num_date < 10) 
+				{
+					t_date[i] = L"0" + t_date[i];
+				}
 				num_date++; //날짜 1일 증가
 				this_month_date--; //남은 날짜 감소
 			}
@@ -393,19 +403,29 @@ CPoint CCalendarView::CalculateCursorPosition()
 CPoint CCalendarView::CalculateCoordinatevalueLocation(CPoint xylocation)
 {
 	CPoint location;
-	for (int i = 0; i < 5; i++) {
-		if (((i * 75) + 240 <= xylocation.y) && (((i + 1) * 75) + 240 > xylocation.y))
-		{
-
-			location.y = i;
-		}
-		for (int j = 0; j < 7; j++) {
-			if (((j * 90) + 192 <= xylocation.x) && (((j + 1) * 90) + 192 > xylocation.x))
+	if ((446 < xylocation.y) || (630< xylocation.x)) 
+	{
+		location.x = -1;
+		location.y = -1;
+		return location;
+	}
+	else 
+	{
+		for (int i = 0; i < 5; i++) {
+			if (((i * 74) + 76 <= xylocation.y) && (((i + 1) * 74) + 76> xylocation.y))
 			{
-				location.x = j;
+
+				location.y = i;
+			}
+			for (int j = 0; j < 7; j++) {
+				if (((j * 90) + 2 <= xylocation.x) && (((j + 1) * 90) + 2 > xylocation.x))
+				{
+					location.x = j;
+				}
 			}
 		}
 	}
+	
 	return location;
 }
 
@@ -414,21 +434,29 @@ CString CCalendarView::CalculateDateInformation(CPoint matrixlocation)
 	int matrixindex;
 	CString Y, M, D;
 	CString clickeddate;
-	for (int i = 0; i < 5; i++) {
-		if (matrixlocation.y == i)
-		{
-			for (int j = 0; j < 7; j++) {
-				if (matrixlocation.x == j)
-				{
-					matrixindex = (i * 7) + (j);
+	if ((matrixlocation.x == -1) && (matrixlocation.y == -1))
+	{
+		clickeddate = "NULL";
+	}
+	else 
+	{
+		for (int i = 0; i < 5; i++) {
+			if (matrixlocation.y == i)
+			{
+				for (int j = 0; j < 7; j++) {
+					if (matrixlocation.x == j)
+					{
+						matrixindex = (i * 7) + (j);
+					}
 				}
 			}
 		}
+		Y.Format(_T("%d"), cur_Year);
+		M.Format(_T("%d"), cur_Month);
+		D = t_date[matrixindex];
+		clickeddate = Y + L"." + M + L"." + D;
 	}
-	Y.Format(_T("%d"), cur_Year);
-	M.Format(_T("%d"), cur_Month);
-	D = t_date[matrixindex];
-	clickeddate = Y + L"." + M + L"." + D;
+	
 
 	return clickeddate;
 }
@@ -439,12 +467,18 @@ void CCalendarView::ColorMatrix(CPoint matrixlocation)
 	CBrush MyBrush;
 	CBrush *OldBrush;
 
-	MyBrush.CreateHatchBrush(HS_DIAGCROSS, RGB(0, 0, 255));
-	OldBrush = DC.SelectObject(&MyBrush);
-	DC.SetBkMode(TRANSPARENT);
-	DC.Rectangle(matrixlocation.x * 90, (matrixlocation.y * 74) + 78, (matrixlocation.x + 1) * 90, ((matrixlocation.y + 1) * 74) + 78);
-	DC.SelectObject(OldBrush);
-	MyBrush.DeleteObject();
+	if ((matrixlocation.x == -1) &&(matrixlocation.y == -1))
+	{
+	}
+	else 
+	{
+		MyBrush.CreateHatchBrush(HS_DIAGCROSS, RGB(0, 0, 255));
+		OldBrush = DC.SelectObject(&MyBrush);
+		DC.SetBkMode(TRANSPARENT);
+		DC.Rectangle(matrixlocation.x * 90, (matrixlocation.y * 74) + 78, (matrixlocation.x + 1) * 90, ((matrixlocation.y + 1) * 74) + 78);
+		DC.SelectObject(OldBrush);
+		MyBrush.DeleteObject();
+	}
 }
 
 void CCalendarView::CreateAddView(CString type, CString status, CString name, CString date)
@@ -467,7 +501,7 @@ vector<CalendarInfo> CCalendarView::LoadListSchedule(int type, CString status, C
 				string temp = dm_calendarinfo[i].cDate;
 				if (temp.substr(0, 4) == (date.substr(0, 4))) //년, 월이 같으면 n_calendar에 값 추가하기
 				{
-					test1 = temp.substr(5, 2); test2 = date.substr(4, 2);
+					//test1 = temp.substr(5, 2); test2 = date.substr(4, 2);
 					if (temp.substr(5, 2) == (date.substr(4, 2)))
 					{
 						n_calendarinfo.push_back(dm_calendarinfo[i]);
@@ -485,7 +519,7 @@ vector<CalendarInfo> CCalendarView::LoadListSchedule(int type, CString status, C
 				string temp = dm_calendarinfo[i].cDate;
 				if (temp.substr(0, 4) == (date.substr(0, 4))) //년, 월이 같으면 n_calendar에 값 추가하기
 				{
-					if (temp.substr(5, 2) == (date.substr(5, 2)))
+					if (temp.substr(5, 2) == (date.substr(4, 2)))
 					{
 						n_calendarinfo.push_back(dm_calendarinfo[i]);
 					}
@@ -608,12 +642,18 @@ void CCalendarView::DrawCalendarList(vector<CalendarInfo>n_calendar)
 			}
 			else
 			{
-				cnt_r++;
+				if (cnt_r < 34)
+					cnt_r++;
+				else
+					break;
 			}
 
 		}
 		else {
-			cnt_r++;
+			if (cnt_r < 34)
+				cnt_r++;
+			else
+				break;
 		}
 	}
 
