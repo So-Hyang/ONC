@@ -7,7 +7,7 @@
 
 #ifdef _DEBUG
 #undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
+static char THIS_FILE[] = __FILE__;
 #define new DEBUG_NEW
 #endif
 
@@ -125,7 +125,7 @@ void CFileView::FillFileView()
 
 void CFileView::OnContextMenu(CWnd* pWnd, CPoint point)
 {
-	CTreeCtrl* pWndTree = (CTreeCtrl*) &m_wndFileView;
+	CTreeCtrl* pWndTree = (CTreeCtrl*)&m_wndFileView;
 	ASSERT_VALID(pWndTree);
 
 	if (pWnd != pWndTree)
@@ -162,7 +162,7 @@ void CFileView::AdjustLayout()
 	CRect rectClient;
 	GetClientRect(rectClient);
 
-	m_wndFileView.SetWindowPos(NULL, rectClient.left + 1, rectClient.top +  1, rectClient.Width() - 2, rectClient.Height() - 2, SWP_NOACTIVATE | SWP_NOZORDER);
+	m_wndFileView.SetWindowPos(NULL, rectClient.left + 1, rectClient.top + 1, rectClient.Width() - 2, rectClient.Height() - 2, SWP_NOACTIVATE | SWP_NOZORDER);
 }
 
 void CFileView::OnProperties()

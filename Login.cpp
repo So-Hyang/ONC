@@ -67,9 +67,9 @@ void CLogin::OnIPAuthenticationBtnClicked()
 	//int count;
 	string sUserIP;
 	CString csUserIP;
-	
+
 	sUserIP = GetIpAddress();
-	
+
 
 
 	csUserIP = sUserIP.c_str();
@@ -77,20 +77,20 @@ void CLogin::OnIPAuthenticationBtnClicked()
 	GetDlgItem(IDC_PWBUTTON)->EnableWindow(TRUE);
 	GetDlgItem(IDC_PWINPUT)->EnableWindow(TRUE);
 	GetDlgItem(IDC_IPCER)->SetWindowTextW(csUserIP);
-	
+
 	/*
 	for(count=0;count<40;count++)
 	{
-		if (sUserIP.compare(dumi[count].IP)==0)
-		{
-			csUserIP = dumi[count].ID.c_str();
-						
-			GetDlgItem(IDC_IPCER)->EnableWindow(FALSE);
-			GetDlgItem(IDC_PWBUTTON)->EnableWindow(TRUE);
-			GetDlgItem(IDC_IPCER)->SetWindowTextW(csUserIP);
+	if (sUserIP.compare(dumi[count].IP)==0)
+	{
+	csUserIP = dumi[count].ID.c_str();
 
-			PassWord = dumi[count].PW;
-		}
+	GetDlgItem(IDC_IPCER)->EnableWindow(FALSE);
+	GetDlgItem(IDC_PWBUTTON)->EnableWindow(TRUE);
+	GetDlgItem(IDC_IPCER)->SetWindowTextW(csUserIP);
+
+	PassWord = dumi[count].PW;
+	}
 	}	*/
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 }
@@ -109,7 +109,7 @@ void CLogin::OnLogOKBtnClicked()
 	else
 	{
 		GetDlgItem(IDC_PWINPUT)->GetWindowTextW(csInput);
-		if (PassWord.Compare(csInput)==0)
+		if (PassWord.Compare(csInput) == 0)
 		{
 			CDialog::OnOK();
 		}

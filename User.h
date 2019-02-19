@@ -7,7 +7,7 @@ class CClassToolBar : public CMFCToolBar
 {
 	virtual void OnUpdateCmdUI(CFrameWnd* /*pTarget*/, BOOL bDisableIfNoHndler)
 	{
-		CMFCToolBar::OnUpdateCmdUI((CFrameWnd*) GetOwner(), bDisableIfNoHndler);
+		CMFCToolBar::OnUpdateCmdUI((CFrameWnd*)GetOwner(), bDisableIfNoHndler);
 	}
 
 	virtual BOOL AllowShowOnList() const { return FALSE; }
@@ -28,7 +28,7 @@ protected:
 	CImageList m_ClassViewImages;
 
 
-// 재정의입니다.
+	// 재정의입니다.
 public:
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
 	void SendEmergencyAlarmMessage(char* cMyID, char* cMsg);

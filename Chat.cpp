@@ -36,7 +36,7 @@ int COutputWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	CRect rectDummy;
 	rectDummy.SetRectEmpty();
-	
+
 	// 탭 창을 만듭니다.
 	if (!m_wndTabs.Create(CMFCTabCtrl::STYLE_FLAT, rectDummy, this, 1))
 	{
@@ -48,8 +48,8 @@ int COutputWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	const DWORD dwStyle = LBS_NOINTEGRALHEIGHT | WS_CHILD | WS_VISIBLE | WS_HSCROLL | WS_VSCROLL;
 	const DWORD edit_dwStyle = ES_AUTOVSCROLL | ES_MULTILINE | WS_CHILD | WS_VISIBLE | WS_BORDER | WS_VSCROLL;
 
-	m_wndInputEdit.Create(edit_dwStyle, CRect(0,0,100,100), this, 5426);
-	m_wndInputBtn.Create(_T("보내기"), WS_CHILD | WS_VISIBLE | WS_BORDER , CRect(0, 0, 100, 100),this,5427);
+	m_wndInputEdit.Create(edit_dwStyle, CRect(0, 0, 100, 100), this, 5426);
+	m_wndInputBtn.Create(_T("보내기"), WS_CHILD | WS_VISIBLE | WS_BORDER, CRect(0, 0, 100, 100), this, 5427);
 
 	if (!m_wndOutputBuild.Create(dwStyle, rectDummy, &m_wndTabs, 2) ||
 		!m_wndOutputDebug.Create(dwStyle, rectDummy, &m_wndTabs, 3) ||
@@ -91,13 +91,13 @@ void COutputWnd::OnSize(UINT nType, int cx, int cy)
 
 	CRect rect;
 	GetClientRect(rect);
-	
+
 	// Tab 컨트롤은 전체 클라이언트 영역을 처리해야 합니다.
 
 	HDWP hdwp = ::BeginDeferWindowPos(3);
 	::DeferWindowPos(hdwp, m_wndTabs, HWND_TOP, -1, -1, cx, cy - 80, SWP_NOMOVE | SWP_NOACTIVATE | SWP_NOZORDER);
-	::DeferWindowPos(hdwp, m_wndInputEdit, HWND_TOP, rect.left, cy - 80, cx - 80, 80, SWP_NOZORDER | SWP_NOACTIVATE );
-	::DeferWindowPos(hdwp, m_wndInputBtn, HWND_TOP, cx-80, cy - 80, 80, 80, SWP_NOZORDER);
+	::DeferWindowPos(hdwp, m_wndInputEdit, HWND_TOP, rect.left, cy - 80, cx - 80, 80, SWP_NOZORDER | SWP_NOACTIVATE);
+	::DeferWindowPos(hdwp, m_wndInputBtn, HWND_TOP, cx - 80, cy - 80, 80, 80, SWP_NOZORDER);
 	::EndDeferWindowPos(hdwp);
 }
 
@@ -108,7 +108,7 @@ void COutputWnd::AdjustHorzScroll(CListBox& wndListBox)
 
 	int cxExtentMax = 0;
 
-	for (int i = 0; i < wndListBox.GetCount(); i ++)
+	for (int i = 0; i < wndListBox.GetCount(); i++)
 	{
 		CString strItem;
 		wndListBox.GetText(i, strItem);
