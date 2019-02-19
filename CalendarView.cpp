@@ -45,7 +45,7 @@ CCalendarView::CCalendarView()
 {
 	// TODO: 여기에 생성 코드를 추가합니다.
 	CLogin a;
-	a.DoModal();
+	//a.DoModal();
 }
 
 ////버튼 클릭 이벤트
@@ -67,6 +67,8 @@ void CCalendarView::OnLeftRightBtnClicked(UINT uiID)
 		}
 		break;
 	}
+	Invalidate(TRUE);
+	UpdateWindow();
 	CalcaulateCalendar();
 	DrawCalendar();
 }
@@ -191,8 +193,9 @@ void CCalendarView::OnLButtonDblClk(UINT nFlags, CPoint point)////종우선배
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
 	POINT n_mouse;
 	CString n_date;
-	n_mouse = CalculateCursorPosition();
-	n_mouse = CalculateCoordinatevalueLocation(n_mouse);
+	//n_mouse = CalculateCursorPosition();
+
+	n_mouse = CalculateCoordinatevalueLocation(point);
 	ColorMatrix(n_mouse);
 	n_date = CalculateDateInformation(n_mouse);
 
@@ -259,7 +262,14 @@ void CCalendarView::OnInitialUpdate()
 	rightbtn->ShowWindow(SW_SHOW);
 	todaybtn->ShowWindow(SW_SHOW);
 	readbtn->ShowWindow(SW_SHOW);
-
+	
+	
+	for (size_t i = 0; i < sizeof(list_cal); i++)
+	{
+	//	list_cal[i] = new CListBox();
+	//	list_cal[i].Create();
+	}
+	
 	list_cal_11 = new CListBox();
 	list_cal_11->Create(LBS_STANDARD, CRect(2, 100, 89, 154), this, 211);
 	list_cal_12 = new CListBox();
@@ -390,9 +400,12 @@ void CCalendarView::OnPaint()
 	dc.LineTo(630, 50);
 	dc.MoveTo(0, 75);
 	dc.LineTo(630, 75);
+	dc.MoveTo(0, 447);
+	dc.LineTo(630, 447);
+
 	for (int x = 0; x < 8; x++) {
 		dc.MoveTo(0 + (90 * x), 50);
-		dc.LineTo(0 + (90 * x), 80 + (74 * 5));
+		dc.LineTo(0 + (90 * x), 77 + (74 * 5));
 	}
 	//DrawCalendar();
 }
@@ -449,7 +462,7 @@ void CCalendarView::CalcaulateCalendar()
 				this_month_date--; //남은 날짜 감소
 			}
 			else {//이번달에 남은 날짜가 없을 경우, 나머지는 공백처리
-				date[i] = L"  ";
+				date[i] = "  ";
 			}
 		}
 	}
@@ -556,12 +569,13 @@ void CCalendarView::EmergencyNotice()
 void CCalendarView::DrawCalendar()
 {
 	CClientDC DC(this);
-	
+	CDC MemDC;
 	int date_num = 0;
 	CString temp_y, temp_m;
 
 	// 날짜 표시하기 위해 형 변환
-		temp_y.Format(_T("%d"), cur_Year);
+	MemDC.CreateCompatibleDC(&DC);
+	temp_y.Format(_T("%d"), cur_Year);
 	temp_m.Format(_T("%d"), cur_Month);
 	DC.TextOutW(calbkpos.x + 20, calbkpos.y + 20, temp_y + L"년 " + temp_m + L"월");
 	for (int i = 0; i < 7; i++) {
