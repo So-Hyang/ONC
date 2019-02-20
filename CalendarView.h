@@ -55,7 +55,7 @@ public:
 
 	vector<CalendarInfo> LoadListSchedule(int type, CString status, CString name, string date);
 
-	void AddListSchedule(vector<CString> schedule, int date);
+	void AddListSchedule(CalendarInfo newschedule);
 
 	void ChangeColorEmergencyNotice(string color);
 

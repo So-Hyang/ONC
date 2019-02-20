@@ -39,6 +39,7 @@ void AddView::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_Date, date);
 	date.SetWindowTextW(Caption);
 	DDX_Control(pDX, IDC_EDIT1, CalEdit);
+	PubPri.GetWindowTextW(a_status);
 }
 
 
@@ -56,19 +57,26 @@ void AddView::OnBnClickedAdd()
 	CalEdit.SetSel(nLength, nLength);
 	CalEdit.ReplaceSel(Caption);
 	CalEdit.GetWindowTextW()*/
+	int index = 0;
+	index = PubPri.GetCurSel();
+	if (index == -1)
+	{
+		AddView::OnCancel();
+	}
+	else 
+	{
+		PubPri.GetLBText(PubPri.GetCurSel(), a_status);
 
-	CString str = L"";
-	PubPri.GetLBText(PubPri.GetCurSel(), str);
+		int nLen = CalEdit.GetWindowTextLength();
+		CalEdit.SetFocus();
+		CalEdit.SetSel(nLen, nLen);
 
-	int nLen = CalEdit.GetWindowTextLength();
-	CalEdit.SetFocus();
-	CalEdit.SetSel(nLen, nLen);
-	CalEdit.ReplaceSel(str);
-
-	CalEdit.SetWindowText(str);
-	test = str;
+		CalEdit.GetWindowTextW(a_contents);
+		AddView::OnOK();
+	}
+	
 
 
-	AddView::OnOK();
+	
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 }
