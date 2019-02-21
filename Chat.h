@@ -1,27 +1,12 @@
 
 #pragma once
+#include <fstream>
+#include <string>
 
-/////////////////////////////////////////////////////////////////////////////
-// COutputList 창
-
-class COutputList : public CListBox
-{
-	// 생성입니다.
-public:
-	COutputList();
-	//CListBox m_List;
-	// 구현입니다.
-public:
-	virtual ~COutputList();
-
-protected:
-	afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);
-	afx_msg void OnTextSave();
-
-	DECLARE_MESSAGE_MAP()
-};
-
-
+#pragma warning(disable:4996)
+using namespace std;
+using std::ifstream;
+using std::ofstream;
 
 
 class COutputWnd : public CDockablePane
@@ -33,14 +18,14 @@ public:
 	CString TransferEmergencyMsg();
 	void UpdateFonts();
 
-	// 특성입니다.
-protected:
+	CListBox m_wndOutputBuild;
+	CListBox m_wndOutputDebug;
+	CListBox m_wndOutputFind;
+	CListBox m_wndTap[10];
 	CMFCTabCtrl	m_wndTabs;
 
-	COutputList m_wndOutputBuild;
-	COutputList m_wndOutputDebug;
-	COutputList m_wndOutputFind;
-
+	// 특성입니다.
+protected:
 	CEdit m_wndInputEdit;
 	CButton m_wndInputBtn;
 
@@ -48,18 +33,21 @@ protected:
 	void FillBuildWindow();
 	void FillDebugWindow();
 	void FillFindWindow();
-
 	void AdjustHorzScroll(CListBox& wndListBox);
-
+	
 	// 구현입니다.
 public:
 	virtual ~COutputWnd();
-
+private:
+	void SaveText(char* filedirectory, char* filename, string data);
+	char* AppendChar(char* arg1, char* arg2);
 
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnSize(UINT nType, int cx, int cy);
-
+	afx_msg void OnContextMenu(CWnd* /*pWnd*/, CPoint point);
+	afx_msg void OnTextSave();
+	void SendMsg();
+	BOOL PreTranslateMessage(MSG* pMsg);
 	DECLARE_MESSAGE_MAP()
 };
-

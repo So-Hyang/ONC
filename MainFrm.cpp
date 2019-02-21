@@ -127,6 +127,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	CMFCToolBar::AddToolBarForImageCollection(IDR_MENU_IMAGES, theApp.m_bHiColorIcons ? IDB_MENU_IMAGES_24 : 0);
 
 	// 도킹 창을 만듭니다.
+
 	if (!CreateDockingWindows())
 	{
 		TRACE0("도킹 창을 만들지 못했습니다.\n");

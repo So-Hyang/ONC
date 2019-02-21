@@ -16,6 +16,7 @@ public:
 
 // 특성입니다.
 public:
+	COutputWnd        m_wndOutput;
 
 // 작업입니다.
 public:
@@ -40,7 +41,6 @@ protected:  // 컨트롤 모음이 포함된 멤버입니다.
 	CMFCToolBarImages m_UserImages;
 	CFileView         m_wndFileView;
 	CClassView        m_wndClassView;
-	COutputWnd        m_wndOutput;
 	CPropertiesWnd    m_wndProperties;
 
 // 생성된 메시지 맵 함수
