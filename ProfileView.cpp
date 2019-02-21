@@ -67,7 +67,7 @@ void ProfileView::PeopleAnalysis()
 
 
 
-void ProfileView::OnBnClickedButton1()
+void ProfileView::OnBnClickedButton1() 
 {
 	People mPeople;
 
