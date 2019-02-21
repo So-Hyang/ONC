@@ -205,18 +205,10 @@ BOOL CClassView::PreTranslateMessage(MSG* pMsg)
 
 void CClassView::OnLoudSpeakerImageBtnClicked()
 {
-	static char *ex1, *ex2;
-	CString chatMSG = _T("데이터 전달 xxx");
-
 	CONCApp *pApp = (CONCApp *)AfxGetApp();
 	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
-	CONCDoc *pDoc = (CONCDoc *)pFrame->GetActiveDocument();
-	CChildFrame *pChild = (CChildFrame *)pFrame->GetActiveFrame();
-	COutputWnd *pChatView = (COutputWnd *)pChild->GetActiveView();
 
-	chatMSG = pChatView->TransferEmergencyMsg();
-	SendEmergencyAlarmMessage(ex1, ex2);
-	MessageBox((LPCTSTR)chatMSG);
+	pFrame->m_wndOutput.nType = Emergency_Alarm;
 }
 
 void CClassView::OnExitImageBtnClicked()
@@ -232,15 +224,16 @@ void CClassView::OnExitImageBtnClicked()
 
 void CClassView::OnInImageBtnClicked()
 {
-	CONCApp *pApp = (CONCApp *)AfxGetApp();
-	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
-	CChildFrame *pChild = (CChildFrame *)pFrame->GetActiveFrame();
-	COutputWnd *pChatView = (COutputWnd *)pChild->GetActiveView();
 
 }
 
 void CClassView::OnOutImageBtnClicked()
 {
+	CONCApp *pApp = (CONCApp *)AfxGetApp();
+	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
+
+	pFrame->m_wndOutput.ChatRoomLeave();
+
 }
 
 
@@ -270,12 +263,12 @@ void CClassView::OnChangeVisualStyle()
 
 
 }
-
+/*
 void CClassView::SendEmergencyAlarmMessage(char * cMyID, char * cMsg)//통신팀 함수임 임시로 뒀음
 {
 
 }
-
+*/
 void CClassView::CreateExitView()
 {
 	AfxGetMainWnd()->PostMessageW(WM_CLOSE);

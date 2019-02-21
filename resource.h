@@ -113,6 +113,8 @@
 #define ID_BITMAP_IN                    32780
 #define ID_32781                        32781
 #define ID_TEXT_SAVE                    32782
+#define Emergency_Alarm					2001
+
 
 // Next default values for new objects
 // 

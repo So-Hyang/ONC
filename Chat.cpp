@@ -13,10 +13,11 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
+//#define IsSHIFTPressed() (0x8000==(GetKeyState(VK_SHIFT)&0x8000))
+
 /////////////////////////////////////////////////////////////////////////////
 // COutputBar
 
-CString EmergencyMsg;
 
 COutputWnd::COutputWnd()
 {
@@ -33,7 +34,7 @@ BEGIN_MESSAGE_MAP(COutputWnd, CDockablePane)
 	ON_WM_CONTEXTMENU()
 	ON_COMMAND(ID_TEXT_SAVE, OnTextSave)
 	ON_WM_WINDOWPOSCHANGING()
-
+	ON_REGISTERED_MESSAGE(AFX_WM_CHANGE_ACTIVE_TAB, OnTabSetActive)
 END_MESSAGE_MAP()
 
 int COutputWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
@@ -50,13 +51,13 @@ int COutputWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		TRACE0("출력 탭 창을 만들지 못했습니다.\n");
 		return -1;      // 만들지 못했습니다.
 	}
-
+	m_wndTabs.EnableTabSwap(FALSE);
 	// 출력 창을 만듭니다.
 	const DWORD dwStyle = LBS_NOINTEGRALHEIGHT | WS_CHILD | WS_VISIBLE | WS_HSCROLL | WS_VSCROLL;
-	const DWORD edit_dwStyle = ES_AUTOVSCROLL | ES_MULTILINE | WS_CHILD | WS_VISIBLE | WS_BORDER | WS_VSCROLL;
+	const DWORD edit_dwStyle = ES_AUTOVSCROLL | ES_MULTILINE | WS_CHILD | WS_VISIBLE | WS_BORDER;
 	
 	m_wndInputEdit.Create(edit_dwStyle, CRect(0, 0, 100, 100), this, 5426);
-	m_wndInputBtn.Create(_T("보내기"), WS_CHILD | WS_VISIBLE | WS_BORDER, CRect(0, 0, 100, 100), this, 5427);
+	//m_wndInputBtn.Create(_T("보내기"), WS_CHILD | WS_VISIBLE | WS_BORDER, CRect(0, 0, 100, 100), this, 5427);
 
 	//UpdateFonts();
 
@@ -64,16 +65,14 @@ int COutputWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	for(int i=0; i<10;i++)
 	{
-		m_wndTap[i].Create(dwStyle, rectDummy, &m_wndTabs, i+2);
-		m_wndTabs.AddTab(&m_wndTap[i], _T("abcd"), (UINT)i);
+		m_wndList[i].Create(dwStyle, rectDummy, &m_wndTabs, i+2);
+		m_wndTabs.AddTab(&m_wndList[i], _T("abcd"), (UINT)i);
 	}
 
 	// 출력 탭을 더미 텍스트로 채웁니다.
 	FillBuildWindow();
 	FillDebugWindow();
 	FillFindWindow();
-
-	EmergencyMsg = "확성기 메세지입니다";
 
 	return 0;
 }
@@ -89,8 +88,8 @@ void COutputWnd::OnSize(UINT nType, int cx, int cy)
 
 	HDWP hdwp = ::BeginDeferWindowPos(3);
 	::DeferWindowPos(hdwp, m_wndTabs, HWND_TOP, -1, -1, cx, cy - 80, SWP_NOMOVE | SWP_NOACTIVATE | SWP_NOZORDER);
-	::DeferWindowPos(hdwp, m_wndInputEdit, HWND_TOP, rect.left, cy - 80, cx - 80, 80, SWP_NOZORDER | SWP_NOACTIVATE);
-	::DeferWindowPos(hdwp, m_wndInputBtn, HWND_TOP, cx - 80, cy - 80, 80, 80, SWP_NOZORDER);
+	::DeferWindowPos(hdwp, m_wndInputEdit, HWND_TOP, rect.left, cy - 80, cx, 80, SWP_NOZORDER | SWP_NOACTIVATE);
+	//::DeferWindowPos(hdwp, m_wndInputBtn, HWND_TOP, cx - 80, cy - 80, 80, 80, SWP_NOZORDER);
 	::EndDeferWindowPos(hdwp);
 }
 
@@ -116,16 +115,16 @@ void COutputWnd::AdjustHorzScroll(CListBox& wndListBox)
 void COutputWnd::FillBuildWindow()
 {
 	
-	m_wndTap[0].AddString(_T("여기에 빌드 출력이 표시됩니다."));
-	m_wndTap[0].AddString(_T("출력이 목록 뷰 행에 표시되지만"));
-	m_wndTap[0].AddString(_T("표시 방법을 원하는 대로 변경할 수 있습니다."));
-	m_wndTap[1].AddString(_T("표시 방법을 원하는 대로 변경할 수 있습니다."));
-	m_wndTap[1].AddString(_T("표시 방법을 원하는 대로 변경할 수 있습니다."));
-	m_wndTap[1].AddString(_T("표시 방법을 원하는 대로 변경할 수 있습니다."));
-	m_wndTap[1].AddString(_T("표시 방법을 원하는 대로 변경할 수 있습니다."));
-	m_wndTap[2].AddString(_T("표시 방법을 원하는 대로 변경할 수 있습니다."));
-	m_wndTap[2].AddString(_T("표시 방법을 원하는 대로 변경할 수 있습니다."));
-	m_wndTap[2].AddString(_T("표시 방법을 원하는 대로 변경할 수 있습니다."));
+	m_wndList[0].AddString(_T("여기에 빌드 출력이 표시됩니다."));
+	m_wndList[0].AddString(_T("출력이 목록 뷰 행에 표시되지만"));
+	m_wndList[0].AddString(_T("표시 방법을 원하는 대로 변경할 수 있습니다."));
+	m_wndList[1].AddString(_T("표시 방법을 원하는 대로 변경할 수 있습니다."));
+	m_wndList[1].AddString(_T("표시 방법을 원하는 대로 변경할 수 있습니다."));
+	m_wndList[1].AddString(_T("표시 방법을 원하는 대로 변경할 수 있습니다."));
+	m_wndList[1].AddString(_T("표시 방법을 원하는 대로 변경할 수 있습니다."));
+	m_wndList[2].AddString(_T("표시 방법을 원하는 대로 변경할 수 있습니다."));
+	m_wndList[2].AddString(_T("표시 방법을 원하는 대로 변경할 수 있습니다."));
+	m_wndList[2].AddString(_T("표시 방법을 원하는 대로 변경할 수 있습니다."));
 	
 }
 
@@ -147,17 +146,12 @@ void COutputWnd::FillFindWindow()
 	*/
 }
 
-CString COutputWnd::TransferEmergencyMsg()
-{
-	EmergencyMsg = L"확성기 메세지 전달 성공";
-	return  EmergencyMsg;
-}
 
 void COutputWnd::UpdateFonts()
 {
 	for (int i = 0; i<10; i++)
 	{
-		m_wndTap[i].SetFont(&afxGlobalData.fontRegular);
+		m_wndList[i].SetFont(&afxGlobalData.fontRegular);
 	}
 }
 
@@ -183,7 +177,6 @@ void COutputWnd::OnContextMenu(CWnd* /*pWnd*/, CPoint point)
 		((CMDIFrameWndEx*)AfxGetMainWnd())->OnShowPopupMenu(pPopupMenu);
 		UpdateDialogControls(this, FALSE);
 	}
-
 	SetFocus();
 }
 
@@ -206,9 +199,9 @@ void COutputWnd::OnTextSave()
 	sName = sFileNum + sName + sDate;
 	name = (char*)sName.c_str();
 
-	for (int i = 0; i < m_wndTap[sel].GetCount(); i++)
+	for (int i = 0; i < m_wndList[sel].GetCount(); i++)
 	{
-		m_wndTap[sel].GetText(i, csstrVoca);
+		m_wndList[sel].GetText(i, csstrVoca);
 		sSaveMsg = string(CT2CA(csstrVoca.operator LPCWSTR()));
 		sSaveMsg = sSaveMsg + "\n";
 		a.SaveText(dir, name, sSaveMsg);
@@ -242,13 +235,49 @@ char* COutputWnd::AppendChar(char* arg1, char* arg2)
 
 BOOL COutputWnd::PreTranslateMessage(MSG* pMsg)
 {
+	short Shift;
+	Shift = GetKeyState(VK_SHIFT);
 	// 엔터키
-	if ((pMsg->message == WM_KEYDOWN) && (pMsg->wParam == VK_RETURN))
+	//AfxMessageBox(_T("일반 채팅"));
+	if ((pMsg->message == WM_KEYDOWN) && (pMsg->wParam == VK_RETURN) && (Shift>=0))
 	{
 		// 여기에 원하는 동작의 코드를 삽입
-		m_wndTap[0].AddString(_T("여기에 빌드 출력이 표시됩니다."));
+		if (nType == 0)
+		{
+			AfxMessageBox(_T("일반 채팅"));
+			return true;
+		}
+		else if (nType == Emergency_Alarm)
+		{
+			AfxMessageBox(_T("긴급 알람"));
+			nType = 0;
+			return true;
+		}
+	}
+	if ((pMsg->message == WM_KEYDOWN) && (pMsg->wParam == VK_RETURN) && (Shift<0))
+	{
+		// 여기에 원하는 동작의 코드를 삽입
+		int nLen = m_wndInputEdit.GetWindowTextLength();
+		m_wndInputEdit.SetSel(nLen, nLen);
+		m_wndInputEdit.ReplaceSel(_T("\r\n"));
+		
 		return true;
 	}
 	return CDockablePane::PreTranslateMessage(pMsg);
 }
 
+LRESULT COutputWnd::OnTabSetActive(WPARAM wParam, LPARAM lParam)
+{
+	CString label;
+	int sel = m_wndTabs.GetActiveTab();
+	m_wndTabs.GetTabLabel(sel, label);
+	label.Format(_T("%d"), sel);
+	//AfxMessageBox(label);
+	return 0;
+}
+
+void COutputWnd::ChatRoomLeave()
+{
+	int sel = m_wndTabs.GetActiveTab();
+	m_wndList[sel].ResetContent();
+}

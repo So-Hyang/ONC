@@ -27,7 +27,6 @@ private:
 	afx_msg void OnIPAuthenticationBtnClicked();
 	afx_msg void OnLogOKBtnClicked();
 	string GetIpAddress();
-	BOOL PreTranslateMessage(MSG* pMsg);
 	CString PassWord;
 	CString UserID;
 
@@ -42,6 +41,7 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 public:
+	virtual BOOL PreTranslateMessage(MSG* pMsg);
 
 };
 
