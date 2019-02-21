@@ -8,6 +8,10 @@
 #include "ONCDoc.h"
 #include "Chat.h"
 
+#include "ProfileView.h"
+#include "cstringt.h"
+#include "atlstr.h"
+#include "afxcmn.h"
 
 class CClassViewMenuButton : public CMFCToolBarMenuButton
 {
@@ -58,6 +62,8 @@ BEGIN_MESSAGE_MAP(CClassView, CDockablePane)
 	ON_COMMAND(ID_BITMAP_OUT, OnOutImageBtnClicked)
 	ON_WM_PAINT()
 	ON_WM_SETFOCUS()
+//	ON_COMMAND(ID_SORTING_SORTALPHABETIC, &CClassView::OnSortingSortalphabetic)
+	ON_COMMAND(ID_SORTING_SORTALPHABETIC, &CClassView::OnSortingSortbyaccess)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -249,14 +255,40 @@ void CClassView::CreateExitView()
 }
 
 
+
+
 void CClassView::FillClassView()
 {
+	HTREEITEM hRoot = m_wndClassView.InsertItem(_T("NSL"), 0, 0);
+	m_wndClassView.SetItemState(hRoot, TVIS_BOLD, TVIS_BOLD);
 
+	HTREEITEM hClass = m_wndClassView.InsertItem(_T("Leader"), 1, 1, hRoot);
+	m_wndClassView.InsertItem(_T("차중혁"), 3, 3, hClass);
+	m_wndClassView.InsertItem(_T("김승한"), 3, 3, hClass);
+	m_wndClassView.InsertItem(_T("김다혜"), 3, 3, hClass);
+
+	m_wndClassView.Expand(hRoot, TVE_EXPAND);
+
+
+	hClass = m_wndClassView.InsertItem(_T("신입생"), 1, 1, hRoot);
+	m_wndClassView.InsertItem(myString, 3, 3, hClass);
+	m_wndClassView.InsertItem(_T("kimsiwan"), 3, 3, hClass);
+	m_wndClassView.InsertItem(_T("lee"), 3, 3, hClass);
+	m_wndClassView.InsertItem(_T("이종우"), 3, 3, hClass);
+	m_wndClassView.InsertItem(_T("김경선"), 3, 3, hClass);
+	m_wndClassView.InsertItem(_T("박성화"), 3, 3, hClass);
+
+	hClass = m_wndClassView.InsertItem(_T("외국인"), 1, 1, hRoot);
+	m_wndClassView.InsertItem(_T("ddd"), 4, 4, hClass);
+	m_wndClassView.InsertItem(_T("b"), 3, 3, hClass);
+	m_wndClassView.InsertItem(_T("c"), 3, 3, hClass);
+	m_wndClassView.InsertItem(_T("케빈"), 3, 3, hClass);
+	m_wndClassView.InsertItem(_T("피코"), 3, 3, hClass);
 	//for(int k=0; k < vecUserinfo.size(), k++)
 
 	//string a; 
 	//vecUserInfo.at().userID = a;
-	HTREEITEM hRoot = m_wndClassView.InsertItem(_T("NSL"), 0, 0);
+	//	HTREEITEM hRoot = m_wndClassView.InsertItem(_T("NSL"), 0, 0);
 	/*m_wndClassView.SetItemState(hRoot, TVIS_BOLD, TVIS_BOLD);
 
 	HTREEITEM hClass = m_wndClassView.InsertItem(_T("Leader"), 1, 1, hRoot);
@@ -281,3 +313,48 @@ void CClassView::FillClassView()
 	m_wndClassView.InsertItem(_T("케빈"), 3, 3, hClass);
 	m_wndClassView.InsertItem(_T("피코"), 3, 3, hClass);*/
 }
+
+
+
+
+void CClassView::OnSortingSortalphabetic()
+{
+
+
+}
+
+void CClassView::profileView()
+{
+	//CTreeCtrl &TreeCtrl = GetTreeCtrl();
+	//HTREEITEM htr
+
+
+
+}
+
+void CClassView::Onselectedtest()
+{
+
+
+}
+
+
+
+void CClassView::OnSortingSortbyaccess() //마우스 우클릭하여서 프로필 눌렀을때
+{
+
+	CEdit m_str;
+	CString str;
+
+	HTREEITEM hItem = m_wndClassView.GetSelectedItem();
+	str = m_wndClassView.GetItemText(hItem);
+
+	ProfileView m;
+	m.user_name = str;
+
+	m.DoModal();
+
+
+}
+
+
