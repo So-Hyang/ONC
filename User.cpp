@@ -106,13 +106,13 @@ int CClassView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	People mPeople;
 	vector<People> mPeoples;
-	mPeople.Name = "aaaaaa";
+	mPeople.Name = "Kimsiwan";
 	mPeoples.push_back(mPeople);
-	mPeople.Name = "bbbbbb";
+	mPeople.Name = "leejongwoo";
 	mPeoples.push_back(mPeople);
-	mPeople.Name = "cccccc";
+	mPeople.Name = "casd";
 	mPeoples.push_back(mPeople);
-	mPeople.Name = "dddddd";
+	mPeople.Name = "aqqe";
 	mPeoples.push_back(mPeople);
 
 	SetTreeData(mPeoples);
@@ -312,13 +312,26 @@ void CClassView::SetTreeData(vector<People> peoples)
 
 void CClassView::MakeTreeview()
 {
+
+	CString buf;
+	int n=0;
 	HTREEITEM hRoot = m_wndClassView.InsertItem(_T("NSL"), 0, 0);
 	for (vector<People>::iterator i = vecPeople.begin(); i != vecPeople.end(); i++)
 	{
-		CString buf;
+		
 		buf = (*i).Name.c_str();
 		m_wndClassView.InsertItem(buf, 0, 0, hRoot);
+
+	
 	}
+
+	
+
+
+
+
+	//ProfileView m;
+	//m.user_name = buf;
 }
 
 
