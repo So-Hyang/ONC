@@ -62,7 +62,6 @@ BEGIN_MESSAGE_MAP(CClassView, CDockablePane)
 	ON_COMMAND(ID_BITMAP_OUT, OnOutImageBtnClicked)
 	ON_WM_PAINT()
 	ON_WM_SETFOCUS()
-//	ON_COMMAND(ID_SORTING_SORTALPHABETIC, &CClassView::OnSortingSortalphabetic)
 	ON_COMMAND(ID_SORTING_SORTALPHABETIC, &CClassView::OnSortingSortbyaccess)
 END_MESSAGE_MAP()
 
@@ -104,7 +103,19 @@ int CClassView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_wndToolBar.SetRouteCommandsViaFrame(FALSE);
 
 	// 정적 트리 뷰 데이터를 더미 코드로 채웁니다.
-	FillClassView();
+
+	People mPeople;
+	vector<People> mPeoples;
+	mPeople.Name = "Kimsiwan";
+	mPeoples.push_back(mPeople);
+	mPeople.Name = "leejongwoo";
+	mPeoples.push_back(mPeople);
+	mPeople.Name = "casd";
+	mPeoples.push_back(mPeople);
+	mPeople.Name = "aqqe";
+	mPeoples.push_back(mPeople);
+
+	SetTreeData(mPeoples);
 
 	return 0;
 }
@@ -202,6 +213,11 @@ void CClassView::OnExitImageBtnClicked()
 
 void CClassView::OnInImageBtnClicked()
 {
+	CONCApp *pApp = (CONCApp *)AfxGetApp();
+	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
+	CChildFrame *pChild = (CChildFrame *)pFrame->GetActiveFrame();
+	COutputWnd *pChatView = (COutputWnd *)pChild->GetActiveView();
+
 }
 
 void CClassView::OnOutImageBtnClicked()
@@ -246,75 +262,6 @@ void CClassView::CreateExitView()
 	AfxGetMainWnd()->PostMessageW(WM_CLOSE);
 }
 
-
-
-
-void CClassView::FillClassView()
-{
-	HTREEITEM hRoot = m_wndClassView.InsertItem(_T("NSL"), 0, 0);
-	m_wndClassView.SetItemState(hRoot, TVIS_BOLD, TVIS_BOLD);
-
-	HTREEITEM hClass = m_wndClassView.InsertItem(_T("Leader"), 1, 1, hRoot);
-	m_wndClassView.InsertItem(_T("차중혁"), 3, 3, hClass);
-	m_wndClassView.InsertItem(_T("김승한"), 3, 3, hClass);
-	m_wndClassView.InsertItem(_T("김다혜"), 3, 3, hClass);
-
-	m_wndClassView.Expand(hRoot, TVE_EXPAND);
-
-
-	hClass = m_wndClassView.InsertItem(_T("신입생"), 1, 1, hRoot);
-	m_wndClassView.InsertItem(myString, 3, 3, hClass);
-	m_wndClassView.InsertItem(_T("kimsiwan"), 3, 3, hClass);
-	m_wndClassView.InsertItem(_T("lee"), 3, 3, hClass);
-	m_wndClassView.InsertItem(_T("이종우"), 3, 3, hClass);
-	m_wndClassView.InsertItem(_T("김경선"), 3, 3, hClass);
-	m_wndClassView.InsertItem(_T("박성화"), 3, 3, hClass);
-
-	hClass = m_wndClassView.InsertItem(_T("외국인"), 1, 1, hRoot);
-	m_wndClassView.InsertItem(_T("ddd"), 4, 4, hClass);
-	m_wndClassView.InsertItem(_T("b"), 3, 3, hClass);
-	m_wndClassView.InsertItem(_T("c"), 3, 3, hClass);
-	m_wndClassView.InsertItem(_T("케빈"), 3, 3, hClass);
-	m_wndClassView.InsertItem(_T("피코"), 3, 3, hClass);
-	//for(int k=0; k < vecUserinfo.size(), k++)
-
-	//string a; 
-	//vecUserInfo.at().userID = a;
-	//	HTREEITEM hRoot = m_wndClassView.InsertItem(_T("NSL"), 0, 0);
-	/*m_wndClassView.SetItemState(hRoot, TVIS_BOLD, TVIS_BOLD);
-
-	HTREEITEM hClass = m_wndClassView.InsertItem(_T("Leader"), 1, 1, hRoot);
-	m_wndClassView.InsertItem(_T("차중혁"), 3, 3, hClass);
-	m_wndClassView.InsertItem(_T("김승한"), 3, 3, hClass);
-	m_wndClassView.InsertItem(_T("김다혜"), 3, 3, hClass);
-
-	m_wndClassView.Expand(hRoot, TVE_EXPAND);
-
-	hClass = m_wndClassView.InsertItem(_T("신입생"), 1, 1, hRoot);
-	m_wndClassView.InsertItem(_T("정소향"), 3, 3, hClass);
-	m_wndClassView.InsertItem(_T("김시완"), 3, 3, hClass);
-	m_wndClassView.InsertItem(_T("유상호"), 3, 3, hClass);
-	m_wndClassView.InsertItem(_T("이종우"), 3, 3, hClass);
-	m_wndClassView.InsertItem(_T("김경선"), 3, 3, hClass);
-	m_wndClassView.InsertItem(_T("박성화"), 3, 3, hClass);
-
-	hClass = m_wndClassView.InsertItem(_T("외국인"), 1, 1, hRoot);
-	m_wndClassView.InsertItem(_T("산제이"), 4, 4, hClass);
-	m_wndClassView.InsertItem(_T("리즈키"), 3, 3, hClass);
-	m_wndClassView.InsertItem(_T("사디"), 3, 3, hClass);
-	m_wndClassView.InsertItem(_T("케빈"), 3, 3, hClass);
-	m_wndClassView.InsertItem(_T("피코"), 3, 3, hClass);*/
-}
-
-
-
-
-void CClassView::OnSortingSortalphabetic()
-{
-
-
-}
-
 void CClassView::profileView()
 {
 	//CTreeCtrl &TreeCtrl = GetTreeCtrl();
@@ -347,6 +294,36 @@ void CClassView::OnSortingSortbyaccess() //마우스 우클릭하여서 프로필 눌렀을때
 	m.DoModal();
 
 
+}
+
+void CClassView::SetTreeData(vector<People> peoples)
+{
+	this->vecPeople = peoples;
+	MakeTreeview();
+}
+
+void CClassView::MakeTreeview()
+{
+
+	CString buf;
+	int n=0;
+	HTREEITEM hRoot = m_wndClassView.InsertItem(_T("NSL"), 0, 0);
+	for (vector<People>::iterator i = vecPeople.begin(); i != vecPeople.end(); i++)
+	{
+		
+		buf = (*i).Name.c_str();
+		m_wndClassView.InsertItem(buf, 0, 0, hRoot);
+
+	
+	}
+
+	
+
+
+
+
+	//ProfileView m;
+	//m.user_name = buf;
 }
 
 
