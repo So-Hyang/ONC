@@ -104,6 +104,16 @@ int CClassView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	// 정적 트리 뷰 데이터를 더미 코드로 채웁니다.
 
+
+
+	DBCollector mDBCollector;
+	mDBCollector.DB_mysql_connect(DB_People);
+	mDBCollector.Set_Information();
+
+	DataManager *mDataManager;
+	mDataManager = DataManager::GetInstance();
+	
+	/*
 	People mPeople;
 	vector<People> mPeoples;
 	mPeople.Name = "Kimsiwan";
@@ -114,9 +124,10 @@ int CClassView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	mPeoples.push_back(mPeople);
 	mPeople.Name = "aqqe";
 	mPeoples.push_back(mPeople);
-
-	SetTreeData(mPeoples);
-
+	*/
+	
+	SetTreeData(mDataManager->people_v);
+	
 	return 0;
 }
 
@@ -304,7 +315,7 @@ void CClassView::OnSortingSortbyaccess() //마우스 우클릭하여서 프로필 눌렀을때
 
 }
 
-void CClassView::SetTreeData(vector<People> peoples)
+void CClassView::SetTreeData(vector<People_DB> peoples)
 {
 	this->vecPeople = peoples;
 	MakeTreeview();
@@ -316,10 +327,10 @@ void CClassView::MakeTreeview()
 	CString buf;
 	int n=0;
 	HTREEITEM hRoot = m_wndClassView.InsertItem(_T("NSL"), 0, 0);
-	for (vector<People>::iterator i = vecPeople.begin(); i != vecPeople.end(); i++)
+	for (vector<People_DB>::iterator i = vecPeople.begin(); i != vecPeople.end(); i++)
 	{
 		
-		buf = (*i).Name.c_str();
+		buf = (*i).name.c_str();
 		m_wndClassView.InsertItem(buf, 0, 0, hRoot);
 
 	

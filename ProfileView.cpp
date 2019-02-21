@@ -69,7 +69,7 @@ void ProfileView::PeopleAnalysis()
 
 void ProfileView::OnBnClickedButton1() 
 {
-	People mPeople;
+	/*People mPeople;
 
 	mPeople.Birthday = "940203"; // 더미데이터 // USER NAME = 김시완 
 	mPeople.Fine = "5000";
@@ -99,12 +99,14 @@ void ProfileView::OnBnClickedButton1()
 	mPeople.Student_N = "20186081";
 	People_v.push_back(mPeople);
 
+	*/
+	DataManager *mDataManager;
+	mDataManager = DataManager::GetInstance();
 
-	
-	for (vector<People>::iterator i = People_v.begin(); i != People_v.end(); i++)
+	for (vector<People_DB>::iterator i = mDataManager->people_v.begin(); i != mDataManager->people_v.end(); i++)
 	{
 		string a = (*i).Fine;
-		string b = (*i).Name;
+		string b = (*i).name;
 		string c = (*i).Phone_N;
 		string d = (*i).Student_N;
 		CString buf;

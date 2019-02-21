@@ -5,6 +5,9 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include "DataManager.h"
+#include "DBCollector.h"
+
 
 using namespace std;
 
@@ -18,16 +21,6 @@ class CClassToolBar : public CMFCToolBar
 	virtual BOOL AllowShowOnList() const { return FALSE; }
 };
 
-struct People {
-	string Name;
-	string IP;
-	string Birthday;
-	string Student_N;
-	string Phone_N;
-	string Fine;
-	string Password;
-};
-
 class CClassView : public CDockablePane
 {
 public:
@@ -36,13 +29,13 @@ public:
 
 	void AdjustLayout();
 	void OnChangeVisualStyle();
-	void SetTreeData(vector<People> peoples);
+	void SetTreeData(vector<People_DB> peoples);
 
 private:
 	void MakeTreeview();
 
 public:
-	vector<People> vecPeople;
+	vector<People_DB> vecPeople;
 
 
 protected:

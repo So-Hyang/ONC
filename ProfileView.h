@@ -33,7 +33,7 @@ public:
 	CString user_name;
 	CString NSL_name[32];
 
-	vector<People> People_v;
+	//vector<People> People_v;
 	void PeopleAnalysis();
 	afx_msg void OnEnChangeEdit4();
 };
