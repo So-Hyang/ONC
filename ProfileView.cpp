@@ -67,20 +67,20 @@ void ProfileView::PeopleAnalysis()
 
 
 
-void ProfileView::OnBnClickedButton1()
+void ProfileView::OnBnClickedButton1() 
 {
 	People mPeople;
 
 	mPeople.Birthday = "940203"; // 더미데이터 // USER NAME = 김시완 
 	mPeople.Fine = "5000";
-	mPeople.Name = "kimsiwan";
+	mPeople.Name = "Kimsiwan";
 	mPeople.Phone_N = "010-4741-5688";
 	mPeople.Student_N = "20186081";
 	People_v.push_back(mPeople); // 
 
 	mPeople.Birthday = "5235235"; // 
 	mPeople.Fine = "5003434340";
-	mPeople.Name = "lee";
+	mPeople.Name = "leejongwoo";
 	mPeople.Phone_N = "0155550-4741-5688";
 	mPeople.Student_N = "2000000186081";
 	People_v.push_back(mPeople);
@@ -94,11 +94,13 @@ void ProfileView::OnBnClickedButton1()
 
 	mPeople.Birthday = "940203"; //
 	mPeople.Fine = "5000";
-	mPeople.Name = "b";
+	mPeople.Name = "a";
 	mPeople.Phone_N = "010-4741-5688정답";
 	mPeople.Student_N = "20186081";
 	People_v.push_back(mPeople);
 
+
+	
 	for (vector<People>::iterator i = People_v.begin(); i != People_v.end(); i++)
 	{
 		string a = (*i).Fine;

@@ -55,11 +55,11 @@ protected:
 
 	// 재정의입니다.
 public:
-	virtual BOOL PreTranslateMessage(MSG* pMsg);
-	void SendEmergencyAlarmMessage(char* cMyID, char* cMsg);
+	//void SendEmergencyAlarmMessage(char* cMyID, char* cMsg);
 	void CreateExitView();
 	void profileView();
 	void Onselectedtest();
+	virtual BOOL PreTranslateMessage(MSG* pMsg);
 
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
