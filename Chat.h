@@ -15,19 +15,16 @@ class COutputWnd : public CDockablePane
 public:
 	COutputWnd();
 
-	CString TransferEmergencyMsg();
 	void UpdateFonts();
 
-	CListBox m_wndOutputBuild;
-	CListBox m_wndOutputDebug;
-	CListBox m_wndOutputFind;
 	CListBox m_wndTap[10];
 	CMFCTabCtrl	m_wndTabs;
+	int nType=0;
 
 	// 특성입니다.
 protected:
 	CEdit m_wndInputEdit;
-	CButton m_wndInputBtn;
+	//CButton m_wndInputBtn;
 
 protected:
 	void FillBuildWindow();
@@ -41,6 +38,7 @@ public:
 private:
 	void SaveText(char* filedirectory, char* filename, string data);
 	char* AppendChar(char* arg1, char* arg2);
+	
 
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
@@ -48,6 +46,8 @@ protected:
 	afx_msg void OnContextMenu(CWnd* /*pWnd*/, CPoint point);
 	afx_msg void OnTextSave();
 	void SendMsg();
-	BOOL PreTranslateMessage(MSG* pMsg);
 	DECLARE_MESSAGE_MAP()
+public:
+	virtual BOOL PreTranslateMessage(MSG* pMsg);
+
 };
