@@ -197,7 +197,7 @@ void CClassView::OnLoudSpeakerImageBtnClicked()
 	CONCApp *pApp = (CONCApp *)AfxGetApp();
 	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
 
-	pFrame->m_wndOutput.nType = 1;
+	pFrame->m_wndOutput.nType = Emergency_Alarm;
 }
 
 void CClassView::OnExitImageBtnClicked()
@@ -213,15 +213,16 @@ void CClassView::OnExitImageBtnClicked()
 
 void CClassView::OnInImageBtnClicked()
 {
-	CONCApp *pApp = (CONCApp *)AfxGetApp();
-	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
-	CChildFrame *pChild = (CChildFrame *)pFrame->GetActiveFrame();
-	COutputWnd *pChatView = (COutputWnd *)pChild->GetActiveView();
 
 }
 
 void CClassView::OnOutImageBtnClicked()
 {
+	CONCApp *pApp = (CONCApp *)AfxGetApp();
+	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
+
+	pFrame->m_wndOutput.ChatRoomLeave();
+
 }
 
 

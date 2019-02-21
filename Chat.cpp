@@ -34,7 +34,7 @@ BEGIN_MESSAGE_MAP(COutputWnd, CDockablePane)
 	ON_WM_CONTEXTMENU()
 	ON_COMMAND(ID_TEXT_SAVE, OnTextSave)
 	ON_WM_WINDOWPOSCHANGING()
-
+	ON_REGISTERED_MESSAGE(AFX_WM_CHANGE_ACTIVE_TAB, OnTabSetActive)
 END_MESSAGE_MAP()
 
 int COutputWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
@@ -65,8 +65,8 @@ int COutputWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	for(int i=0; i<10;i++)
 	{
-		m_wndTap[i].Create(dwStyle, rectDummy, &m_wndTabs, i+2);
-		m_wndTabs.AddTab(&m_wndTap[i], _T("abcd"), (UINT)i);
+		m_wndList[i].Create(dwStyle, rectDummy, &m_wndTabs, i+2);
+		m_wndTabs.AddTab(&m_wndList[i], _T("abcd"), (UINT)i);
 	}
 
 	// 출력 탭을 더미 텍스트로 채웁니다.
@@ -115,16 +115,16 @@ void COutputWnd::AdjustHorzScroll(CListBox& wndListBox)
 void COutputWnd::FillBuildWindow()
 {
 	
-	m_wndTap[0].AddString(_T("여기에 빌드 출력이 표시됩니다."));
-	m_wndTap[0].AddString(_T("출력이 목록 뷰 행에 표시되지만"));
-	m_wndTap[0].AddString(_T("표시 방법을 원하는 대로 변경할 수 있습니다."));
-	m_wndTap[1].AddString(_T("표시 방법을 원하는 대로 변경할 수 있습니다."));
-	m_wndTap[1].AddString(_T("표시 방법을 원하는 대로 변경할 수 있습니다."));
-	m_wndTap[1].AddString(_T("표시 방법을 원하는 대로 변경할 수 있습니다."));
-	m_wndTap[1].AddString(_T("표시 방법을 원하는 대로 변경할 수 있습니다."));
-	m_wndTap[2].AddString(_T("표시 방법을 원하는 대로 변경할 수 있습니다."));
-	m_wndTap[2].AddString(_T("표시 방법을 원하는 대로 변경할 수 있습니다."));
-	m_wndTap[2].AddString(_T("표시 방법을 원하는 대로 변경할 수 있습니다."));
+	m_wndList[0].AddString(_T("여기에 빌드 출력이 표시됩니다."));
+	m_wndList[0].AddString(_T("출력이 목록 뷰 행에 표시되지만"));
+	m_wndList[0].AddString(_T("표시 방법을 원하는 대로 변경할 수 있습니다."));
+	m_wndList[1].AddString(_T("표시 방법을 원하는 대로 변경할 수 있습니다."));
+	m_wndList[1].AddString(_T("표시 방법을 원하는 대로 변경할 수 있습니다."));
+	m_wndList[1].AddString(_T("표시 방법을 원하는 대로 변경할 수 있습니다."));
+	m_wndList[1].AddString(_T("표시 방법을 원하는 대로 변경할 수 있습니다."));
+	m_wndList[2].AddString(_T("표시 방법을 원하는 대로 변경할 수 있습니다."));
+	m_wndList[2].AddString(_T("표시 방법을 원하는 대로 변경할 수 있습니다."));
+	m_wndList[2].AddString(_T("표시 방법을 원하는 대로 변경할 수 있습니다."));
 	
 }
 
@@ -151,7 +151,7 @@ void COutputWnd::UpdateFonts()
 {
 	for (int i = 0; i<10; i++)
 	{
-		m_wndTap[i].SetFont(&afxGlobalData.fontRegular);
+		m_wndList[i].SetFont(&afxGlobalData.fontRegular);
 	}
 }
 
@@ -199,9 +199,9 @@ void COutputWnd::OnTextSave()
 	sName = sFileNum + sName + sDate;
 	name = (char*)sName.c_str();
 
-	for (int i = 0; i < m_wndTap[sel].GetCount(); i++)
+	for (int i = 0; i < m_wndList[sel].GetCount(); i++)
 	{
-		m_wndTap[sel].GetText(i, csstrVoca);
+		m_wndList[sel].GetText(i, csstrVoca);
 		sSaveMsg = string(CT2CA(csstrVoca.operator LPCWSTR()));
 		sSaveMsg = sSaveMsg + "\n";
 		a.SaveText(dir, name, sSaveMsg);
@@ -247,7 +247,7 @@ BOOL COutputWnd::PreTranslateMessage(MSG* pMsg)
 			AfxMessageBox(_T("일반 채팅"));
 			return true;
 		}
-		else if (nType == 1)
+		else if (nType == Emergency_Alarm)
 		{
 			AfxMessageBox(_T("긴급 알람"));
 			nType = 0;
@@ -266,10 +266,18 @@ BOOL COutputWnd::PreTranslateMessage(MSG* pMsg)
 	return CDockablePane::PreTranslateMessage(pMsg);
 }
 
+LRESULT COutputWnd::OnTabSetActive(WPARAM wParam, LPARAM lParam)
+{
+	CString label;
+	int sel = m_wndTabs.GetActiveTab();
+	m_wndTabs.GetTabLabel(sel, label);
+	label.Format(_T("%d"), sel);
+	//AfxMessageBox(label);
+	return 0;
+}
 
-
-/*label이라는 CString 변수에 선택된 탭의 토픽 반환
-CString label;
-int sel = m_wndTabs.GetActiveTab();
-m_wndTabs.GetTabLabel(sel, label);
-*/
+void COutputWnd::ChatRoomLeave()
+{
+	int sel = m_wndTabs.GetActiveTab();
+	m_wndList[sel].ResetContent();
+}
