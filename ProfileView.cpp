@@ -30,7 +30,7 @@ void ProfileView::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_EDIT1, m_str);
 	DDX_Control(pDX, IDC_EDIT2, m_str2);
 	DDX_Control(pDX, IDC_EDIT3, m_str3);
-	DDX_Control(pDX, IDC_EDIT4, m_str4);
+	DDX_Control(pDX, IDC_EDIT4, m_str4); //테스트 김시완
 }
 
 
