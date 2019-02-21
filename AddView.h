@@ -27,5 +27,6 @@ public:
 	CStatic date;
 	afx_msg void OnBnClickedAdd();
 	CEdit CalEdit;
-	CString test;
+	CString a_contents;
+	CString a_status = L"";
 };

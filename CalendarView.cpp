@@ -20,6 +20,7 @@
 
 static const POINT readbtnpos = { 516,465 };
 static const POINT calbkpos = { 0,0 };
+vector<CalendarInfo> cal_dumi;
 
 // CCalendarView
 
@@ -36,6 +37,7 @@ BEGIN_MESSAGE_MAP(CCalendarView, CView)
 	ON_COMMAND_RANGE(101, 102, CCalendarView::OnLeftRightBtnClicked)
 	ON_BN_CLICKED(103, &CCalendarView::OnCalendarTodayBtnClicked)
 	ON_BN_CLICKED(104, &CCalendarView::OnCalendarReadBtnClicked)
+	ON_COMMAND_RANGE(105, 106, &CCalendarView::OnCalendatTabBtnClicked)
 	ON_WM_PAINT()
 END_MESSAGE_MAP()
 
@@ -67,6 +69,10 @@ void CCalendarView::OnLeftRightBtnClicked(UINT uiID)
 		}
 		break;
 	}
+	CalcaulateCalendar();
+	s_date = to_string((cur_Year * 10000) + (cur_Month * 100));
+	DrawCalendarList(LoadListSchedule(type, status, name, s_date));
+
 	Invalidate(TRUE);
 	UpdateWindow();
 
@@ -116,6 +122,8 @@ void CCalendarView::OnCalendarReadBtnClicked()
 void CCalendarView::OnCalendarTodayBtnClicked()
 {
 	GetCurrentYearMonth();
+	s_date = to_string((cur_Year * 10000) + (cur_Month * 100));
+	DrawCalendarList(LoadListSchedule(type, status, name, s_date));
 	Invalidate(TRUE);
 	UpdateWindow();
 }
@@ -191,24 +199,50 @@ void CCalendarView::OnLButtonDblClk(UINT nFlags, CPoint point)////종우선배
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
 	POINT n_matrix;
 	CString n_date;
+	AddView Adddlg;
+	string n_contents;
+	string s_date;
+	CString n_status;
+	CalendarInfo n_calinfo;
 
 	n_matrix = CalculateCoordinatevalueLocation(point);
 	ColorMatrix(n_matrix);
 	n_date = CalculateDateInformation(n_matrix);
 
-
-	AddView dlg;
-	CString str11;
-	//Static caption 설정
-	dlg.Caption = n_date;
-
-	if (IDOK == dlg.DoModal()) {
-		str11 = dlg.test;
+	if (n_date == "NULL") 
+	{
 	}
-	//	dlg.CalEdit.GetWindowTextW(str);
-	AfxMessageBox(str11);
+	else 
+	{
+		Adddlg.Caption = n_date;
 
+		if (IDOK == Adddlg.DoModal()) {
+			//벡터값 가공하기
+			n_calinfo.nType = type;
+			//n_calinfo.cUserID = "";//본인 ID
+			n_contents = string(CT2CA(Adddlg.a_contents.operator LPCWSTR()));
+			n_calinfo.cMsg = n_contents;
+			n_status = Adddlg.a_status;
 
+			if (n_status == "공개") 
+			{
+				n_calinfo.PubPrivate = true;
+				n_calinfo.nType = 1;
+			}
+			else if (n_status == "비공개") 
+			{
+				n_calinfo.PubPrivate = false;
+				n_calinfo.nType = 2;
+			}
+			s_date = string(CT2CA(n_date.operator LPCWSTR()));
+			n_calinfo.cDate = s_date;
+			//통신 팀 함수 사용해서 메세지 보내기
+			//내가 가진 DM에 데이터 추가하기
+			AddListSchedule(n_calinfo);
+		}
+		Invalidate(TRUE);
+		UpdateWindow();
+	}
 	CView::OnLButtonDblClk(nFlags, point);
 }
 
@@ -241,36 +275,51 @@ void CCalendarView::OnInitialUpdate()
 {
 	CView::OnInitialUpdate();
 
+	vector<CalendarInfo> initvector;
 
+	name = "이름"; 
 	GetCurrentYearMonth();
+	
 
 	// TODO: 여기에 특수화된 코드를 추가 및/또는 기본 클래스를 호출합니다.
 	leftbtn = new CButton();
 	rightbtn = new CButton();
 	todaybtn = new CButton();
 	readbtn = new CButton();
+	privatetab = new CButton();
+	publictab = new CButton();
 
 	leftbtn->Create(L"<-", BS_DEFPUSHBUTTON, CRect(calbkpos.x + 416, 20, calbkpos.x + 450, 42), this, 101);
 	rightbtn->Create(L"->", BS_DEFPUSHBUTTON, CRect(calbkpos.x + 516, 20, calbkpos.x + 550, 42), this, 102);
 	todaybtn->Create(L"오늘", BS_DEFPUSHBUTTON, CRect(calbkpos.x + 462, 20, calbkpos.x + 504, 42), this, 103);
 	readbtn->Create(L"readbtn", BS_DEFPUSHBUTTON, CRect(readbtnpos.x, readbtnpos.y, readbtnpos.x + 70, readbtnpos.y + 25), this, 104);
+	privatetab->Create(L"NSL", BS_DEFPUSHBUTTON, CRect(calbkpos.x + 316, 20, calbkpos.x + 360, 42), this, 105);
+	publictab->Create(name, BS_DEFPUSHBUTTON, CRect(calbkpos.x + 365, 20, calbkpos.x + 410, 42), this, 106);
 
 	leftbtn->ShowWindow(SW_SHOW); //여기 위치가 맞는지 확인하기
 	rightbtn->ShowWindow(SW_SHOW);
 	todaybtn->ShowWindow(SW_SHOW);
 	readbtn->ShowWindow(SW_SHOW);
+	privatetab->ShowWindow(SW_SHOW);
+	publictab->ShowWindow(SW_SHOW);
 
 	int cnt = 0;
-	for (int i = 1; i < 8; i++)
-	{
+	
 		for (int j = 1; j < 6; j++)
 		{
+			for (int i = 1; i < 8; i++)
+			{
 			list_cal[cnt] = new CListBox();
 			list_cal[cnt]->Create(LBS_STANDARD, CRect(((i - 1) * 90 + 2), (100 + ((j - 1) * 74)), (((i - 1) * 90) + 89), (((j - 1) * 74) + 154)), this, 200 + (j * 10) + i);
 			list_cal[cnt]->ShowWindow(SW_SHOW);
+
 			cnt++;
 		}
 	}
+		CalcaulateCalendar();
+		s_date = to_string((cur_Year * 10000) + (cur_Month * 100));
+		initvector = LoadListSchedule(type, status, name, s_date);
+		DrawCalendarList(initvector);
 
 }
 
@@ -294,11 +343,8 @@ void CCalendarView::OnPaint()
 		dc.MoveTo(0 + (90 * x), 50);
 		dc.LineTo(0 + (90 * x), 77 + (74 * 5));
 	}
-
-
-	CalcaulateCalendar();
+	
 	DrawCalendar();
-	//DrawCalendar();
 }
 
 void CCalendarView::CreateLoginView()
@@ -343,17 +389,21 @@ void CCalendarView::CalcaulateCalendar()
 
 	for (int i = 0; i < 35; i++) {
 		if (blank_front > 0) { //공백기가 있을때
-			date[i] = "  "; //공백으로 표시
+			t_date[i] = "  "; //공백으로 표시
 			blank_front--;
 		}
 		else {//공백으로 처리할 부분이 없을 때
 			if (this_month_date >  0) { //이번 달에 남은 날짜가 있을 경우
-				date[i].Format(_T("%d"), num_date); //날짜 표시
+				t_date[i].Format(_T("%d"), num_date); //날짜 표시
+				if (num_date < 10) 
+				{
+					t_date[i] = L"0" + t_date[i];
+				}
 				num_date++; //날짜 1일 증가
 				this_month_date--; //남은 날짜 감소
 			}
 			else {//이번달에 남은 날짜가 없을 경우, 나머지는 공백처리
-				date[i] = "  ";
+				t_date[i] = "  ";
 			}
 		}
 	}
@@ -373,19 +423,29 @@ CPoint CCalendarView::CalculateCursorPosition()
 CPoint CCalendarView::CalculateCoordinatevalueLocation(CPoint xylocation)
 {
 	CPoint location;
-	for (int i = 0; i < 5; i++) {
-		if (((i * 75) + 240 <= xylocation.y) && (((i + 1) * 75) + 240 > xylocation.y))
-		{
-
-			location.y = i;
-		}
-		for (int j = 0; j < 7; j++) {
-			if (((j * 90) + 192 <= xylocation.x) && (((j + 1) * 90) + 192 > xylocation.x))
+	if ((446 < xylocation.y) || (630< xylocation.x)) 
+	{
+		location.x = -1;
+		location.y = -1;
+		return location;
+	}
+	else 
+	{
+		for (int i = 0; i < 5; i++) {
+			if (((i * 74) + 76 <= xylocation.y) && (((i + 1) * 74) + 76> xylocation.y))
 			{
-				location.x = j;
+
+				location.y = i;
+			}
+			for (int j = 0; j < 7; j++) {
+				if (((j * 90) + 2 <= xylocation.x) && (((j + 1) * 90) + 2 > xylocation.x))
+				{
+					location.x = j;
+				}
 			}
 		}
 	}
+	
 	return location;
 }
 
@@ -394,21 +454,43 @@ CString CCalendarView::CalculateDateInformation(CPoint matrixlocation)
 	int matrixindex;
 	CString Y, M, D;
 	CString clickeddate;
-	for (int i = 0; i < 5; i++) {
-		if (matrixlocation.y == i)
-		{
-			for (int j = 0; j < 7; j++) {
-				if (matrixlocation.x == j)
-				{
-					matrixindex = (i * 7) + (j);
+	if ((matrixlocation.x == -1) && (matrixlocation.y == -1))
+	{
+		clickeddate = "NULL";
+	}
+	else 
+	{
+		for (int i = 0; i < 5; i++) {
+			if (matrixlocation.y == i)
+			{
+				for (int j = 0; j < 7; j++) {
+					if (matrixlocation.x == j)
+					{
+						matrixindex = (i * 7) + (j);
+					}
 				}
 			}
 		}
+
+		Y.Format(_T("%d"), cur_Year);
+		if (cur_Month < 10)
+		{
+			M.Format(_T("%d"), cur_Month);
+			M = L"0" + M;
+		}
+		else 
+		{
+			M.Format(_T("%d"), cur_Month);
+		}
+
+		D = t_date[matrixindex];
+		clickeddate = Y + L"-" + M + L"-" + D;
 	}
-	Y.Format(_T("%d"), cur_Year);
-	M.Format(_T("%d"), cur_Month);
-	D = date[matrixindex];
-	clickeddate = Y + L"." + M + L"." + D;
+	if (D == "  ") 
+	{
+		clickeddate = "NULL";
+	}
+	
 
 	return clickeddate;
 }
@@ -419,26 +501,80 @@ void CCalendarView::ColorMatrix(CPoint matrixlocation)
 	CBrush MyBrush;
 	CBrush *OldBrush;
 
-	MyBrush.CreateHatchBrush(HS_DIAGCROSS, RGB(0, 0, 255));
-	OldBrush = DC.SelectObject(&MyBrush);
-	DC.SetBkMode(TRANSPARENT);
-	DC.Rectangle(matrixlocation.x * 90, (matrixlocation.y * 74) + 78, (matrixlocation.x + 1) * 90, ((matrixlocation.y + 1) * 74) + 78);
-	DC.SelectObject(OldBrush);
-	MyBrush.DeleteObject();
+	if ((matrixlocation.x == -1) &&(matrixlocation.y == -1))
+	{
+	}
+	else 
+	{
+		MyBrush.CreateHatchBrush(HS_DIAGCROSS, RGB(0, 0, 255));
+		OldBrush = DC.SelectObject(&MyBrush);
+		DC.SetBkMode(TRANSPARENT);
+		DC.Rectangle(matrixlocation.x * 90, (matrixlocation.y * 74) + 78, (matrixlocation.x + 1) * 90, ((matrixlocation.y + 1) * 74) + 78);
+		DC.SelectObject(OldBrush);
+		MyBrush.DeleteObject();
+	}
 }
 
 void CCalendarView::CreateAddView(CString type, CString status, CString name, CString date)
 {
 }
 
-vector<CString> CCalendarView::LoadListSchedule(CString type, CString status, CString name, CString date)
+vector<CalendarInfo> CCalendarView::LoadListSchedule(int type, CString status, CString name, string date)
 {
-	//DM에 있는 데이터 가져오는 함수
-	return vector<CString>();
+	//DM에서 가져온 벡터
+	string test1, test2;
+	vector<CalendarInfo> n_calendarinfo; //반환할 벡터
+										 //DM에서 데이터 가져왔다고 가정
+	switch (type)
+	{
+	case 1: //pub
+		for (int i = 0; i < dm_calendarinfo.size(); i++)
+		{
+			if (dm_calendarinfo[i].nType == 1) //NSL 일정
+			{
+				string temp = dm_calendarinfo[i].cDate;
+				if (temp.substr(0, 4) == (date.substr(0, 4))) //년, 월이 같으면 n_calendar에 값 추가하기
+				{
+					//test1 = temp.substr(5, 2); test2 = date.substr(4, 2);
+					if (temp.substr(5, 2) == (date.substr(4, 2)))
+					{
+						n_calendarinfo.push_back(dm_calendarinfo[i]);
+					}
+				}
+			}
+			
+		}
+		break;
+	case 2://pri
+		for (int i = 0; i < dm_calendarinfo.size(); i++)
+		{
+			if (dm_calendarinfo[i].nType == 2) //개인 일정
+			{
+				string temp = dm_calendarinfo[i].cDate;
+				if (temp.substr(0, 4) == (date.substr(0, 4))) //년, 월이 같으면 n_calendar에 값 추가하기
+				{
+					if (temp.substr(5, 2) == (date.substr(4, 2)))
+					{
+						n_calendarinfo.push_back(dm_calendarinfo[i]);
+					}
+				}
+			}
+
+		}
+		break;
+	default:
+		break;
+	}
+	
+	return n_calendarinfo;
 }
 
-void CCalendarView::AddListSchedule(vector<CString> schedule, int date)
+void CCalendarView::AddListSchedule(CalendarInfo newschedule)
 {
+	//일정 추가하기
+	dm_calendarinfo.push_back(newschedule);
+	//일정 리스트박스 다시 그리기
+	DrawCalendarList(LoadListSchedule(type, status, name, s_date));
 }
 
 void CCalendarView::ChangeColorEmergencyNotice(string color)
@@ -466,6 +602,7 @@ void CCalendarView::DrawCalendar()
 	CDC MemDC;
 	int date_num = 0;
 	CString temp_y, temp_m;
+	
 
 	// 날짜 표시하기 위해 형 변환
 	MemDC.CreateCompatibleDC(&DC);
@@ -478,30 +615,11 @@ void CCalendarView::DrawCalendar()
 
 	for (int i = 0; i < 5; i++) {
 		for (int j = 0; j < 7; j++) {
-			DC.TextOutW(calbkpos.x + 10 + (j * 90), calbkpos.y + 80 + (i * 74), date[date_num]);
+			DC.TextOutW(calbkpos.x + 10 + (j * 90), calbkpos.y + 80 + (i * 74), t_date[date_num]);
 
 			date_num++;
 		}
 	}
-
-	/*
-	CDC MemDC;
-	BITMAP bmpInfo;
-	CBitmap bmp;
-	CBitmap* pOldBmp = NULL;
-
-	MemDC.CreateCompatibleDC(&DC);
-	bmp.LoadBitmapW(BackgroundAdd);
-	bmp.GetBitmap(&bmpInfo);
-	pOldBmp = MemDC.SelectObject(&bmp);
-	MemDC.SelectObject(&bmp);
-	DC.BitBlt(calbkpos.x, calbkpos.y, bmpInfo.bmWidth, bmpInfo.bmHeight, &MemDC, 0, 0, SRCCOPY);
-	MemDC.SelectObject(pOldBmp);
-
-	/
-
-	*/
-
 }
 
 void CCalendarView::GetCurrentYearMonth()
@@ -511,3 +629,91 @@ void CCalendarView::GetCurrentYearMonth()
 	cur_Month = cur_time.GetMonth();
 }
 
+void CCalendarView::OnCalendatTabBtnClicked(UINT uiID)
+{
+
+	vector<CalendarInfo> calendar;
+	s_date = to_string((cur_Year * 10000) + (cur_Month * 100));
+	
+	switch (uiID) {
+	case 105://NSL
+		status = "pub"; name = "이름"; type = 1;
+		//date = "20181022";
+		calendar = LoadListSchedule(type, status, name, s_date);//DM에서 코드 가져오는 함수
+		DrawCalendarList(calendar);
+		break;
+	case 106://개인
+		status = "pri"; name = "이름"; type = 2;
+		calendar = LoadListSchedule(type, status, name, s_date);//DM에서 코드 가져오는 함수
+		DrawCalendarList(calendar);
+		break;
+	}
+
+
+	
+
+}
+
+void CCalendarView::DrawCalendarList(vector<CalendarInfo>n_calendar)
+{
+	int cnt_r = 0, i = 0;
+	string s_temp;
+	CString c_temp;
+
+	for (int i = 0; i < 35; i++)
+	{
+		list_cal[i]->ResetContent();
+	}
+
+	while (i < n_calendar.size()) {
+		s_temp = n_calendar[i].cDate;
+		c_temp = (s_temp.substr(8, 2)).c_str();
+		if (c_temp == t_date[cnt_r]) //일이 같으면 
+		{
+			s_temp = n_calendar[i].cMsg;
+			c_temp = s_temp.c_str();
+			list_cal[cnt_r]->AddString(c_temp);
+			i++;
+			cnt_r = 0;
+		}
+		else
+		{
+			if (cnt_r < 34)
+				cnt_r++;
+			else
+				break;
+		}
+	}
+		/*
+		if (t_date[cnt_r] != L"  ")
+		{
+			s_temp = n_calendar[i].cDate;
+			c_temp = (s_temp.substr(8, 2)).c_str();
+			if (c_temp == t_date[cnt_r]) //일이 같으면 
+			{
+				s_temp = n_calendar[i].cMsg;
+				c_temp = s_temp.c_str();
+				list_cal[cnt_r]->AddString(c_temp);
+				i++;
+			}
+			else
+			{
+				if (cnt_r < 34)
+					cnt_r++;
+				else
+					break;
+			}
+
+		}
+		else {
+			if (cnt_r < 34)
+				cnt_r++;
+			else
+				break;
+		}
+	}
+	*/
+
+	Invalidate(TRUE);
+	UpdateWindow();
+}
