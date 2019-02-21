@@ -13,6 +13,7 @@
 #include "CalendarView.h"
 #include "AddView.h"
 #include "Login.h"
+#include "DetailView.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -38,9 +39,9 @@ BEGIN_MESSAGE_MAP(CCalendarView, CView)
 	ON_BN_CLICKED(103, &CCalendarView::OnCalendarTodayBtnClicked)
 	ON_BN_CLICKED(104, &CCalendarView::OnCalendarReadBtnClicked)
 	ON_COMMAND_RANGE(105, 106, &CCalendarView::OnCalendatTabBtnClicked)
+	ON_CONTROL_RANGE(LBN_DBLCLK, 20011, 20057, OnCalendarListClicked)
 	ON_WM_PAINT()
 END_MESSAGE_MAP()
-
 // CCalendarView 생성/소멸
 
 CCalendarView::CCalendarView()
@@ -122,6 +123,7 @@ void CCalendarView::OnCalendarReadBtnClicked()
 void CCalendarView::OnCalendarTodayBtnClicked()
 {
 	GetCurrentYearMonth();
+	CalcaulateCalendar();
 	s_date = to_string((cur_Year * 10000) + (cur_Month * 100));
 	DrawCalendarList(LoadListSchedule(type, status, name, s_date));
 	Invalidate(TRUE);
@@ -310,7 +312,7 @@ void CCalendarView::OnInitialUpdate()
 			for (int i = 1; i < 8; i++)
 			{
 			list_cal[cnt] = new CListBox();
-			list_cal[cnt]->Create(LBS_STANDARD, CRect(((i - 1) * 90 + 2), (100 + ((j - 1) * 74)), (((i - 1) * 90) + 89), (((j - 1) * 74) + 154)), this, 200 + (j * 10) + i);
+			list_cal[cnt]->Create(LBS_STANDARD, CRect(((i - 1) * 90 + 2), (100 + ((j - 1) * 74)), (((i - 1) * 90) + 89), (((j - 1) * 74) + 154)), this, 20000 + (j * 10) + i);
 			list_cal[cnt]->ShowWindow(SW_SHOW);
 
 			cnt++;
@@ -648,10 +650,35 @@ void CCalendarView::OnCalendatTabBtnClicked(UINT uiID)
 		DrawCalendarList(calendar);
 		break;
 	}
+}
 
+void CCalendarView::OnCalendarListClicked(UINT uuid)
+{
+	int listbox_index = -1;
+	int listbox_index_f, listbox_index_s;
+	CString clickeddate, Y, M, D;
+	CDetailView Dialog_detail;
+	int listbox_cnt;
+	CString listbox_contents;
 
+	uuid = uuid - 20000;
+	listbox_index_f = uuid / 10;
+	listbox_index_s = uuid % 10;
+	listbox_index = (((listbox_index_f - 1) * 7) + listbox_index_s - 1);
+
+	Y.Format(_T("%d"), cur_Year);
+	M.Format(_T("%d"), cur_Month);
+	D = t_date[listbox_index];
+	clickeddate = Y + L"." + M + L"." + D;
+	Dialog_detail.Caption = clickeddate;
+
+	listbox_cnt = list_cal[listbox_index]->GetCurSel();
+	list_cal[listbox_index]->GetText(listbox_cnt, listbox_contents);
+	Dialog_detail.Contents = listbox_contents;
 	
+	Dialog_detail.DoModal();
 
+	list_cal[listbox_index]->SetCurSel(-1);
 }
 
 void CCalendarView::DrawCalendarList(vector<CalendarInfo>n_calendar)
@@ -684,36 +711,9 @@ void CCalendarView::DrawCalendarList(vector<CalendarInfo>n_calendar)
 				break;
 		}
 	}
-		/*
-		if (t_date[cnt_r] != L"  ")
-		{
-			s_temp = n_calendar[i].cDate;
-			c_temp = (s_temp.substr(8, 2)).c_str();
-			if (c_temp == t_date[cnt_r]) //일이 같으면 
-			{
-				s_temp = n_calendar[i].cMsg;
-				c_temp = s_temp.c_str();
-				list_cal[cnt_r]->AddString(c_temp);
-				i++;
-			}
-			else
-			{
-				if (cnt_r < 34)
-					cnt_r++;
-				else
-					break;
-			}
-
-		}
-		else {
-			if (cnt_r < 34)
-				cnt_r++;
-			else
-				break;
-		}
-	}
-	*/
 
 	Invalidate(TRUE);
 	UpdateWindow();
 }
+
+

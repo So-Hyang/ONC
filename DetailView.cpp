@@ -24,8 +24,16 @@ void CDetailView::DoDataExchange(CDataExchange * pDX)
 
 	DDX_Control(pDX, IDC_LIST_NOTICE, notice);
 	DDX_Control(pDX, IDC_Date, date);
+	notice.AddString(Contents);
+	/*
+	for (int i = 0; i < 30; i++) 
+	{
+		if (Contents[i] != "") 
+		{
+			notice.AddString(Contents[i]);
+		}
+	}
+	*/
 
-	notice.AddString(TEXT("첫번째 세부일정"));
-	notice.AddString(TEXT("두번째 세부일정"));
-	date.SetWindowTextW(L"변경예정");
+	date.SetWindowTextW(Caption);
 }

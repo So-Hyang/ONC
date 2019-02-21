@@ -9,6 +9,7 @@ public:
 	CDetailView(CWnd* pParent = NULL);   // 표준 생성자입니다.
 	virtual ~CDetailView();
 	LPCTSTR Caption;
+	CString Contents;
 
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_DIALOG_DETAIL };
@@ -21,5 +22,7 @@ protected:
 public:
 	CStatic date;
 	CListBox notice;
+
+
 };
 

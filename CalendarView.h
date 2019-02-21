@@ -65,9 +65,11 @@ public:
 
 	void GetCurrentYearMonth(); //현재 년도, 월 불러오는 함수
 
-	void OnCalendatTabBtnClicked(UINT uiID);
+
 
 	void DrawCalendarList(vector<CalendarInfo> n_calendar);
+
+
 
 
 
@@ -78,11 +80,6 @@ public:
 	CButton *leftbtn, *rightbtn, *todaybtn, *readbtn, *privatetab, *publictab;
 	//CString btnlist[4] = { L"leftbtn", L"rightbtn", L"todaybtn", L"readbtn" }; /버튼 명료하게 선언하는 거 다시 시도하기
 	CListBox *list_cal[35];
-	CListBox *list_cal_11, *list_cal_12, *list_cal_13, *list_cal_14, *list_cal_15, *list_cal_16, *list_cal_17;
-	CListBox *list_cal_21, *list_cal_22, *list_cal_23, *list_cal_24, *list_cal_25, *list_cal_26, *list_cal_27;
-	CListBox *list_cal_31, *list_cal_32, *list_cal_33, *list_cal_34, *list_cal_35, *list_cal_36, *list_cal_37;
-	CListBox *list_cal_41, *list_cal_42, *list_cal_43, *list_cal_44, *list_cal_45, *list_cal_46, *list_cal_47;
-	CListBox *list_cal_51, *list_cal_52, *list_cal_53, *list_cal_54, *list_cal_55, *list_cal_56, *list_cal_57;
 
 	COLORREF newColor;
 	bool temp_noticecolor_key = true; //긴급메세지 수신/읽기용 임시로 놔둔 방편
@@ -128,7 +125,8 @@ protected:
 	afx_msg void OnRButtonUp(UINT nFlags, CPoint point);
 	afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);
 	afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);//종우선배
-
+	afx_msg  void OnCalendatTabBtnClicked(UINT uiID);
+	afx_msg void OnCalendarListClicked(UINT uuid);
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg void OnPaint();
