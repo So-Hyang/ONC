@@ -4,6 +4,7 @@
 #include "ViewTree.h"
 #include <iostream>
 #include <string>
+#include <vector>
 
 using namespace std;
 
@@ -17,17 +18,15 @@ class CClassToolBar : public CMFCToolBar
 	virtual BOOL AllowShowOnList() const { return FALSE; }
 };
 
-typedef struct
-{
-	string name;
+struct People {
+	string Name;
 	string IP;
 	string Birthday;
 	string Student_N;
 	string Phone_N;
 	string Fine;
 	string Password;
-
-}People;
+};
 
 class CClassView : public CDockablePane
 {
@@ -37,6 +36,14 @@ public:
 
 	void AdjustLayout();
 	void OnChangeVisualStyle();
+	void SetTreeData(vector<People> peoples);
+
+private:
+	void MakeTreeview();
+
+public:
+	vector<People> vecPeople;
+
 
 protected:
 	CClassToolBar m_wndToolBar;
@@ -51,7 +58,6 @@ public:
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
 	void SendEmergencyAlarmMessage(char* cMyID, char* cMsg);
 	void CreateExitView();
-	void FillClassView();
 	void profileView();
 	void Onselectedtest();
 
@@ -66,10 +72,9 @@ protected:
 	afx_msg void OnExitImageBtnClicked();
 	afx_msg void OnInImageBtnClicked();
 	afx_msg void OnOutImageBtnClicked();
-
+	afx_msg void OnSortingSortbyaccess();
 
 	DECLARE_MESSAGE_MAP()
-	afx_msg void OnSortingSortalphabetic();
-	afx_msg void OnSortingSortbyaccess();
+	
 };
 
