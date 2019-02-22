@@ -1,6 +1,7 @@
 #pragma once
 
 #include <mysql.h>
+
 #include<iostream>
 #include <string.h>
 #include <vector>
@@ -23,7 +24,6 @@ class DBCollector
 {
 private:
 
-	
 	MYSQL_RES   *sql_result;
 	MYSQL_ROW   sql_row;
 	MYSQL       *conn = mysql_init(NULL); //2019-02-13 Public에서 Private로 수정

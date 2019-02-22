@@ -126,6 +126,9 @@ void CPropertiesWnd::InitPropList()
 	m_wndPropList.SetVSDotNetLook();
 	m_wndPropList.MarkModifiedProperties();
 
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	//propertygridprorperty 
 	CMFCPropertyGridProperty* pAll = new CMFCPropertyGridProperty(_T("전체공지사항 List"));
 	pAll->AddSubItem(new CMFCPropertyGridProperty(_T("전체 공지사항"), _T("시완 2시까지 교수님 호출")));
 	m_wndPropList.AddProperty(pAll);
@@ -135,9 +138,8 @@ void CPropertiesWnd::InitPropList()
 	m_wndPropList.AddProperty(pPersonal);
 
 	CMFCPropertyGridProperty* pNSL = new CMFCPropertyGridProperty(_T("NSL List"));
-	pNSL->AddSubItem(new CMFCPropertyGridProperty(_T(" NSL"), (_variant_t)_T("NSL"), _T("논문 제출 7시까지 ")));
+	pNSL->AddSubItem(new CMFCPropertyGridProperty(_T(" NSL"), _T("논문 제출 7시까지 ")));
 	m_wndPropList.AddProperty(pNSL);
-
 }
 
 void CPropertiesWnd::OnSetFocus(CWnd* pOldWnd)
@@ -170,7 +172,6 @@ void CPropertiesWnd::SetPropListFont()
 	lf.lfItalic = info.lfMenuFont.lfItalic;
 
 	m_fntPropList.CreateFontIndirect(&lf);
-
 	m_wndPropList.SetFont(&m_fntPropList);
 	//m_wndObjectCombo.SetFont(&m_fntPropList);
 }
@@ -179,9 +180,9 @@ void CPropertiesWnd::SetPropListFont()
 void CPropertiesWnd::OnViewAllBtnCLicked()
 {
 	CDetailView dlg;
-	CDetailView Dialog_detail;
-
-	Dialog_detail.DoModal();
+	CString caption, list;
+	caption = "전체 공지사항 리스트";
+	dlg.Caption = caption;
 	dlg.DoModal();
 }
 
@@ -189,18 +190,17 @@ void CPropertiesWnd::OnViewAllBtnCLicked()
 void CPropertiesWnd::OnViewNSLBtnCLicked()
 {
 	CDetailView dlg;
-	CDetailView Dialog_detail;
-
-	Dialog_detail.DoModal();
+	CString caption, list;
+	caption = "NSL 공지사항 리스트";
+	dlg.Caption = caption;
 	dlg.DoModal();
-
 }
 
 void CPropertiesWnd::OnViewPERSONALBtnCLicked()
 {
 	CDetailView dlg;
-	CDetailView Dialog_detail;
-
-	Dialog_detail.DoModal();
+	CString caption, list;
+	caption = "개인 공지사항 리스트";
+	dlg.Caption = caption;
 	dlg.DoModal();
 }
