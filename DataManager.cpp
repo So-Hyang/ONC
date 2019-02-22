@@ -1,6 +1,5 @@
 #include "DataManager.h"
 
-
 /* 싱글톤 사용하기 위한 생성자 프라이빗
 DataManager::DataManager()
 {

@@ -1,5 +1,6 @@
 #include "DBCollector.h"
 
+
 DBCollector::DBCollector()
 {
 }
