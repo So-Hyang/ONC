@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
-// Microsoft Visual C++에서 생성한 포함 파일입니다.
-// ONC.rc에서 사용되고 있습니다.
+// Microsoft Visual C++ generated include file.
+// Used by ONC.rc
 //
 #define IDD_ABOUTBOX                    100
 #define IDP_OLE_INIT_FAILED             100
@@ -35,10 +35,13 @@
 #define ID_SORTING_SORTBYACCESS         148
 #define ID_VIEW_OUTPUTWND               149
 #define ID_VIEW_PROPERTIESWND           150
-#define ID_SORTPROPERTIES               151
-#define ID_PROPERTIES1                  152
+
+#define ID_NSL                          151
+#define ID_EXPAND_ALL                   6000
+#define ID_PERSONAL                     152
 #define ID_PROPERTIES2                  153
-#define ID_EXPAND_ALL                   154
+
+#define ID_VIEW_ALL                     154
 #define IDS_FILE_VIEW                   155
 #define IDS_CLASS_VIEW                  156
 #define IDS_OUTPUT_WND                  157
@@ -107,14 +110,13 @@
 #define IDC_LIST2                       1013
 #define IDC_EDIT2                       1014
 #define IDC_EDIT3                       1015
+#define Emergency_Alarm                 2001
 #define IDB_BITMAP_EXIT                 32776
 #define ID_BITMAP_OUT                   32778
 #define IDR_BITMAP_LS                   32779
 #define ID_BITMAP_IN                    32780
 #define ID_32781                        32781
 #define ID_TEXT_SAVE                    32782
-#define Emergency_Alarm					2001
-
 
 // Next default values for new objects
 // 
