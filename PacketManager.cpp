@@ -112,7 +112,9 @@ DataPacket PacketManager::PacketAnalysis(DataPacket RecvMessage)
 
 			#ifdef CLIENTMODE
 				Interface.OnAllTopicTitleMessage(RecvMessage.AllTopicTitle);
-			#endif	
+			#endif
+				RecvMessage.nType = 0;
+				break;
 	}
 
 #ifdef SERVERMODE
