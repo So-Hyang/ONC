@@ -126,6 +126,9 @@ void CPropertiesWnd::InitPropList()
 	m_wndPropList.SetVSDotNetLook();
 	m_wndPropList.MarkModifiedProperties();
 
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	//propertygridprorperty 
 	CMFCPropertyGridProperty* pAll = new CMFCPropertyGridProperty(_T("전체공지사항 List"));
 	pAll->AddSubItem(new CMFCPropertyGridProperty(_T("전체 공지사항"), _T("시완 2시까지 교수님 호출")));
 	m_wndPropList.AddProperty(pAll);
@@ -135,9 +138,8 @@ void CPropertiesWnd::InitPropList()
 	m_wndPropList.AddProperty(pPersonal);
 
 	CMFCPropertyGridProperty* pNSL = new CMFCPropertyGridProperty(_T("NSL List"));
-	pNSL->AddSubItem(new CMFCPropertyGridProperty(_T(" NSL"), (_variant_t)_T("NSL"), _T("논문 제출 7시까지 ")));
+	pNSL->AddSubItem(new CMFCPropertyGridProperty(_T(" NSL"), _T("논문 제출 7시까지 ")));
 	m_wndPropList.AddProperty(pNSL);
-
 }
 
 void CPropertiesWnd::OnSetFocus(CWnd* pOldWnd)
@@ -150,6 +152,16 @@ void CPropertiesWnd::OnSettingChange(UINT uFlags, LPCTSTR lpszSection)
 {
 	CDockablePane::OnSettingChange(uFlags, lpszSection);
 	SetPropListFont();
+}
+
+vector<NoticeInfo> CPropertiesWnd::LoadListNotice(int type, CString status, CString name, string date)
+{
+	return vector<NoticeInfo>();
+}
+
+CString CPropertiesWnd::SelectedLatesofList(vector<NoticeInfo> schedule)
+{
+	return CString();
 }
 
 
@@ -170,7 +182,6 @@ void CPropertiesWnd::SetPropListFont()
 	lf.lfItalic = info.lfMenuFont.lfItalic;
 
 	m_fntPropList.CreateFontIndirect(&lf);
-
 	m_wndPropList.SetFont(&m_fntPropList);
 	//m_wndObjectCombo.SetFont(&m_fntPropList);
 }
@@ -179,9 +190,9 @@ void CPropertiesWnd::SetPropListFont()
 void CPropertiesWnd::OnViewAllBtnCLicked()
 {
 	CDetailView dlg;
-	CDetailView Dialog_detail;
-
-	Dialog_detail.DoModal();
+	CString caption, list;
+	caption = "전체 공지사항 리스트";
+	dlg.Caption = caption;
 	dlg.DoModal();
 }
 
@@ -189,18 +200,28 @@ void CPropertiesWnd::OnViewAllBtnCLicked()
 void CPropertiesWnd::OnViewNSLBtnCLicked()
 {
 	CDetailView dlg;
-	CDetailView Dialog_detail;
-
-	Dialog_detail.DoModal();
+	CString caption, list;
+	caption = "NSL 공지사항 리스트";
+	dlg.Caption = caption;
 	dlg.DoModal();
+
+	//NSL  자세히 버튼 클릭 이벤트
+	//NSL  자세히 버튼 클릭 이벤트
+	//공지사항 벡터 가져와서 그중에 type ==1, status == true인 거 골라내기
+	//일정을 최신순으로 정렬할 예정
+	//새로운 벡터에 30번까지만 데이터
+	
+
+	//일정을 최신순으로 정렬할 예정
+	//새로운 벡터에 30번까지만 데이터
 
 }
 
 void CPropertiesWnd::OnViewPERSONALBtnCLicked()
 {
 	CDetailView dlg;
-	CDetailView Dialog_detail;
-
-	Dialog_detail.DoModal();
+	CString caption, list;
+	caption = "개인 공지사항 리스트";
+	dlg.Caption = caption;
 	dlg.DoModal();
 }

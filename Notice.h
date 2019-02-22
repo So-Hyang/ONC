@@ -1,5 +1,18 @@
-
+#include "ONC.h"
 #pragma once
+
+struct NoticeInfo//DM 데이터 패킷
+{
+	unsigned int nType;
+	string TopicTitle;
+	string cUserID;
+	string cMsg;
+	string cDate;
+	string cPassWord;
+	string cSenderID;
+	string Participants;
+	bool PubPrivate;
+};
 
 class CPropertiesToolBar : public CMFCToolBar
 {
@@ -19,6 +32,12 @@ public:
 	CPropertiesWnd();
 
 	void AdjustLayout();
+	vector<NoticeInfo> dm_noticeinfo{
+		{ 1, "", "ID", "contents1", "2018-10-22", "", "", "", true },{ 1, "", "ID", "contents2", "2019-02-20", "", "", "", true },{ 1, "", "ID", "contents3", "2019-02-20", "", "", "", true },
+		{ 1, "", "ID", "contents4", "2019-02-28", "", "", "", true },{ 2, "", "ID", "contents5", "2019-02-20", "", "", "", false },{ 2, "", "ID", "contents6", "2019-02-20", "", "", "", false },
+		{ 1, "", "ID", "contents7", "2019-03-01", "", "", "", true },{ 1, "", "ID", "contents8", "2019-04-20", "", "", "", true },{ 3, "", "ID", "contents7", "2019-03-01", "", "", "", true }
+	};
+	vector<NoticeInfo> cur_NSL_notice{};
 
 	// 특성입니다.
 public:
@@ -47,6 +66,8 @@ protected:
 	afx_msg void OnViewPERSONALBtnCLicked();
 	afx_msg void OnSetFocus(CWnd* pOldWnd);
 	afx_msg void OnSettingChange(UINT uFlags, LPCTSTR lpszSection);
+	vector<NoticeInfo> LoadListNotice(int type, CString status, CString name, string date);
+	CString SelectedLatesofList(vector<NoticeInfo> schedule);
 
 	DECLARE_MESSAGE_MAP()
 

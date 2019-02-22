@@ -113,18 +113,6 @@ int CClassView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	DataManager *mDataManager;
 	mDataManager = DataManager::GetInstance();
 	
-	/*
-	People mPeople;
-	vector<People> mPeoples;
-	mPeople.Name = "Kimsiwan";
-	mPeoples.push_back(mPeople);
-	mPeople.Name = "leejongwoo";
-	mPeoples.push_back(mPeople);
-	mPeople.Name = "casd";
-	mPeoples.push_back(mPeople);
-	mPeople.Name = "aqqe";
-	mPeoples.push_back(mPeople);
-	*/
 	
 	SetTreeData(mDataManager->people_v);
 	
@@ -323,7 +311,7 @@ void CClassView::MakeTreeview()
 	for (vector<People_DB>::iterator i = vecPeople.begin(); i != vecPeople.end(); i++)
 	{
 		
-		buf = (*i).name.c_str();
+		buf = (*i).Name.c_str();
 		m_wndClassView.InsertItem(buf, 0, 0, hRoot);
 
 	
@@ -331,11 +319,6 @@ void CClassView::MakeTreeview()
 
 	
 
-
-
-
-	//ProfileView m;
-	//m.user_name = buf;
 }
 
 

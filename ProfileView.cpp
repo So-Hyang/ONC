@@ -69,44 +69,14 @@ void ProfileView::PeopleAnalysis()
 
 void ProfileView::OnBnClickedButton1() 
 {
-	/*People mPeople;
-
-	mPeople.Birthday = "940203"; // 더미데이터 // USER NAME = 김시완 
-	mPeople.Fine = "5000";
-	mPeople.Name = "Kimsiwan";
-	mPeople.Phone_N = "010-4741-5688";
-	mPeople.Student_N = "20186081";
-	People_v.push_back(mPeople); // 
-
-	mPeople.Birthday = "5235235"; // 
-	mPeople.Fine = "5003434340";
-	mPeople.Name = "leejongwoo";
-	mPeople.Phone_N = "0155550-4741-5688";
-	mPeople.Student_N = "2000000186081";
-	People_v.push_back(mPeople);
-
-	mPeople.Birthday = "234234"; // 
-	mPeople.Fine = "5023423400";
-	mPeople.Name = "c";
-	mPeople.Phone_N = "0111110-4741-5688";
-	mPeople.Student_N = "201866666081";
-	People_v.push_back(mPeople);
-
-	mPeople.Birthday = "940203"; //
-	mPeople.Fine = "5000";
-	mPeople.Name = "a";
-	mPeople.Phone_N = "010-4741-5688정답";
-	mPeople.Student_N = "20186081";
-	People_v.push_back(mPeople);
-
-	*/
+	
 	DataManager *mDataManager;
 	mDataManager = DataManager::GetInstance();
 
 	for (vector<People_DB>::iterator i = mDataManager->people_v.begin(); i != mDataManager->people_v.end(); i++)
 	{
 		string a = (*i).Fine;
-		string b = (*i).name;
+		string b = (*i).Name;
 		string c = (*i).Phone_N;
 		string d = (*i).Student_N;
 		CString buf;
@@ -123,31 +93,6 @@ void ProfileView::OnBnClickedButton1()
 			m_str4.SetWindowTextW(buf);
 		}
 	}
-	//for (int count = 0; count < People_v.size(); count++)
-	//{
-	//	string a = People_v[count].Fine;
-	//	string b = People_v[count].name;
-	//	string c = People_v[count].Phone_N;
-	//	string d = People_v[count].Student_N;
-
-	//	if (b.compare(str_user_name) == 0)
-	//	{
-	//		str_Fine = People_v[count].Fine;
-	//		str_name = People_v[count].name;
-	//		str_Phone_N = People_v[count].Phone_N;
-	//		str_Student_N = People_v[count].Student_N;
-
-	//		CString Fine(str_Fine.c_str()); // string to CString
-	//		CString Phone_N(str_name.c_str());
-	//		CString Student_N(str_Phone_N.c_str());
-	//		CString name(str_Student_N.c_str());
-
-	//		m_str.SetWindowTextW(Fine);
-	//		m_str2.SetWindowTextW(Phone_N);
-	//		m_str3.SetWindowTextW(Student_N);
-	//		m_str4.SetWindowTextW(user_name);
-	//	}
-	//}
 
 }
 

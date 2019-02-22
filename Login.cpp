@@ -5,6 +5,11 @@
 #include "ONC.h"
 #include "Login.h"
 #include "afxdialogex.h"
+#include "Connect.h"
+#include "SendRecv.h"
+#include "DataPacket.h"
+#include "PacketManager.h"
+#include "ServerDataManager.h"
 #pragma warning(disable:4996)
 
 
@@ -64,6 +69,12 @@ string CLogin::GetIpAddress()
 
 void CLogin::OnIPAuthenticationBtnClicked()
 {
+	Connect Main_Start;
+	//SendRecv Recieve;
+	//PacketManager ReadyPacket;
+	SOCKET SeverSock;
+
+
 	int count;
 	string sUserIP;
 	CString csUserIP;
@@ -75,7 +86,7 @@ void CLogin::OnIPAuthenticationBtnClicked()
 	{
 		if (sUserIP.compare(mDataManager->people_v[count].IP) == 0)
 		{
-			csUserIP = mDataManager->people_v[count].name.c_str();
+			csUserIP = mDataManager->people_v[count].Name.c_str();
 
 			GetDlgItem(IDC_IPCER)->EnableWindow(FALSE);
 			GetDlgItem(IDC_PWBUTTON)->EnableWindow(TRUE);
@@ -83,6 +94,19 @@ void CLogin::OnIPAuthenticationBtnClicked()
 			GetDlgItem(IDC_IPCER)->SetWindowTextW(csUserIP);
 
 			PassWord = mDataManager->people_v[count].Password.c_str();
+
+			SeverSock = Main_Start.ConnectWithServer();
+			
+			//
+			//CDataPacket::getInstance()->SenderMessage.nType = 5;
+			//CDataPacket::getInstance()->SenderMessage.cMsg = "¼º°ø";
+			//CDataPacket::getInstance()->SenderMessage.TopicTitle = "aa";
+			//CDataPacket::getInstance()->SenderMessage.cUserID = "bb";
+			////CDataPacket::getInstance()->SenderMessage.PubPrivate = TRUE;
+			//
+			//int len = sizeof(CDataPacket::getInstance()->SenderMessage);
+			//send(SeverSock, (char *)&CDataPacket::getInstance()->SenderMessage, len, 0);
+			//
 		}
 	}	
 }

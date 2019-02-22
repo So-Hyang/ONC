@@ -70,11 +70,10 @@ CCalendarView::CCalendarView()
 	int len = sizeof(CDataPacket::getInstance()->SenderMessage);
 	send(SeverSock, (char *)&CDataPacket::getInstance()->SenderMessage, len, 0);
 	// TODO: 여기에 생성 코드를 추가합니다.
+	/*잠깐 주석
 	CLogin a;
 	a.DoModal();
-
-
-
+	*/
 }
 
 ////버튼 클릭 이벤트
