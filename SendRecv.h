@@ -4,7 +4,7 @@
 //#include "PacketManager.h"
 //#include "DataPacket.h"
 //#define BUF_SIZE 200
-
+#include "stdafx.h"
 #include "DataPacket.h"
 //#include <windows.h>
 #include <ws2tcpip.h>

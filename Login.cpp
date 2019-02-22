@@ -64,45 +64,37 @@ string CLogin::GetIpAddress()
 
 void CLogin::OnIPAuthenticationBtnClicked()
 {
-	//int count;
+	int count;
 	string sUserIP;
 	CString csUserIP;
-
+	DataManager *mDataManager;
+	mDataManager = DataManager::GetInstance();
 	sUserIP = GetIpAddress();
 
-
-
-	csUserIP = sUserIP.c_str();
-	GetDlgItem(IDC_IPCER)->EnableWindow(FALSE);
-	GetDlgItem(IDC_PWBUTTON)->EnableWindow(TRUE);
-	GetDlgItem(IDC_PWINPUT)->EnableWindow(TRUE);
-	GetDlgItem(IDC_IPCER)->SetWindowTextW(csUserIP);
-
-	/*
-	for(count=0;count<40;count++)
+	for(count=0;count<mDataManager->people_v.size();count++)
 	{
-	if (sUserIP.compare(dumi[count].IP)==0)
-	{
-	csUserIP = dumi[count].ID.c_str();
+		if (sUserIP.compare(mDataManager->people_v[count].IP) == 0)
+		{
+			csUserIP = mDataManager->people_v[count].name.c_str();
 
-	GetDlgItem(IDC_IPCER)->EnableWindow(FALSE);
-	GetDlgItem(IDC_PWBUTTON)->EnableWindow(TRUE);
-	GetDlgItem(IDC_IPCER)->SetWindowTextW(csUserIP);
+			GetDlgItem(IDC_IPCER)->EnableWindow(FALSE);
+			GetDlgItem(IDC_PWBUTTON)->EnableWindow(TRUE);
+			GetDlgItem(IDC_PWINPUT)->EnableWindow(TRUE);
+			GetDlgItem(IDC_IPCER)->SetWindowTextW(csUserIP);
 
-	PassWord = dumi[count].PW;
-	}
-	}	*/
-	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+			PassWord = mDataManager->people_v[count].Password.c_str();
+		}
+	}	
 }
 
 
 void CLogin::OnLogOKBtnClicked()
 {
 	CString csInput;
-	if (PassWord == "")
+	if (PassWord == "NULL")
 	{
 		GetDlgItem(IDC_PWINPUT)->GetWindowTextW(PassWord);
-		//SendPWMessage(UserID, PassWord);
+		//SendPWMessage(UserID, PassWord); 서버로 비밀번호 전송해서 DB에 비밀번호 저장하는 함수 필요함
 		AfxMessageBox(_T("패스워드가 설정되었습니다."));
 	}
 

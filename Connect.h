@@ -1,6 +1,6 @@
 #pragma once
 //#include "PacketManager.h" 
-
+#pragma warning(disable:4996)
 #include "ServerDataManager.h"
 #include "DataPacket.h"
 //#include <windows.h>
@@ -16,6 +16,7 @@
 #pragma comment(lib, "ws2_32.lib")
 
 using namespace std;
+
 
 static struct Temp
 {

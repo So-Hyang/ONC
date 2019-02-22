@@ -1,6 +1,7 @@
 #pragma once
 //#include "DataPacket.h"
 //#include "afxwin.h"
+#include "stdafx.h"
 
 #include <sstream>
 #include <iostream>
