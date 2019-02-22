@@ -30,7 +30,7 @@ void ProfileView::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_EDIT1, m_str);
 	DDX_Control(pDX, IDC_EDIT2, m_str2);
 	DDX_Control(pDX, IDC_EDIT3, m_str3);
-	DDX_Control(pDX, IDC_EDIT4, m_str4);
+	DDX_Control(pDX, IDC_EDIT4, m_str4); //테스트 김시완
 }
 
 
@@ -67,39 +67,43 @@ void ProfileView::PeopleAnalysis()
 
 
 
-void ProfileView::OnBnClickedButton1()
+void ProfileView::OnBnClickedButton1() 
 {
-	People mPeople;
+	/*People mPeople;
 
 	mPeople.Birthday = "940203"; // 더미데이터 // USER NAME = 김시완 
 	mPeople.Fine = "5000";
-	mPeople.name = "kimsiwan";
+	mPeople.Name = "Kimsiwan";
 	mPeople.Phone_N = "010-4741-5688";
 	mPeople.Student_N = "20186081";
 	People_v.push_back(mPeople); // 
 
 	mPeople.Birthday = "5235235"; // 
 	mPeople.Fine = "5003434340";
-	mPeople.name = "lee";
+	mPeople.Name = "leejongwoo";
 	mPeople.Phone_N = "0155550-4741-5688";
 	mPeople.Student_N = "2000000186081";
 	People_v.push_back(mPeople);
 
 	mPeople.Birthday = "234234"; // 
 	mPeople.Fine = "5023423400";
-	mPeople.name = "c";
+	mPeople.Name = "c";
 	mPeople.Phone_N = "0111110-4741-5688";
 	mPeople.Student_N = "201866666081";
 	People_v.push_back(mPeople);
 
 	mPeople.Birthday = "940203"; //
 	mPeople.Fine = "5000";
-	mPeople.name = "b";
+	mPeople.Name = "a";
 	mPeople.Phone_N = "010-4741-5688정답";
 	mPeople.Student_N = "20186081";
 	People_v.push_back(mPeople);
 
-	for (vector<People>::iterator i = People_v.begin(); i != People_v.end(); i++)
+	*/
+	DataManager *mDataManager;
+	mDataManager = DataManager::GetInstance();
+
+	for (vector<People_DB>::iterator i = mDataManager->people_v.begin(); i != mDataManager->people_v.end(); i++)
 	{
 		string a = (*i).Fine;
 		string b = (*i).name;

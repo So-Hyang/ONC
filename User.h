@@ -4,6 +4,10 @@
 #include "ViewTree.h"
 #include <iostream>
 #include <string>
+#include <vector>
+#include "DataManager.h"
+#include "DBCollector.h"
+
 
 using namespace std;
 
@@ -17,18 +21,6 @@ class CClassToolBar : public CMFCToolBar
 	virtual BOOL AllowShowOnList() const { return FALSE; }
 };
 
-typedef struct
-{
-	string name;
-	string IP;
-	string Birthday;
-	string Student_N;
-	string Phone_N;
-	string Fine;
-	string Password;
-
-}People;
-
 class CClassView : public CDockablePane
 {
 public:
@@ -37,6 +29,14 @@ public:
 
 	void AdjustLayout();
 	void OnChangeVisualStyle();
+	void SetTreeData(vector<People_DB> peoples);
+
+private:
+	void MakeTreeview();
+
+public:
+	vector<People_DB> vecPeople;
+
 
 protected:
 	CClassToolBar m_wndToolBar;
@@ -48,12 +48,11 @@ protected:
 
 	// 재정의입니다.
 public:
-	virtual BOOL PreTranslateMessage(MSG* pMsg);
-	void SendEmergencyAlarmMessage(char* cMyID, char* cMsg);
+	//void SendEmergencyAlarmMessage(char* cMyID, char* cMsg);
 	void CreateExitView();
-	void FillClassView();
 	void profileView();
 	void Onselectedtest();
+	virtual BOOL PreTranslateMessage(MSG* pMsg);
 
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
@@ -66,10 +65,9 @@ protected:
 	afx_msg void OnExitImageBtnClicked();
 	afx_msg void OnInImageBtnClicked();
 	afx_msg void OnOutImageBtnClicked();
-
+	afx_msg void OnSortingSortbyaccess();
 
 	DECLARE_MESSAGE_MAP()
-	afx_msg void OnSortingSortalphabetic();
-	afx_msg void OnSortingSortbyaccess();
+	
 };
 

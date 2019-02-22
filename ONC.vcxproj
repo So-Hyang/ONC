@@ -78,6 +78,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>C:\Program Files\MySQL\MySQL Server 8.0\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files\MySQL\MySQL Server 8.0\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -110,7 +112,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -118,6 +120,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
+      <AdditionalDependencies>libmysql.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -189,6 +192,9 @@
     <ClInclude Include="AddView.h" />
     <ClInclude Include="CalendarView.h" />
     <ClInclude Include="ChildFrm.h" />
+    <ClInclude Include="DataBaseSender.h" />
+    <ClInclude Include="DataManager.h" />
+    <ClInclude Include="DBCollector.h" />
     <ClInclude Include="ProfileView.h" />
     <ClInclude Include="User.h" />
     <ClInclude Include="DetailView.h" />
@@ -208,6 +214,9 @@
     <ClCompile Include="AddView.cpp" />
     <ClCompile Include="CalendarView.cpp" />
     <ClCompile Include="ChildFrm.cpp" />
+    <ClCompile Include="DataBaseSender.cpp" />
+    <ClCompile Include="DataManager.cpp" />
+    <ClCompile Include="DBCollector.cpp" />
     <ClCompile Include="DetailView.cpp" />
     <ClCompile Include="Login.cpp" />
     <ClCompile Include="ProfileView.cpp" />

@@ -60,7 +60,7 @@ int CFileView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		return -1;      // 만들지 못했습니다.
 	}
 	
-	m_wndAFEdit.Create(edit_dwViewStyle, CRect(2, 26, 202, 226), this, 5428);
+	m_wndAFEdit.Create(edit_dwViewStyle, CRect(2, 26, 202, 226), this, 5428); // 에디트 상자
 
 	
 
@@ -137,9 +137,34 @@ void CFileView::AdjustLayout()
 	m_wndAFEdit.SetWindowPos(NULL, rectClient.left + 2, rectClient.top + 26, rectClient.right - 2, rectClient.bottom - 20, SWP_NOACTIVATE | SWP_NOZORDER);
 }
 
-void CFileView::OnProperties()
+void CFileView::OnProperties() //버튼 클릭 이벤트
 {
-	AfxMessageBox(_T("속성...."));
+
+	//************ 시완 메모 저장 부분 소스 추가 2019-02-21
+	//***************************************** (완료)
+		CString m_strPath;
+		CStdioFile file;
+		// CFile file;
+		CFileException ex;
+		CFileDialog dlg(FALSE, _T("*.txt"), NULL, OFN_FILEMUSTEXIST | OFN_OVERWRITEPROMPT, _T("TXT Files(*.txt)|*.txt|"), NULL);
+		if (dlg.DoModal() == IDOK)
+		{
+			m_strPath = dlg.GetPathName();
+			if (m_strPath.Right(4) != ".txt")
+			{
+				m_strPath += ".txt";
+			}
+			file.Open(m_strPath, CFile::modeCreate | CFile::modeReadWrite, &ex);
+			// 에디트 박스에 있는 것을 저장한다.
+			UpdateData(TRUE);
+			CString buff;
+			m_wndAFEdit.GetWindowTextW(buff);
+			file.WriteString(buff);
+			// 종료한다.
+			file.Close();
+		}
+	
+
 
 }
 
