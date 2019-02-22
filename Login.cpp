@@ -83,6 +83,9 @@ void CLogin::OnIPAuthenticationBtnClicked()
 			GetDlgItem(IDC_IPCER)->SetWindowTextW(csUserIP);
 
 			PassWord = mDataManager->people_v[count].Password.c_str();
+
+
+
 		}
 	}	
 }
