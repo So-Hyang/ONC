@@ -9,7 +9,7 @@ DBCollector::~DBCollector()
 {
 }
 
-void DBCollector::DB_finish_with_error(MYSQL *conn) // 에러문
+void DBCollector::DB_finish_with_error(mMYSQL *conn) // 에러문
 {
 
 	fprintf(stderr, "%s\n", mysql_error(conn));
