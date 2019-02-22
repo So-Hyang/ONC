@@ -204,16 +204,13 @@ void CPropertiesWnd::OnViewNSLBtnCLicked()
 	caption = "NSL 공지사항 리스트";
 	dlg.Caption = caption;
 	dlg.DoModal();
-	CDetailView dlg;
 
 	//NSL  자세히 버튼 클릭 이벤트
 	//NSL  자세히 버튼 클릭 이벤트
 	//공지사항 벡터 가져와서 그중에 type ==1, status == true인 거 골라내기
 	//일정을 최신순으로 정렬할 예정
 	//새로운 벡터에 30번까지만 데이터
-	caption = "NSL 공지사항 리스트";
-	dlg.Caption = caption;
-	dlg.DoModal();
+	
 
 	//일정을 최신순으로 정렬할 예정
 	//새로운 벡터에 30번까지만 데이터
