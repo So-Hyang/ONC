@@ -9,11 +9,11 @@ DBCollector::~DBCollector()
 {
 }
 
-void DBCollector::DB_finish_with_error(mMYSQL *conn) // 에러문
+void DBCollector::DB_finish_with_error(MYSQL *conn) // 에러문
 {
 
-	fprintf(stderr, "%s\n", mysql_error(conn));
-	printf("커맨드 실패: %s\n", query_stat);
+	//fprintf(stderr, "%s\n", mysql_error(conn));
+	//printf("커맨드 실패: %s\n", query_stat);
 	mysql_close(conn);
 	exit(1);
 }
@@ -24,7 +24,7 @@ void DBCollector::DB_mysql_connect(const char *input) //연결
 	if (mysql_real_connect(conn, DB_HOST, DB_USER, DB_PASS, input, 0, NULL, 0) == NULL)
 	{
 		DB_finish_with_error(conn);
-	} printf("연결 확인 \n");
+	} //printf("연결 확인 \n");
 }
 
 
