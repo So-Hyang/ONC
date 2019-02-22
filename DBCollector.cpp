@@ -13,7 +13,7 @@ void DBCollector::DB_finish_with_error(MYSQL *conn) // 에러문
 {
 
 	fprintf(stderr, "%s\n", mysql_error(conn));
-	printf("커맨드 실패: %s\n", query_stat);
+	//printf("커맨드 실패: %s\n", query_stat);
 	mysql_close(conn);
 	exit(1);
 }
