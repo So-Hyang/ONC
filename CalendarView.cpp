@@ -47,8 +47,10 @@ END_MESSAGE_MAP()
 CCalendarView::CCalendarView()
 {
 	// TODO: 여기에 생성 코드를 추가합니다.
+	/*잠깐 주석
 	CLogin a;
 	a.DoModal();
+	*/
 }
 
 ////버튼 클릭 이벤트

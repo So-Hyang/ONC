@@ -75,7 +75,7 @@ void CLogin::OnIPAuthenticationBtnClicked()
 	{
 		if (sUserIP.compare(mDataManager->people_v[count].IP) == 0)
 		{
-			csUserIP = mDataManager->people_v[count].name.c_str();
+			csUserIP = mDataManager->people_v[count].Name.c_str();
 
 			GetDlgItem(IDC_IPCER)->EnableWindow(FALSE);
 			GetDlgItem(IDC_PWBUTTON)->EnableWindow(TRUE);
