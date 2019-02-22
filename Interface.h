@@ -1,6 +1,6 @@
 #pragma once
 //#include "Connect.h"
-
+#include "stdafx.h"
 #include "SendRecv.h"
 #include "Connect.h"
 #include "DataPacket.h"

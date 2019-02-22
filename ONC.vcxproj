@@ -75,6 +75,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>D:\MySQL Server 8.0\include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\MySQL Server 8.0\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -98,6 +100,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>DebugFastLink</GenerateDebugInformation>
+      <AdditionalDependencies>libmysql.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -192,10 +195,16 @@
     <ClInclude Include="AddView.h" />
     <ClInclude Include="CalendarView.h" />
     <ClInclude Include="ChildFrm.h" />
+    <ClInclude Include="Connect.h" />
     <ClInclude Include="DataBaseSender.h" />
     <ClInclude Include="DataManager.h" />
+    <ClInclude Include="DataPacket.h" />
     <ClInclude Include="DBCollector.h" />
+    <ClInclude Include="Interface.h" />
+    <ClInclude Include="PacketManager.h" />
     <ClInclude Include="ProfileView.h" />
+    <ClInclude Include="SendRecv.h" />
+    <ClInclude Include="ServerDataManager.h" />
     <ClInclude Include="User.h" />
     <ClInclude Include="DetailView.h" />
     <ClInclude Include="AdditionalFunction.h" />
@@ -214,12 +223,17 @@
     <ClCompile Include="AddView.cpp" />
     <ClCompile Include="CalendarView.cpp" />
     <ClCompile Include="ChildFrm.cpp" />
+    <ClCompile Include="Connect.cpp" />
     <ClCompile Include="DataBaseSender.cpp" />
     <ClCompile Include="DataManager.cpp" />
     <ClCompile Include="DBCollector.cpp" />
     <ClCompile Include="DetailView.cpp" />
+    <ClCompile Include="Interface.cpp" />
     <ClCompile Include="Login.cpp" />
+    <ClCompile Include="PacketManager.cpp" />
     <ClCompile Include="ProfileView.cpp" />
+    <ClCompile Include="SendRecv.cpp" />
+    <ClCompile Include="ServerDataManager.cpp" />
     <ClCompile Include="User.cpp" />
     <ClCompile Include="AdditionalFunction.cpp" />
     <ClCompile Include="MainFrm.cpp" />
