@@ -5,7 +5,7 @@
 //#include "DataPacket.h"
 //#include "afxwin.h"
 //#include <afx.h>
-
+#include "stdafx.h"
 
 #include "DataPacket.h"
 #include "SendRecv.h"
