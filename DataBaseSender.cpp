@@ -19,7 +19,7 @@ void DataBaseSender::DB_mysql_connect(const char *input) //연결
 
 	if (mysql_real_connect(conn, DB_HOST, DB_USER, DB_PASS, input, 0, NULL, 0) == NULL)
 	{
-		fprintf(stderr, "%s\n", mysql_error(conn));
+		//fprintf(stderr, "%s\n", mysql_error(conn));
 		//printf("커맨드 실패: %s\n", query_stat);
 		mysql_close(conn);
 		exit(1);
