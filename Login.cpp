@@ -70,7 +70,9 @@ void CLogin::OnIPAuthenticationBtnClicked()
 
 	sUserIP = GetIpAddress();
 
-
+	DataManager *mDataManager;
+	mDataManager = DataManager::GetInstance();
+	mDataManager->
 
 	csUserIP = sUserIP.c_str();
 	GetDlgItem(IDC_IPCER)->EnableWindow(FALSE);

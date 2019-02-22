@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include "afxwin.h"
+#include "DataManager.h"
 
 using namespace std;
 
