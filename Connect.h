@@ -1,6 +1,6 @@
 #pragma once
 //#include "PacketManager.h" 
-#pragma warning(disable:4996)
+//#pragma warning(disable:4996)
 #include "ServerDataManager.h"
 #include "DataPacket.h"
 //#include <windows.h>
