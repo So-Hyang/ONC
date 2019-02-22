@@ -54,8 +54,7 @@ void DBCollector::Set_Information() // people 정보 가져오기 + 구조체에 데이터 저
 	//   싱글턴 인스턴스로 DM에 접근하기 위한 절차
 	DataManager *mDataManager;
 	mDataManager = DataManager::GetInstance();
-	//People_DB mPeople;
-	//DataManager::GetInstance()->RecvMessage.Birthday;
+
 	// *------------------------쿼리 문으로 People 데이터 가져오기----------------------------* //
   	query_stat = mysql_query(conn, "select * from people");  
 
@@ -72,7 +71,7 @@ void DBCollector::Set_Information() // people 정보 가져오기 + 구조체에 데이터 저
 	while ((sql_row = mysql_fetch_row(sql_result)) != NULL) 
 	{
 
-		mDataManager->RecvPeople.name = sql_row[0];
+		mDataManager->RecvPeople.Name = sql_row[0];
 		mDataManager->RecvPeople.IP = sql_row[1];
 		mDataManager->RecvPeople.Birthday = sql_row[2];
 		mDataManager->RecvPeople.Student_N = sql_row[3];
@@ -83,21 +82,6 @@ void DBCollector::Set_Information() // people 정보 가져오기 + 구조체에 데이터 저
 		
 	}
 
-	/*
-	// *------------------------출력 확인----------------------------*
-	//for (vector<People>::iterator i = mDataManager->people_v.begin(); i != mDataManager->people_v.end(); i++)
-    for (int i = 0; i < mDataManager->people_v.size(); i++)
-	{
-	    std::cout << mDataManager->people_v[i].name << std::endl;
-		std::cout << mDataManager->people_v[i].IP << std::endl;
-		std::cout << mDataManager->people_v[i].Birthday << std::endl;
-		std::cout << mDataManager->people_v[i].Student_N << std::endl;
-		std::cout << mDataManager->people_v[i].Phone_N << std::endl;
-		std::cout << mDataManager->people_v[i].Fine << std::endl;
-		std::cout << mDataManager->people_v[i].Password << std::endl;
-	}// 작동 테스트용 나중에 지워도 무관
-
-	*/
 }
 
 void DBCollector::Set_Contents() // CalanderNotice 정보 가져오기 + 구조체에 데이터 저장하기.
@@ -105,7 +89,7 @@ void DBCollector::Set_Contents() // CalanderNotice 정보 가져오기 + 구조체에 데이
 
 	DataManager *mDataManager;
 	mDataManager = DataManager::GetInstance();
-	//CalenderNotice mCalenderNotice;
+	
 
 	// *------------------------쿼리 문으로 contents 데이터 가져오기----------------------------* //
     query_stat = mysql_query(conn, "select * from contents"); 
@@ -133,16 +117,6 @@ void DBCollector::Set_Contents() // CalanderNotice 정보 가져오기 + 구조체에 데이
 
 	}
 
-	
-	// *------------------------출력 확인----------------------------*
-	for (int i = 0; i < mDataManager->people_v.size(); i++)
-	{
-		std::cout << mDataManager->calendernotice_v[i].Date << std::endl;
-		std::cout << mDataManager->calendernotice_v[i].Who << std::endl;
-		std::cout << mDataManager->calendernotice_v[i].Contents_Type << std::endl;
-		std::cout << mDataManager->calendernotice_v[i].Public_Type << std::endl;
-		std::cout << mDataManager->calendernotice_v[i].Main_Contents << std::endl;		
-	} // 작동 테스트용 나중에 지워도 무관
 
 
 }

@@ -10,7 +10,7 @@
 #include "DataManager.h"
 
 #pragma comment(lib,"libmySQL.lib")
-#define DB_HOST "127.0.0.1"
+#define DB_HOST "202.31.137.61"
 #define DB_USER "root"
 #define DB_PASS "1234"
 #define DB_People "nsl_information"
