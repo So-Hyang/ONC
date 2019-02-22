@@ -7,7 +7,7 @@ using namespace std;
 
 struct People_DB
 {
-	string name;
+	string Name;
 	string IP;
 	string Birthday;
 	string Student_N;
