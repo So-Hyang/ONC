@@ -64,16 +64,17 @@ END_MESSAGE_MAP()
 CCalendarView::CCalendarView()
 {
 	
-	SeverSock = Main_Start.ConnectWithServer();
-	CDataPacket::getInstance()->SenderMessage.nType =5;
-	CDataPacket::getInstance()->SenderMessage.cMsg = "성공";
-	int len = sizeof(CDataPacket::getInstance()->SenderMessage);
-	send(SeverSock, (char *)&CDataPacket::getInstance()->SenderMessage, len, 0);
+
 	// TODO: 여기에 생성 코드를 추가합니다.
-	/*잠깐 주석
+
 	CLogin a;
 	a.DoModal();
-	*/
+
+	SeverSock = Main_Start.ConnectWithServer();
+	CDataPacket::getInstance()->SenderMessage.nType = 5;
+	CDataPacket::getInstance()->SenderMessage.cMsg = "성공";
+	
+	Recieve.Send(CDataPacket::getInstance()->SenderMessage, SeverSock);
 }
 
 ////버튼 클릭 이벤트
