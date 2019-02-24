@@ -95,7 +95,7 @@ void CLogin::OnIPAuthenticationBtnClicked()
 
 			PassWord = mDataManager->people_v[count].Password.c_str();
 
-			SeverSock = Main_Start.ConnectWithServer();
+		//	SeverSock = Main_Start.ConnectWithServer();
 			
 			//
 			//CDataPacket::getInstance()->SenderMessage.nType = 5;

@@ -16,12 +16,12 @@ using namespace std;
 class GuiClientInterface
 {
 public :
-	static CDataPacket *i_Instance;
-	static CDataPacket *getInstance() //포인터 값을 리턴해주는 함수
+	static GuiClientInterface *i_Instance;
+	static GuiClientInterface *getInstance() //포인터 값을 리턴해주는 함수
 	{
 		if (i_Instance == NULL) // 포인터가 NULL일 경우
 		{
-			i_Instance = new CDataPacket(); // 동적 할당 후 포인터에 저장
+			i_Instance = new GuiClientInterface(); // 동적 할당 후 포인터에 저장
 		}
 
 		return i_Instance; //포인터 리턴
