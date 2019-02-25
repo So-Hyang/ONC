@@ -288,9 +288,6 @@
     <Image Include="res\warning.bmp" />
     <Image Include="UserImages.bmp" />
   </ItemGroup>
-  <ItemGroup>
-    <Library Include="D:\MySQL Server 8.0\lib\libmysql.lib" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
