@@ -130,6 +130,9 @@ void CPropertiesWnd::InitPropList()
 	if (cur_time.GetDay() < 10)
 		N_cur_Month = "0" + N_cur_Day;
 	string cur_date = N_cur_Year + "-" + N_cur_Month + "-" + N_cur_Day;
+	LPCTSTR propertyname;
+	LPCTSTR propertycontents;
+	CString temp_propertyname;
 
 	//내 아이디 가져오는 부분 필요함
 	SetPropListFont();
@@ -143,16 +146,30 @@ void CPropertiesWnd::InitPropList()
 	pAll->AddSubItem(new CMFCPropertyGridProperty(_T("전체 공지사항"), _T("시완 2시까지 교수님 호출")));
 	m_wndPropList.AddProperty(pAll);
 
-	CMFCPropertyGridProperty* pPersonal = new CMFCPropertyGridProperty(_T("개인 공지사항 List"));
-	pPersonal->AddSubItem(new CMFCPropertyGridProperty(_T("개인공지사항"), /*(_variant_t)true,*/ _T("오늘 저녁 7시 약속")));
+	cur_Personal_notice = LoadListNotice(2, "ID", cur_date);
+	CMFCPropertyGridProperty* pPersonal = new CMFCPropertyGridProperty(_T("개인 일정 List"));
 	m_wndPropList.AddProperty(pPersonal);
+	for (int i = 0; i < cur_Personal_notice.size(); i++)
+	{
+		temp_propertyname.Format(_T("%d"), i);
+		propertyname = (LPCTSTR)temp_propertyname;
+		CString temp_propertycontents((cur_Personal_notice[i].cMsg).c_str());
+		propertycontents = (LPCTSTR)temp_propertycontents;
+		CMFCPropertyGridProperty* pPersonal_item = new CMFCPropertyGridProperty(propertyname, propertycontents);
+		pPersonal->AddSubItem(pPersonal_item);
+	}
 
-	CMFCPropertyGridProperty* pNSL = new CMFCPropertyGridProperty(_T("NSL List"));
-	cur_NSL_notice = LoadListNotice(1, L"pub", "ID", cur_date);
+	cur_NSL_notice = LoadListNotice(1, "ID", cur_date);
+	CMFCPropertyGridProperty* pNSL = new CMFCPropertyGridProperty(_T("NSL 일정 List"));
+	m_wndPropList.AddProperty(pNSL);
 	for (int i = 0; i < cur_NSL_notice.size(); i++)
 	{
-		pNSL->AddSubItem(new CMFCPropertyGridProperty(_T(" NSL"), _T("논문 제출 7시까지 ")));
-		m_wndPropList.AddProperty(pNSL);
+		temp_propertyname.Format(_T("%d"), i);
+		propertyname = (LPCTSTR)temp_propertyname;
+		CString temp_propertycontents((cur_NSL_notice[i].cMsg).c_str());
+		propertycontents = (LPCTSTR)temp_propertycontents;
+		CMFCPropertyGridProperty* pNSL_item = new CMFCPropertyGridProperty(propertyname, propertycontents);
+		pNSL->AddSubItem(pNSL_item);
 	}
 }
 
@@ -168,7 +185,7 @@ void CPropertiesWnd::OnSettingChange(UINT uFlags, LPCTSTR lpszSection)
 	SetPropListFont();
 }
 
-vector<NoticeInfo> CPropertiesWnd::LoadListNotice(int type, CString status, string name, string date)
+vector<NoticeInfo> CPropertiesWnd::LoadListNotice(int type, string name, string date)
 {
 	//dm_noticeinfo
 	vector<NoticeInfo> result_Notice{};//선별해서 나타내진 결과 벡터
@@ -178,13 +195,20 @@ vector<NoticeInfo> CPropertiesWnd::LoadListNotice(int type, CString status, stri
 	case 1: //NSL
 		for (int i = 0; i < dm_noticeinfo.size(); i++)
 		{
-			if ((name == dm_noticeinfo[i].cUserID) && (date == dm_noticeinfo[i].cDate))
+			if ((date == dm_noticeinfo[i].cDate))
 			{
 				result_Notice.push_back(dm_noticeinfo[i]);
 			}
 		}
 		break;
 	case 2://개인
+		for (int i = 0; i < dm_noticeinfo.size(); i++)
+		{
+			if ((name == dm_noticeinfo[i].cUserID) && (date == dm_noticeinfo[i].cDate))
+			{
+				result_Notice.push_back(dm_noticeinfo[i]);
+			}
+		}
 		break;
 	case 3://공지사항
 		break;
