@@ -15,6 +15,20 @@
 #include "Login.h"
 #include "DetailView.h"
 
+
+
+
+
+#include "Connect.h"
+#include "SendRecv.h"
+#include "DataPacket.h"
+#include "PacketManager.h"
+#include "ServerDataManager.h"
+
+
+
+
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -24,7 +38,10 @@ static const POINT calbkpos = { 0,0 };
 vector<CalendarInfo> cal_dumi;
 
 // CCalendarView
-
+Connect Main_Start;
+SendRecv Recieve;
+PacketManager ReadyPacket;
+SOCKET SeverSock;
 IMPLEMENT_DYNCREATE(CCalendarView, CView)
 
 BEGIN_MESSAGE_MAP(CCalendarView, CView)
@@ -46,11 +63,18 @@ END_MESSAGE_MAP()
 
 CCalendarView::CCalendarView()
 {
+	
+
 	// TODO: 여기에 생성 코드를 추가합니다.
-	/*잠깐 주석
+
 	CLogin a;
 	a.DoModal();
-	*/
+
+	SeverSock = Main_Start.ConnectWithServer();
+	CDataPacket::getInstance()->SenderMessage.nType = 5;
+	CDataPacket::getInstance()->SenderMessage.cMsg = "성공";
+	
+	Recieve.Send(CDataPacket::getInstance()->SenderMessage, SeverSock);
 }
 
 ////버튼 클릭 이벤트

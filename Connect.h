@@ -1,5 +1,5 @@
 #pragma once
-#pragma warning(disable:4996)
+//#pragma warning(disable:4996)
 #include "ServerDataManager.h"
 #include "DataPacket.h"
 #include <ws2tcpip.h>

@@ -119,7 +119,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <SDLCheck>true</SDLCheck>
+      <SDLCheck>false</SDLCheck>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -250,7 +250,6 @@
     <ClCompile Include="ViewTree.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="C:\Program Files\MySQL Server 8.0\lib\libmysql.dll" />
     <None Include="ONC.reg" />
     <None Include="res\ONC.rc2" />
   </ItemGroup>
@@ -288,6 +287,9 @@
     <Image Include="res\Toolbar256.bmp" />
     <Image Include="res\warning.bmp" />
     <Image Include="UserImages.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="D:\MySQL Server 8.0\lib\libmysql.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
