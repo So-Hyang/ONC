@@ -16,16 +16,13 @@ public:
 	COutputWnd();
 	void UpdateFonts();
 	int nType=0;
-
 	// 특성입니다.
+
 protected:
 	CEdit m_wndInputEdit;
-	//CButton m_wndInputBtn;
 
 protected:
 	void FillBuildWindow();
-	void FillDebugWindow();
-	void FillFindWindow();
 	void AdjustHorzScroll(CListBox& wndListBox);
 	
 	// 구현입니다.
@@ -42,7 +39,6 @@ protected:
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 	afx_msg void OnContextMenu(CWnd* /*pWnd*/, CPoint point);
 	afx_msg void OnTextSave();
-	void SendMsg();
 	LRESULT OnTabSetActive(WPARAM wParam, LPARAM lParam);
 	DECLARE_MESSAGE_MAP()
 public:
