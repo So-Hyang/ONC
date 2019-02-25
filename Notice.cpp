@@ -119,6 +119,19 @@ void CPropertiesWnd::OnUpdateExpandAllProperties(CCmdUI* /* pCmdUI */)
 
 void CPropertiesWnd::InitPropList()
 {
+	CTime cur_time = CTime::GetCurrentTime();
+	N_cur_Year = to_string(cur_time.GetYear());
+	N_cur_Month = to_string(cur_time.GetMonth());
+	N_cur_Day = to_string(cur_time.GetDay());
+	//string N_Y, N_M, N_D;
+	//N_Y = to_string(N_cur_Year);
+	if (cur_time.GetMonth() < 10)
+		N_cur_Month = "0" + N_cur_Month;
+	if (cur_time.GetDay() < 10)
+		N_cur_Month = "0" + N_cur_Day;
+	string cur_date = N_cur_Year + "-" + N_cur_Month + "-" + N_cur_Day;
+
+	//내 아이디 가져오는 부분 필요함
 	SetPropListFont();
 
 	m_wndPropList.EnableHeaderCtrl(FALSE);
@@ -126,9 +139,6 @@ void CPropertiesWnd::InitPropList()
 	m_wndPropList.SetVSDotNetLook();
 	m_wndPropList.MarkModifiedProperties();
 
-
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	//propertygridprorperty 
 	CMFCPropertyGridProperty* pAll = new CMFCPropertyGridProperty(_T("전체공지사항 List"));
 	pAll->AddSubItem(new CMFCPropertyGridProperty(_T("전체 공지사항"), _T("시완 2시까지 교수님 호출")));
 	m_wndPropList.AddProperty(pAll);
@@ -138,8 +148,12 @@ void CPropertiesWnd::InitPropList()
 	m_wndPropList.AddProperty(pPersonal);
 
 	CMFCPropertyGridProperty* pNSL = new CMFCPropertyGridProperty(_T("NSL List"));
-	pNSL->AddSubItem(new CMFCPropertyGridProperty(_T(" NSL"), _T("논문 제출 7시까지 ")));
-	m_wndPropList.AddProperty(pNSL);
+	cur_NSL_notice = LoadListNotice(1, L"pub", "ID", cur_date);
+	for (int i = 0; i < cur_NSL_notice.size(); i++)
+	{
+		pNSL->AddSubItem(new CMFCPropertyGridProperty(_T(" NSL"), _T("논문 제출 7시까지 ")));
+		m_wndPropList.AddProperty(pNSL);
+	}
 }
 
 void CPropertiesWnd::OnSetFocus(CWnd* pOldWnd)
@@ -154,11 +168,31 @@ void CPropertiesWnd::OnSettingChange(UINT uFlags, LPCTSTR lpszSection)
 	SetPropListFont();
 }
 
-vector<NoticeInfo> CPropertiesWnd::LoadListNotice(int type, CString status, CString name, string date)
+vector<NoticeInfo> CPropertiesWnd::LoadListNotice(int type, CString status, string name, string date)
 {
-	return vector<NoticeInfo>();
+	//dm_noticeinfo
+	vector<NoticeInfo> result_Notice{};//선별해서 나타내진 결과 벡터
+									   //DB에서 정보 가져온 데이터중에서  type, status에 따라서 원하는 정보 불러옴
+	switch (type)
+	{
+	case 1: //NSL
+		for (int i = 0; i < dm_noticeinfo.size(); i++)
+		{
+			if ((name == dm_noticeinfo[i].cUserID) && (date == dm_noticeinfo[i].cDate))
+			{
+				result_Notice.push_back(dm_noticeinfo[i]);
+			}
+		}
+		break;
+	case 2://개인
+		break;
+	case 3://공지사항
+		break;
+	default:
+		break;
+	}
+	return result_Notice;
 }
-
 CString CPropertiesWnd::SelectedLatesofList(vector<NoticeInfo> schedule)
 {
 	return CString();
@@ -219,9 +253,16 @@ void CPropertiesWnd::OnViewNSLBtnCLicked()
 
 void CPropertiesWnd::OnViewPERSONALBtnCLicked()
 {
+	/*
 	CDetailView dlg;
-	CString caption, list;
-	caption = "개인 공지사항 리스트";
-	dlg.Caption = caption;
+	CDetailView Dialog_detail;
+
+	Dialog_detail.DoModal();
 	dlg.DoModal();
+	*/
+
+	//개인일정  자세히 버튼 클릭 이벤트
+	//공지사항 벡터 가져와서 그중에 type ==2, status == false인 거 골라내기
+	//일정을 최신순으로 정렬할 예정
+	//새로운 벡터에 30번까지만 데이터
 }
