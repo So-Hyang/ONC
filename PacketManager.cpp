@@ -116,10 +116,10 @@ DataPacket PacketManager::PacketAnalysis(DataPacket RecvMessage)
 				RecvMessage.nType = 0;
 				break;
 	}
-
-#ifdef SERVERMODE
 	return CDataPacket::getInstance()->SenderMessage;
-#endif
+//#ifdef SERVERMODE
+	
+//#endif
 }
 /****************************************************************************/
 /*수정일자 : 2019_02_07*******************************************************/

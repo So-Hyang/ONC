@@ -62,8 +62,9 @@ int COutputWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	for(int i=0; i<10;i++)
 	{
+		csTitleList[i] = sTitleList[i].c_str();
 		m_wndList[i].Create(dwStyle, rectDummy, &m_wndTabs, i+2);
-		m_wndTabs.AddTab(&m_wndList[i], _T("abcd"), (UINT)i);
+		m_wndTabs.AddTab(&m_wndList[i], csTitleList[i], (UINT)i);
 	}
 
 	// 출력 탭을 더미 텍스트로 채웁니다.

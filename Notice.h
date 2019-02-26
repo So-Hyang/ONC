@@ -32,6 +32,7 @@ public:
 	CPropertiesWnd();
 
 	void AdjustLayout();
+	void Get_CalendarNotice();
 	vector<NoticeInfo> dm_noticeinfo{
 		{ 1, "", "ID", "NSL1", "2018-10-22", "", "", "", true },{ 1, "", "ID", "NSL2", "2019-02-26", "", "", "", true },{ 1, "", "ID", "NSL3", "2019-02-26", "", "", "", true },
 		{ 1, "", "IDDDD", "NSL4_ID 다름", "2019-02-26", "", "", "", true },{ 2, "", "ID", "개인1", "2019-02-26", "", "", "", false },{1, "", "ID", "NSL5", "2019-02-26", "", "","", true},

@@ -95,17 +95,6 @@ void CLogin::OnIPAuthenticationBtnClicked()
 
 			PassWord = mDataManager->people_v[count].Password.c_str();
 
-			//SeverSock = Main_Start.ConnectWithServer();
-			
-			//CDataPacket::getInstance()->SenderMessage.nType = 5;
-			//CDataPacket::getInstance()->SenderMessage.cMsg = "¼º°ø";
-			//CDataPacket::getInstance()->SenderMessage.TopicTitle = "aa";
-			//CDataPacket::getInstance()->SenderMessage.cUserID = "bb";
-			////CDataPacket::getInstance()->SenderMessage.PubPrivate = TRUE;
-			//
-			//int len = sizeof(CDataPacket::getInstance()->SenderMessage);
-			//send(SeverSock, (char *)&CDataPacket::getInstance()->SenderMessage, len, 0);
-			//
 		}
 	}	
 }

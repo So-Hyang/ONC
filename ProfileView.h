@@ -23,7 +23,7 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 public:
-	afx_msg void OnBnClickedButton1();
+	
 	afx_msg void OnEnChangeEdit1();
 	afx_msg void OnEnChangeEdit2();
 	afx_msg void OnEnChangeEdit3();
@@ -36,4 +36,5 @@ public:
 	//vector<People> People_v;
 	void PeopleAnalysis();
 	afx_msg void OnEnChangeEdit4();
+	virtual BOOL OnInitDialog();
 };

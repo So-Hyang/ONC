@@ -17,7 +17,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Korean (Korea) resources
+// 한국어(대한민국) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_KOR)
 LANGUAGE LANG_KOREAN, SUBLANG_DEFAULT
@@ -472,7 +472,6 @@ BEGIN
     LISTBOX         IDC_LIST2,7,103,257,66,LBS_SORT | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
     EDITTEXT        IDC_EDIT2,61,176,173,15,ES_AUTOHSCROLL
     EDITTEXT        IDC_EDIT3,61,194,174,15,ES_AUTOHSCROLL
-    PUSHBUTTON      "Click",IDC_BUTTON1,213,211,50,11
     LTEXT           "NAME",IDC_STATIC,107,31,23,13
     CONTROL         "",IDC_STATIC,"Static",SS_BLACKFRAME,7,7,79,74
     LTEXT           "Phone N",IDC_STATIC,18,178,32,13
@@ -773,7 +772,7 @@ BEGIN
     IDS_FIND_TAB            "찾기"
 END
 
-#endif    // Korean (Korea) resources
+#endif    // 한국어(대한민국) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

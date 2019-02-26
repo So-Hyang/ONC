@@ -33,8 +33,9 @@ using namespace std;
 #define PasswordPacket 9
 #define AllTopicTitlePAcket 10
 
-#define SERVERMODE
+//#define SERVERMODE
 #define CLIENTMODE
+
 
 
 static struct SendPacket
@@ -42,9 +43,10 @@ static struct SendPacket
 	SOCKET ClientSock;
 } ClientSocket;
 
-struct DataPacket
+static struct DataPacket
 {
 	unsigned int nType;
+	
 	string TopicTitle;
 	string cUserID;
 	string cMsg;
@@ -53,7 +55,7 @@ struct DataPacket
 	string cSenderID;
 	string Participants;
 	string AllTopicTitle;
-	bool PubPrivate;
+	bool PubPrivate= false;
 };
 
 class CDataPacket
@@ -61,7 +63,6 @@ class CDataPacket
 private : 
 	static CDataPacket *c_Instance;
 public:
-
 	static DataPacket RecverMessage, RecvMessage, SenderMessage;
 	static SendPacket ClientSocket, ServerSocket;
 

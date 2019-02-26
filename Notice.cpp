@@ -161,6 +161,29 @@ void CPropertiesWnd::InitPropList()
 	CMFCPropertyGridProperty* pPersonal_item = new CMFCPropertyGridProperty(_T("개인 일정 List"), propertycontents);
 	pPersonal->AddSubItem(pPersonal_item);
 }
+///////////////////////////////////////////
+///////// 달력/공지 정보 가져오기
+///////////////02-25//////////////////////
+void CPropertiesWnd::Get_CalendarNotice()
+{
+	DataManager *mDataManager;
+	mDataManager = DataManager::GetInstance();
+
+	for (vector<CalenderNotice>::iterator i = mDataManager->calendernotice_v.begin(); i != mDataManager->calendernotice_v.end(); i++)
+	{
+		string a = (*i).Date;
+		string b = (*i).Who;
+		string c = (*i).Contents_Type;
+		string d = (*i).Public_Type;
+		string e = (*i).Main_Contents;
+		CString buf;
+		buf = b.c_str();
+			
+		
+	}
+
+}
+
 
 void CPropertiesWnd::OnSetFocus(CWnd* pOldWnd)
 {
