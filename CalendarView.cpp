@@ -70,11 +70,11 @@ CCalendarView::CCalendarView()
 	CLogin a;
 	a.DoModal();
 
-	SeverSock = Main_Start.ConnectWithServer();
+	/*SeverSock = Main_Start.ConnectWithServer();
 	CDataPacket::getInstance()->SenderMessage.nType = 5;
 	CDataPacket::getInstance()->SenderMessage.cMsg = "성공";
 	
-	Recieve.Send(CDataPacket::getInstance()->SenderMessage, SeverSock);
+	Recieve.Send(CDataPacket::getInstance()->SenderMessage, SeverSock);*/
 }
 
 ////버튼 클릭 이벤트

@@ -141,6 +141,29 @@ void CPropertiesWnd::InitPropList()
 	pNSL->AddSubItem(new CMFCPropertyGridProperty(_T(" NSL"), _T("논문 제출 7시까지 ")));
 	m_wndPropList.AddProperty(pNSL);
 }
+///////////////////////////////////////////
+///////// 달력/공지 정보 가져오기
+///////////////02-25//////////////////////
+void CPropertiesWnd::Get_CalendarNotice()
+{
+	DataManager *mDataManager;
+	mDataManager = DataManager::GetInstance();
+
+	for (vector<CalenderNotice>::iterator i = mDataManager->calendernotice_v.begin(); i != mDataManager->calendernotice_v.end(); i++)
+	{
+		string a = (*i).Date;
+		string b = (*i).Who;
+		string c = (*i).Contents_Type;
+		string d = (*i).Public_Type;
+		string e = (*i).Main_Contents;
+		CString buf;
+		buf = b.c_str();
+			
+		
+	}
+
+}
+
 
 void CPropertiesWnd::OnSetFocus(CWnd* pOldWnd)
 {

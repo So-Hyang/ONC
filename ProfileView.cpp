@@ -19,6 +19,7 @@ ProfileView::ProfileView(CWnd* pParent /*=NULL*/)
 
 ProfileView::~ProfileView()
 {
+
 }
 
 void ProfileView::DoDataExchange(CDataExchange* pDX)
@@ -35,7 +36,7 @@ void ProfileView::DoDataExchange(CDataExchange* pDX)
 
 
 BEGIN_MESSAGE_MAP(ProfileView, CDialogEx)
-	ON_BN_CLICKED(IDC_BUTTON1, &ProfileView::OnBnClickedButton1)
+	
 	ON_EN_CHANGE(IDC_EDIT1, &ProfileView::OnEnChangeEdit1)
 
 	ON_EN_CHANGE(IDC_EDIT2, &ProfileView::OnEnChangeEdit2)
@@ -62,37 +63,6 @@ void ProfileView::Profile_view()
 void ProfileView::PeopleAnalysis()
 {
 
-
-}
-
-
-
-void ProfileView::OnBnClickedButton1() 
-{
-	
-	DataManager *mDataManager;
-	mDataManager = DataManager::GetInstance();
-
-	for (vector<People_DB>::iterator i = mDataManager->people_v.begin(); i != mDataManager->people_v.end(); i++)
-	{
-		string a = (*i).Fine;
-		string b = (*i).Name;
-		string c = (*i).Phone_N;
-		string d = (*i).Student_N;
-		CString buf;
-		buf = b.c_str();
-		if (user_name.Compare(buf) == 0)
-		{
-			buf = a.c_str();
-			m_str.SetWindowTextW(buf);
-			buf = c.c_str();
-			m_str2.SetWindowTextW(buf);
-			buf = d.c_str();
-			m_str3.SetWindowTextW(buf);
-			buf = b.c_str();
-			m_str4.SetWindowTextW(buf);
-		}
-	}
 
 }
 
@@ -141,4 +111,38 @@ void ProfileView::OnEnChangeEdit4()
 	// 이 알림 메시지를 보내지 않습니다.
 
 	// TODO:  여기에 컨트롤 알림 처리기 코드를 추가합니다.
+}
+
+
+BOOL ProfileView::OnInitDialog()
+{
+	CDialogEx::OnInitDialog();
+
+	// TODO:  여기에 추가 초기화 작업을 추가합니다.
+	DataManager *mDataManager;
+	mDataManager = DataManager::GetInstance();
+
+	for (vector<People_DB>::iterator i = mDataManager->people_v.begin(); i != mDataManager->people_v.end(); i++)
+	{
+		string a = (*i).Fine;
+		string b = (*i).Name;
+		string c = (*i).Phone_N;
+		string d = (*i).Student_N;
+		CString buf;
+		buf = b.c_str();
+		if (user_name.Compare(buf) == 0)
+		{
+			buf = a.c_str();
+			m_str.SetWindowTextW(buf);
+			buf = c.c_str();
+			m_str2.SetWindowTextW(buf);
+			buf = d.c_str();
+			m_str3.SetWindowTextW(buf);
+			buf = b.c_str();
+			m_str4.SetWindowTextW(buf);
+		}
+	}
+
+	return TRUE;  // return TRUE unless you set the focus to a control
+				  // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
 }
