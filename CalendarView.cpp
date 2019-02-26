@@ -58,10 +58,6 @@ END_MESSAGE_MAP()
 
 CCalendarView::CCalendarView()
 {
-	
-
-	// TODO: 여기에 생성 코드를 추가합니다.
-
 	//SeverSock = Main_Start.ConnectWithServer();
 	//CDataPacket::getInstance()->SenderMessage.nType = 5;
 	//CDataPacket::getInstance()->SenderMessage.cMsg = "성공";
@@ -81,6 +77,7 @@ CCalendarView::CCalendarView()
 	//CDataPacket::getInstance()->RecverMessage.cMsg = "성공";
 	//send(SeverSock,(char*)&CDataPacket::getInstance()->Temp_struct, sizeof(CDataPacket::getInstance()->Temp_struct),0);
 	//Recieve.Send(CDataPacket::getInstance()->RecverMessage.temp, SeverSock);
+	*/
 }
 
 ////버튼 클릭 이벤트
