@@ -1,4 +1,5 @@
 #include "Interface.h"
+
 //아날리시스에 on메세지 함수 실행 해야함, 리시브 스레드안에 유저인포 관리하는거 고려해야함
 void GuiClientInterface::OnChatMessage(string TopicTitle, string cUserID, string cMsg)
 {
@@ -22,7 +23,18 @@ void GuiClientInterface::OnTopicParticipantMessage(string cUserID, string TopicT
 }
 void GuiClientInterface::OnAllTopicTitleMessage(string AllTopicTitle)
 {
-	// GUI가 코딩해야함
+	char* cPtr = (char*)AllTopicTitle.c_str();
+	int i = 0;
+
+	CONCApp *pApp = (CONCApp *)AfxGetApp();
+	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
+	
+	strtok(cPtr, ";");
+	while (cPtr != NULL)
+	{
+		pFrame->m_wndOutput.sTitleList[i];
+		i++;
+	}
 }
 void GuiClientInterface::ConncetWithServer()
 {

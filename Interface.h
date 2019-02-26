@@ -4,6 +4,9 @@
 #include "SendRecv.h"
 #include "Connect.h"
 #include "DataPacket.h"
+#include "ONC.h"
+#include "MainFrm.h"
+
 
 #include <string>
 //#include <windows.h>

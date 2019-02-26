@@ -16,6 +16,8 @@ public:
 	COutputWnd();
 	void UpdateFonts();
 	int nType=0;
+	CString csTitleList[10];
+	string sTitleList[10];
 	// 특성입니다.
 
 protected:
