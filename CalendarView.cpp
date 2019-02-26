@@ -35,7 +35,7 @@ vector<CalendarInfo> cal_dumi;
 // CCalendarView
 Connect Main_Start;
 SendRecv Recieve;
-PacketManager ReadyPacket;
+//PacketManager ReadyPacket;
 SOCKET SeverSock;
 IMPLEMENT_DYNCREATE(CCalendarView, CView)
 

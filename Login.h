@@ -31,6 +31,7 @@ private:
 	CString PassWord;
 	CString UserID;
 
+	string PassWord11;
 
 	// 대화 상자 데이터입니다.
 #ifdef AFX_DESIGN_TIME

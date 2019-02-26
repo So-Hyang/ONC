@@ -18,8 +18,12 @@ using namespace std;
 
 class GuiClientInterface
 {
-public :
+private:
+	GuiClientInterface() {};
+	~GuiClientInterface() {};
 	static GuiClientInterface *i_Instance;
+public :
+	
 	static GuiClientInterface *getInstance() //포인터 값을 리턴해주는 함수
 	{
 		if (i_Instance == NULL) // 포인터가 NULL일 경우

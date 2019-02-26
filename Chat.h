@@ -18,22 +18,26 @@ public:
 	int nType=0;
 	CString csTitleList[10];
 	string sTitleList[10];
+	int FindChatRoom(string TopicTitle);
+	CListBox m_wndList[10];
+
 	// 특성입니다.
 
 protected:
 	CEdit m_wndInputEdit;
 
 protected:
-	void FillBuildWindow();
+	
 	void AdjustHorzScroll(CListBox& wndListBox);
 	
 	// 구현입니다.
 public:
 	virtual ~COutputWnd();
+	void RefreshTab();
+
 private:
 	void SaveText(char* filedirectory, char* filename, string data);
 	char* AppendChar(char* arg1, char* arg2);
-	CListBox m_wndList[10];
 	CMFCTabCtrl	m_wndTabs;
 
 protected:

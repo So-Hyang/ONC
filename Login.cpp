@@ -16,7 +16,7 @@
 
 
 vector<PeopleInfo> dumi;
-
+GuiClientInterface* GuiClientInterface::i_Instance = NULL;
 using namespace std;
 
 
@@ -46,62 +46,32 @@ END_MESSAGE_MAP()
 
 
 // LoginDlg 메시지 처리기입니다.
-string CLogin::GetIpAddress()
-{
-	WORD wVersionRequested;
-	WSADATA wsaData;
-	char name[255];
-	PHOSTENT hostinfo;
-	string strIpAddress;
-	wVersionRequested = MAKEWORD(2, 0);
-
-	if (WSAStartup(wVersionRequested, &wsaData) == 0)
-	{
-		if (gethostname(name, sizeof(name)) == 0)
-		{
-			if ((hostinfo = gethostbyname(name)) != NULL)
-				strIpAddress = inet_ntoa(*(struct in_addr *)*hostinfo->h_addr_list);
-		}
-		WSACleanup();
-	}
-	return strIpAddress;
-}
 
 void CLogin::OnIPAuthenticationBtnClicked()
 {
-	Connect Main_Start;
-	//SendRecv Recieve;
-	//PacketManager ReadyPacket;
-	SOCKET SeverSock;
-
-
-	int count;
-	string sUserIP;
-	CString csUserIP;
 	DataManager *mDataManager;
 	mDataManager = DataManager::GetInstance();
-	sUserIP = GetIpAddress();
-
-	for(count=0;count<mDataManager->people_v.size();count++)
+	string str;
+	CString cstr;
+	if (mDataManager->FindMyInfo() == TRUE)
 	{
-		if (sUserIP.compare(mDataManager->people_v[count].IP) == 0)
-		{
-			csUserIP = mDataManager->people_v[count].Name.c_str();
+		str = mDataManager->myinfo.Name;
+		cstr = str.c_str();
+		GetDlgItem(IDC_IPCER)->EnableWindow(FALSE);
+		GetDlgItem(IDC_PWBUTTON)->EnableWindow(TRUE);
+		GetDlgItem(IDC_PWINPUT)->EnableWindow(TRUE);
+		GetDlgItem(IDC_IPCER)->SetWindowTextW(cstr);
 
-			GetDlgItem(IDC_IPCER)->EnableWindow(FALSE);
-			GetDlgItem(IDC_PWBUTTON)->EnableWindow(TRUE);
-			GetDlgItem(IDC_PWINPUT)->EnableWindow(TRUE);
-			GetDlgItem(IDC_IPCER)->SetWindowTextW(csUserIP);
-
-			PassWord = mDataManager->people_v[count].Password.c_str();
-
-		}
-	}	
+		PassWord = mDataManager->myinfo.Password.c_str();
+	}
+	else
+		AfxMessageBox(_T("IP인증에 실패하였습니다."));
 }
 
 
 void CLogin::OnLogOKBtnClicked()
 {
+	
 	CString csInput;
 	if (PassWord == "NULL")
 	{
@@ -122,6 +92,11 @@ void CLogin::OnLogOKBtnClicked()
 			AfxMessageBox(_T("비밀번호를 확인하세요."));
 		}
 	}
+	/*																		OnAllTopicTitleMessage사용법 참고
+	GetDlgItem(IDC_PWINPUT)->GetWindowTextW(PassWord);
+	PassWord11 = string(CT2CA(PassWord.operator LPCWSTR()));
+	GuiClientInterface::getInstance()->OnAllTopicTitleMessage(PassWord11);
+	CDialog::OnOK();*/
 }
 
 
