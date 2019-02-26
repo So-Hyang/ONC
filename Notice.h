@@ -33,10 +33,10 @@ public:
 
 	void AdjustLayout();
 	vector<NoticeInfo> dm_noticeinfo{
-		{ 1, "", "ID", "contents1", "2018-10-22", "", "", "", true },{ 1, "", "ID", "contents2", "2019-02-20", "", "", "", true },{ 1, "", "ID", "contents3", "2019-02-25", "", "", "", true },
-		{ 1, "", "ID", "contents4", "2019-02-25", "", "", "", true },{ 2, "", "ID", "contents5", "2019-02-25", "", "", "", false },{1, "", "ID", "contents_sohyang", "2019-02-25", "", "","", true},
-		{ 2, "", "ID", "contents6", "2019-02-25", "", "", "", false },{ 1, "", "ID", "contents7", "2019-03-01", "", "", "", true },{ 1, "", "ID", "contents8", "2019-04-20", "", "", "", true },
-		{ 3, "", "ID", "contents7", "2019-05-01", "", "", "", true },{ 2, "", "ID", "contents7", "2019-02-25", "", "", "", true }
+		{ 1, "", "ID", "NSL1", "2018-10-22", "", "", "", true },{ 1, "", "ID", "NSL2", "2019-02-26", "", "", "", true },{ 1, "", "ID", "NSL3", "2019-02-26", "", "", "", true },
+		{ 1, "", "IDDDD", "NSL4_ID 다름", "2019-02-26", "", "", "", true },{ 2, "", "ID", "개인1", "2019-02-26", "", "", "", false },{1, "", "ID", "NSL5", "2019-02-26", "", "","", true},
+		{ 2, "", "ID", "개인2", "2019-02-26", "", "", "", false },{ 1, "", "ID", "NSL6", "2019-03-01", "", "", "", true },{ 2, "", "ID", "개인3", "2019-04-20", "", "", "", false },
+		{ 3, "", "ID", "Notice", "2019-05-01", "", "", "", true },{ 2, "", "IDDDD", "개인4_ID 다름", "2019-02-26", "", "", "", false }
 	};
 	vector<NoticeInfo> cur_NSL_notice{};
 	vector<NoticeInfo> cur_Personal_notice{};

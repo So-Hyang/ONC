@@ -695,8 +695,8 @@ void CCalendarView::OnCalendarListClicked(UINT uuid)
 
 	listbox_cnt = list_cal[listbox_index]->GetCurSel();
 	list_cal[listbox_index]->GetText(listbox_cnt, listbox_contents);
-	Dialog_detail.Contents = listbox_contents;
-	
+	Dialog_detail.TempDataVector.Add(listbox_contents);
+
 	Dialog_detail.DoModal();
 
 	list_cal[listbox_index]->SetCurSel(-1);

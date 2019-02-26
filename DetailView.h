@@ -1,5 +1,6 @@
 #pragma once
 #include "afxwin.h"
+#include "ONC.h"
 
 class CDetailView : public CDialogEx
 {
@@ -10,7 +11,7 @@ public:
 	virtual ~CDetailView();
 	LPCTSTR Caption;
 	CString Contents;
-
+	CStringArray TempDataVector = {};
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_DIALOG_DETAIL };
 #endif
@@ -20,8 +21,8 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 public:
-	CStatic date;
-	CListBox notice;
+	CStatic D_Title;
+	CListBox D_Notice;
 
 
 };

@@ -4,11 +4,7 @@
 
 #pragma once
 
-enum ListBoxID
-{
-	ListBox11 = 211, ListBox12 = 212, ListBox13 = 213
 
-};
 
 struct CalendarInfo//DM 데이터 패킷
 {

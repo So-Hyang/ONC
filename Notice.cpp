@@ -130,9 +130,8 @@ void CPropertiesWnd::InitPropList()
 	if (cur_time.GetDay() < 10)
 		N_cur_Month = "0" + N_cur_Day;
 	string cur_date = N_cur_Year + "-" + N_cur_Month + "-" + N_cur_Day;
-	LPCTSTR propertyname;
 	LPCTSTR propertycontents;
-	CString temp_propertyname;
+	CString temp_propertycontents;
 
 	//내 아이디 가져오는 부분 필요함
 	SetPropListFont();
@@ -146,31 +145,21 @@ void CPropertiesWnd::InitPropList()
 	pAll->AddSubItem(new CMFCPropertyGridProperty(_T("전체 공지사항"), _T("시완 2시까지 교수님 호출")));
 	m_wndPropList.AddProperty(pAll);
 
+	cur_NSL_notice = LoadListNotice(1, "", cur_date);
+	CMFCPropertyGridProperty* pNSL = new CMFCPropertyGridProperty(_T("NSL 일정 List"));
+	m_wndPropList.AddProperty(pNSL);
+	temp_propertycontents = ((cur_NSL_notice[0].cMsg).c_str());
+	propertycontents = (LPCTSTR)temp_propertycontents;
+	CMFCPropertyGridProperty* pNSL_item = new CMFCPropertyGridProperty(_T("NSL 일정 List"), propertycontents);
+	pNSL->AddSubItem(pNSL_item);
+
 	cur_Personal_notice = LoadListNotice(2, "ID", cur_date);
 	CMFCPropertyGridProperty* pPersonal = new CMFCPropertyGridProperty(_T("개인 일정 List"));
 	m_wndPropList.AddProperty(pPersonal);
-	for (int i = 0; i < cur_Personal_notice.size(); i++)
-	{
-		temp_propertyname.Format(_T("%d"), i);
-		propertyname = (LPCTSTR)temp_propertyname;
-		CString temp_propertycontents((cur_Personal_notice[i].cMsg).c_str());
-		propertycontents = (LPCTSTR)temp_propertycontents;
-		CMFCPropertyGridProperty* pPersonal_item = new CMFCPropertyGridProperty(propertyname, propertycontents);
-		pPersonal->AddSubItem(pPersonal_item);
-	}
-
-	cur_NSL_notice = LoadListNotice(1, "ID", cur_date);
-	CMFCPropertyGridProperty* pNSL = new CMFCPropertyGridProperty(_T("NSL 일정 List"));
-	m_wndPropList.AddProperty(pNSL);
-	for (int i = 0; i < cur_NSL_notice.size(); i++)
-	{
-		temp_propertyname.Format(_T("%d"), i);
-		propertyname = (LPCTSTR)temp_propertyname;
-		CString temp_propertycontents((cur_NSL_notice[i].cMsg).c_str());
-		propertycontents = (LPCTSTR)temp_propertycontents;
-		CMFCPropertyGridProperty* pNSL_item = new CMFCPropertyGridProperty(propertyname, propertycontents);
-		pNSL->AddSubItem(pNSL_item);
-	}
+	temp_propertycontents = ((cur_Personal_notice[0].cMsg).c_str());
+	propertycontents = (LPCTSTR)temp_propertycontents;
+	CMFCPropertyGridProperty* pPersonal_item = new CMFCPropertyGridProperty(_T("개인 일정 List"), propertycontents);
+	pPersonal->AddSubItem(pPersonal_item);
 }
 
 void CPropertiesWnd::OnSetFocus(CWnd* pOldWnd)
@@ -192,16 +181,16 @@ vector<NoticeInfo> CPropertiesWnd::LoadListNotice(int type, string name, string 
 									   //DB에서 정보 가져온 데이터중에서  type, status에 따라서 원하는 정보 불러옴
 	switch (type)
 	{
-	case 1: //NSL
+	case 1: //NSL //날짜일치 + type == true일치
 		for (int i = 0; i < dm_noticeinfo.size(); i++)
 		{
-			if ((date == dm_noticeinfo[i].cDate))
+			if ((date == dm_noticeinfo[i].cDate)&&(true == dm_noticeinfo[i].PubPrivate))
 			{
 				result_Notice.push_back(dm_noticeinfo[i]);
 			}
 		}
 		break;
-	case 2://개인
+	case 2://개인 //날짜일치+ID일치
 		for (int i = 0; i < dm_noticeinfo.size(); i++)
 		{
 			if ((name == dm_noticeinfo[i].cUserID) && (date == dm_noticeinfo[i].cDate))
@@ -257,11 +246,46 @@ void CPropertiesWnd::OnViewAllBtnCLicked()
 
 void CPropertiesWnd::OnViewNSLBtnCLicked()
 {
+	CDetailView Dialog_detail;
+	CString Dialog_detail_Contents;
+	Dialog_detail.Caption = _T("NSL 일정");
+	for (int i = 0; i < cur_NSL_notice.size(); i++)
+	{
+		Dialog_detail_Contents = ((cur_Personal_notice[i].cMsg).c_str());
+		Dialog_detail.TempDataVector.Add(Dialog_detail_Contents);
+	}
+
+	Dialog_detail.DoModal();
+
+	/*
+	CString today_date;
+	today_date = (N_cur_Year + "-" + N_cur_Month + "-" + N_cur_Day).c_str();
+
+	for (int i = 0; i < cur_Personal_notice.size(); i++)
+	{
+	temp_propertyname.Format(_T("%d"), i);
+	propertyname = (LPCTSTR)temp_propertyname;
+	CString temp_propertycontents((cur_Personal_notice[i].cMsg).c_str());
+	propertycontents = (LPCTSTR)temp_propertycontents;
+	CMFCPropertyGridProperty* pPersonal_item = new CMFCPropertyGridProperty(propertyname, propertycontents);
+	pPersonal->AddSubItem(pPersonal_item);
+	}
+	for (int i = 0; i < cur_NSL_notice.size(); i++)
+	{
+	temp_propertyname.Format(_T("%d"), i);
+	propertyname = (LPCTSTR)temp_propertyname;
+	CString temp_propertycontents((cur_NSL_notice[i].cMsg).c_str());
+	propertycontents = (LPCTSTR)temp_propertycontents;
+	CMFCPropertyGridProperty* pNSL_item = new CMFCPropertyGridProperty(propertyname, propertycontents);
+	pNSL->AddSubItem(pNSL_item);
+	}
+
+	*/
+	/*
 	CDetailView dlg;
-	CString caption, list;
-	caption = "NSL 공지사항 리스트";
-	dlg.Caption = caption;
+	dlg.Caption = "NSL 공지사항 리스트";
 	dlg.DoModal();
+	*/
 
 	//NSL  자세히 버튼 클릭 이벤트
 	//NSL  자세히 버튼 클릭 이벤트
@@ -277,10 +301,12 @@ void CPropertiesWnd::OnViewNSLBtnCLicked()
 
 void CPropertiesWnd::OnViewPERSONALBtnCLicked()
 {
-	/*
-	CDetailView dlg;
 	CDetailView Dialog_detail;
+	Dialog_detail.Caption = _T("개인 일정");
+	Dialog_detail.DoModal();
 
+	/*
+	CDetailView Dialog_detail;
 	Dialog_detail.DoModal();
 	dlg.DoModal();
 	*/
