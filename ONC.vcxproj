@@ -250,7 +250,7 @@
     <ClCompile Include="ViewTree.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="D:\MySQL Server 8.0\lib\libmysql.dll" />
+    <None Include="libmysql.dll" />
     <None Include="ONC.reg" />
     <None Include="res\ONC.rc2" />
   </ItemGroup>

@@ -30,7 +30,6 @@ COutputWnd::~COutputWnd()
 BEGIN_MESSAGE_MAP(COutputWnd, CDockablePane)
 	ON_WM_CREATE()
 	ON_WM_SIZE()
-	ON_COMMAND(5427,SendMsg)
 	ON_WM_CONTEXTMENU()
 	ON_COMMAND(ID_TEXT_SAVE, OnTextSave)
 	ON_WM_WINDOWPOSCHANGING()
@@ -57,8 +56,6 @@ int COutputWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	const DWORD edit_dwStyle = ES_AUTOVSCROLL | ES_MULTILINE | WS_CHILD | WS_VISIBLE | WS_BORDER;
 	
 	m_wndInputEdit.Create(edit_dwStyle, CRect(0, 0, 100, 100), this, 5426);
-	//m_wndInputBtn.Create(_T("보내기"), WS_CHILD | WS_VISIBLE | WS_BORDER, CRect(0, 0, 100, 100), this, 5427);
-
 	//UpdateFonts();
 
 	CString strTabName;
@@ -71,8 +68,6 @@ int COutputWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	// 출력 탭을 더미 텍스트로 채웁니다.
 	FillBuildWindow();
-	FillDebugWindow();
-	FillFindWindow();
 
 	return 0;
 }
@@ -89,7 +84,6 @@ void COutputWnd::OnSize(UINT nType, int cx, int cy)
 	HDWP hdwp = ::BeginDeferWindowPos(3);
 	::DeferWindowPos(hdwp, m_wndTabs, HWND_TOP, -1, -1, cx, cy - 80, SWP_NOMOVE | SWP_NOACTIVATE | SWP_NOZORDER);
 	::DeferWindowPos(hdwp, m_wndInputEdit, HWND_TOP, rect.left, cy - 80, cx, 80, SWP_NOZORDER | SWP_NOACTIVATE);
-	//::DeferWindowPos(hdwp, m_wndInputBtn, HWND_TOP, cx - 80, cy - 80, 80, 80, SWP_NOZORDER);
 	::EndDeferWindowPos(hdwp);
 }
 
@@ -128,24 +122,6 @@ void COutputWnd::FillBuildWindow()
 	
 }
 
-void COutputWnd::FillDebugWindow()
-{
-	/*
-	m_wndOutputDebug.AddString(_T("여기에 디버그 출력이 표시됩니다."));
-	m_wndOutputDebug.AddString(_T("출력이 목록 뷰 행에 표시되지만"));
-	m_wndOutputDebug.AddString(_T("표시 방법을 원하는 대로 변경할 수 있습니다."));
-	*/
-}
-
-void COutputWnd::FillFindWindow()
-{
-	/*
-	m_wndOutputFind.AddString(_T("여기에 찾기 출력이 표시됩니다."));
-	m_wndOutputFind.AddString(_T("출력이 목록 뷰 행에 표시되지만"));
-	m_wndOutputFind.AddString(_T("표시 방법을 원하는 대로 변경할 수 있습니다."));
-	*/
-}
-
 
 void COutputWnd::UpdateFonts()
 {
@@ -153,11 +129,6 @@ void COutputWnd::UpdateFonts()
 	{
 		m_wndList[i].SetFont(&afxGlobalData.fontRegular);
 	}
-}
-
-void COutputWnd::SendMsg()
-{
-	AfxMessageBox(_T("버튼 클릭 된닷!!"));
 }
 
 void COutputWnd::OnContextMenu(CWnd* /*pWnd*/, CPoint point)
@@ -181,7 +152,7 @@ void COutputWnd::OnContextMenu(CWnd* /*pWnd*/, CPoint point)
 }
 
 
-void COutputWnd::OnTextSave()
+void COutputWnd::OnTextSave()			//리스트 박스 저장하는 함수
 {	
 	COutputWnd a;
 	CString csstrVoca, csFileNum, csDate;
@@ -209,7 +180,7 @@ void COutputWnd::OnTextSave()
 }
 
 
-void COutputWnd::SaveText(char* filedirectory, char* filename, string data)
+void COutputWnd::SaveText(char* filedirectory, char* filename, string data)		//저장하는 기능을 가진 함수
 {
 	ofstream ofile;
 	char cTemp[256];
@@ -223,7 +194,7 @@ void COutputWnd::SaveText(char* filedirectory, char* filename, string data)
 	ofile.close();
 }
 
-char* COutputWnd::AppendChar(char* arg1, char* arg2)
+char* COutputWnd::AppendChar(char* arg1, char* arg2)			//지정된 경로파일 합치는 함수
 {
 	char *concat = (char *)malloc(strlen(arg1) + strlen(arg2) + 1);
 	strcpy(concat, arg1);
@@ -233,7 +204,7 @@ char* COutputWnd::AppendChar(char* arg1, char* arg2)
 }
 
 
-BOOL COutputWnd::PreTranslateMessage(MSG* pMsg)
+BOOL COutputWnd::PreTranslateMessage(MSG* pMsg)				//엔터 눌렀을경우에 동작하는 함수
 {
 	short Shift;
 	Shift = GetKeyState(VK_SHIFT);
@@ -266,7 +237,7 @@ BOOL COutputWnd::PreTranslateMessage(MSG* pMsg)
 	return CDockablePane::PreTranslateMessage(pMsg);
 }
 
-LRESULT COutputWnd::OnTabSetActive(WPARAM wParam, LPARAM lParam)
+LRESULT COutputWnd::OnTabSetActive(WPARAM wParam, LPARAM lParam)		//탭을 클릭했을때 동작하는 함수
 {
 	CString label;
 	int sel = m_wndTabs.GetActiveTab();
@@ -276,7 +247,7 @@ LRESULT COutputWnd::OnTabSetActive(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-void COutputWnd::ChatRoomLeave()
+void COutputWnd::ChatRoomLeave()			//채팅방 나가기 눌렀을 경우 리스트 박스 리셋
 {
 	int sel = m_wndTabs.GetActiveTab();
 	m_wndList[sel].ResetContent();

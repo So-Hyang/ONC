@@ -87,8 +87,12 @@ public:
 	int BackgroundAdd = IDB_BITMAP_CALENDAR_BK;
 	CString day[7] = { L"일" ,L"월", L"화", L"수", L"목", L"금", L"토" };
 	CString t_date[35] = {};
-	int cur_Month = 0;
-	int cur_Year = 0;
+	int C_cur_Month = 0;
+	int C_cur_Year = 0;
+
+	//int cur_Month = 0;
+	//int cur_Year = 0;
+
 	CString status, name;
 	string s_date;
 	int type = 1;

@@ -33,11 +33,16 @@ public:
 
 	void AdjustLayout();
 	vector<NoticeInfo> dm_noticeinfo{
-		{ 1, "", "ID", "contents1", "2018-10-22", "", "", "", true },{ 1, "", "ID", "contents2", "2019-02-20", "", "", "", true },{ 1, "", "ID", "contents3", "2019-02-20", "", "", "", true },
-		{ 1, "", "ID", "contents4", "2019-02-28", "", "", "", true },{ 2, "", "ID", "contents5", "2019-02-20", "", "", "", false },{ 2, "", "ID", "contents6", "2019-02-20", "", "", "", false },
-		{ 1, "", "ID", "contents7", "2019-03-01", "", "", "", true },{ 1, "", "ID", "contents8", "2019-04-20", "", "", "", true },{ 3, "", "ID", "contents7", "2019-03-01", "", "", "", true }
+		{ 1, "", "ID", "contents1", "2018-10-22", "", "", "", true },{ 1, "", "ID", "contents2", "2019-02-20", "", "", "", true },{ 1, "", "ID", "contents3", "2019-02-25", "", "", "", true },
+		{ 1, "", "ID", "contents4", "2019-02-25", "", "", "", true },{ 2, "", "ID", "contents5", "2019-02-25", "", "", "", false },{1, "", "ID", "contents_sohyang", "2019-02-25", "", "","", true},
+		{ 2, "", "ID", "contents6", "2019-02-25", "", "", "", false },{ 1, "", "ID", "contents7", "2019-03-01", "", "", "", true },{ 1, "", "ID", "contents8", "2019-04-20", "", "", "", true },
+		{ 3, "", "ID", "contents7", "2019-05-01", "", "", "", true },{ 2, "", "ID", "contents7", "2019-02-25", "", "", "", true }
 	};
 	vector<NoticeInfo> cur_NSL_notice{};
+	vector<NoticeInfo> cur_Personal_notice{};
+	string N_cur_Year;
+	string N_cur_Month;
+	string N_cur_Day;
 
 	// 특성입니다.
 public:
@@ -66,7 +71,7 @@ protected:
 	afx_msg void OnViewPERSONALBtnCLicked();
 	afx_msg void OnSetFocus(CWnd* pOldWnd);
 	afx_msg void OnSettingChange(UINT uFlags, LPCTSTR lpszSection);
-	vector<NoticeInfo> LoadListNotice(int type, CString status, CString name, string date);
+	vector<NoticeInfo> LoadListNotice(int type, string name, string date);
 	CString SelectedLatesofList(vector<NoticeInfo> schedule);
 
 	DECLARE_MESSAGE_MAP()
