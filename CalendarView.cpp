@@ -61,8 +61,10 @@ CCalendarView::CCalendarView()
 	//SeverSock = Main_Start.ConnectWithServer();
 	//CDataPacket::getInstance()->SenderMessage.nType = 5;
 	//CDataPacket::getInstance()->SenderMessage.cMsg = "성공";
-	CLogin a;
-	a.DoModal();
+	
+	//CLogin a;
+	//a.DoModal();
+	
 	/*SeverSock = Main_Start.ConnectWithServer();
 	CDataPacket::getInstance()->SenderMessage.nType = 5;
 	CDataPacket::getInstance()->SenderMessage.cMsg = "성공";
