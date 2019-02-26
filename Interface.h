@@ -6,7 +6,9 @@
 #include "DataPacket.h"
 #include "ONC.h"
 #include "MainFrm.h"
-
+#include "ChildFrm.h"
+#include "ONCDoc.h"
+#include "CalendarView.h"
 
 #include <string>
 //#include <windows.h>
