@@ -14,11 +14,6 @@
 #include "AddView.h"
 #include "Login.h"
 #include "DetailView.h"
-
-
-
-
-
 #include "Connect.h"
 #include "SendRecv.h"
 #include "DataPacket.h"
@@ -67,14 +62,25 @@ CCalendarView::CCalendarView()
 
 	// TODO: 여기에 생성 코드를 추가합니다.
 
+	//SeverSock = Main_Start.ConnectWithServer();
+	//CDataPacket::getInstance()->SenderMessage.nType = 5;
+	//CDataPacket::getInstance()->SenderMessage.cMsg = "성공";
 	CLogin a;
 	a.DoModal();
-
 	/*SeverSock = Main_Start.ConnectWithServer();
 	CDataPacket::getInstance()->SenderMessage.nType = 5;
 	CDataPacket::getInstance()->SenderMessage.cMsg = "성공";
 	
-	Recieve.Send(CDataPacket::getInstance()->SenderMessage, SeverSock);*/
+	//Recieve.Send(CDataPacket::getInstance()->SenderMessage, SeverSock);
+	//SeverSock = Main_Start.ConnectWithServer();
+	//CDataPacket::getInstance()->Temp_struct.nType_Temp = 7;
+	
+	//aa.Temp_cMsg = "000klkkkk";
+	//CDataPacket::getInstance()->RecverMessage.nType = 5;
+    //scanf("성공", CDataPacket::getInstance()->RecverMessage.temp);
+	//CDataPacket::getInstance()->RecverMessage.cMsg = "성공";
+	//send(SeverSock,(char*)&CDataPacket::getInstance()->Temp_struct, sizeof(CDataPacket::getInstance()->Temp_struct),0);
+	//Recieve.Send(CDataPacket::getInstance()->RecverMessage.temp, SeverSock);
 }
 
 ////버튼 클릭 이벤트
@@ -82,22 +88,22 @@ void CCalendarView::OnLeftRightBtnClicked(UINT uiID)
 {
 	switch (uiID) {
 	case 101://left 버튼
-		cur_Month--;
-		if (cur_Month == 0) {
-			cur_Month = 12;
-			cur_Year--;
+		C_cur_Month--;
+		if (C_cur_Month == 0) {
+			C_cur_Month = 12;
+			C_cur_Year--;
 		}
 		break;
 	case 102://right 버튼
-		cur_Month++;
-		if (cur_Month == 13) {
-			cur_Month = 1;
-			cur_Year++;
+		C_cur_Month++;
+		if (C_cur_Month == 13) {
+			C_cur_Month = 1;
+			C_cur_Year++;
 		}
 		break;
 	}
 	CalcaulateCalendar();
-	s_date = to_string((cur_Year * 10000) + (cur_Month * 100));
+	s_date = to_string((C_cur_Year * 10000) + (C_cur_Month * 100));
 	DrawCalendarList(LoadListSchedule(type, status, name, s_date));
 
 	Invalidate(TRUE);
@@ -150,7 +156,7 @@ void CCalendarView::OnCalendarTodayBtnClicked()
 {
 	GetCurrentYearMonth();
 	CalcaulateCalendar();
-	s_date = to_string((cur_Year * 10000) + (cur_Month * 100));
+	s_date = to_string((C_cur_Year * 10000) + (C_cur_Month * 100));
 	DrawCalendarList(LoadListSchedule(type, status, name, s_date));
 	Invalidate(TRUE);
 	UpdateWindow();
@@ -345,7 +351,7 @@ void CCalendarView::OnInitialUpdate()
 		}
 	}
 		CalcaulateCalendar();
-		s_date = to_string((cur_Year * 10000) + (cur_Month * 100));
+		s_date = to_string((C_cur_Year * 10000) + (C_cur_Month * 100));
 		initvector = LoadListSchedule(type, status, name, s_date);
 		DrawCalendarList(initvector);
 
@@ -389,26 +395,26 @@ void CCalendarView::CalcaulateCalendar()
 	int blank_front;
 	int num_date = 1;
 
-	if (((cur_Year % 400) == 0) || (!(cur_Year % 100) && (cur_Year % 4))) //년도가 400으로 나누어떨어지면/100으로 나누어떨어지지 않고 4로 나누어떨어지면
+	if (((C_cur_Year % 400) == 0) || (!(C_cur_Year % 100) && (C_cur_Year % 4))) //년도가 400으로 나누어떨어지면/100으로 나누어떨어지지 않고 4로 나누어떨어지면
 		leapyear = true; // 윤년
 	else                  //아니면
 		leapyear = false; //윤년이아니다.
 
-	this_month_date = mdays[cur_Month - 1];
-	if (leapyear && (cur_Month == 2))//윤달이고 2월이면
+	this_month_date = mdays[C_cur_Month - 1];
+	if (leapyear && (C_cur_Month == 2))//윤달이고 2월이면
 		this_month_date++;//1일을 더해준다.
 
 						  //작년까지의 총 날짜수를 계산
-	total_year = cur_Year - 1;
+	total_year = C_cur_Year - 1;
 	total = 365 * total_year;
 	//총 날짜에 윤년이 발생한만큼 더해줌
 	total += ((total_year / 400) - (total_year / 100) + (total_year / 4));
 	//올해 전월까지의 날짜수 더함
-	for (int m = 0; m < cur_Month - 1; m++) {
+	for (int m = 0; m < C_cur_Month - 1; m++) {
 		total += mdays[m];
 	}
 	//올해가 윤년이며, 2월을 지났으면 총날짜에 1을 더해줌
-	if (leapyear && (cur_Month > 2))
+	if (leapyear && (C_cur_Month > 2))
 		total += 1;
 
 	total += 1;//하루를 더해줌//이번 달 1일도 포함하는 것
@@ -500,15 +506,15 @@ CString CCalendarView::CalculateDateInformation(CPoint matrixlocation)
 			}
 		}
 
-		Y.Format(_T("%d"), cur_Year);
-		if (cur_Month < 10)
+		Y.Format(_T("%d"), C_cur_Year);
+		if (C_cur_Month < 10)
 		{
-			M.Format(_T("%d"), cur_Month);
+			M.Format(_T("%d"), C_cur_Month);
 			M = L"0" + M;
 		}
 		else 
 		{
-			M.Format(_T("%d"), cur_Month);
+			M.Format(_T("%d"), C_cur_Month);
 		}
 
 		D = t_date[matrixindex];
@@ -634,8 +640,8 @@ void CCalendarView::DrawCalendar()
 
 	// 날짜 표시하기 위해 형 변환
 	MemDC.CreateCompatibleDC(&DC);
-	temp_y.Format(_T("%d"), cur_Year);
-	temp_m.Format(_T("%d"), cur_Month);
+	temp_y.Format(_T("%d"), C_cur_Year);
+	temp_m.Format(_T("%d"), C_cur_Month);
 	DC.TextOutW(calbkpos.x + 20, calbkpos.y + 20, temp_y + L"년 " + temp_m + L"월");
 	for (int i = 0; i < 7; i++) {
 		DC.TextOutW(calbkpos.x + 10 + (i * 89), calbkpos.y + 55, day[i]);
@@ -653,15 +659,15 @@ void CCalendarView::DrawCalendar()
 void CCalendarView::GetCurrentYearMonth()
 {
 	CTime cur_time = CTime::GetCurrentTime();
-	cur_Year = cur_time.GetYear();
-	cur_Month = cur_time.GetMonth();
+	C_cur_Year = cur_time.GetYear();
+	C_cur_Month = cur_time.GetMonth();
 }
 
 void CCalendarView::OnCalendatTabBtnClicked(UINT uiID)
 {
 
 	vector<CalendarInfo> calendar;
-	s_date = to_string((cur_Year * 10000) + (cur_Month * 100));
+	s_date = to_string((C_cur_Year * 10000) + (C_cur_Month * 100));
 	
 	switch (uiID) {
 	case 105://NSL
@@ -692,8 +698,8 @@ void CCalendarView::OnCalendarListClicked(UINT uuid)
 	listbox_index_s = uuid % 10;
 	listbox_index = (((listbox_index_f - 1) * 7) + listbox_index_s - 1);
 
-	Y.Format(_T("%d"), cur_Year);
-	M.Format(_T("%d"), cur_Month);
+	Y.Format(_T("%d"), C_cur_Year);
+	M.Format(_T("%d"), C_cur_Month);
 	D = t_date[listbox_index];
 	clickeddate = Y + L"." + M + L"." + D;
 	Dialog_detail.Caption = clickeddate;

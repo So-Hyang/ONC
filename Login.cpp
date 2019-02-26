@@ -97,7 +97,6 @@ void CLogin::OnIPAuthenticationBtnClicked()
 
 		//	SeverSock = Main_Start.ConnectWithServer();
 			
-			//
 			//CDataPacket::getInstance()->SenderMessage.nType = 5;
 			//CDataPacket::getInstance()->SenderMessage.cMsg = "¼º°ø";
 			//CDataPacket::getInstance()->SenderMessage.TopicTitle = "aa";
