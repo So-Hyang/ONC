@@ -12,6 +12,7 @@ DataPacket CDataPacket::RecverMessage;
 DataPacket CDataPacket::RecvMessage;
 DataPacket CDataPacket::SenderMessage;
 SendPacket CDataPacket::ClientSocket;
+//DataPacket_Temp CDataPacket::Temp_struct;
 
 
 void SendRecv::RecvThread(SOCKET cSock)

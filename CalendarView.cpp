@@ -69,12 +69,16 @@ CCalendarView::CCalendarView()
 
 	CLogin a;
 	a.DoModal();
-
-	SeverSock = Main_Start.ConnectWithServer();
-	CDataPacket::getInstance()->RecverMessage.nType = 5;
-	CDataPacket::getInstance()->RecverMessage.cMsg = "성공";
 	
-	Recieve.Send(CDataPacket::getInstance()->RecverMessage, SeverSock);
+	//SeverSock = Main_Start.ConnectWithServer();
+	//CDataPacket::getInstance()->Temp_struct.nType_Temp = 7;
+	
+	//aa.Temp_cMsg = "000klkkkk";
+	//CDataPacket::getInstance()->RecverMessage.nType = 5;
+    //scanf("성공", CDataPacket::getInstance()->RecverMessage.temp);
+	//CDataPacket::getInstance()->RecverMessage.cMsg = "성공";
+	//send(SeverSock,(char*)&CDataPacket::getInstance()->Temp_struct, sizeof(CDataPacket::getInstance()->Temp_struct),0);
+	//Recieve.Send(CDataPacket::getInstance()->RecverMessage.temp, SeverSock);
 }
 
 ////버튼 클릭 이벤트
