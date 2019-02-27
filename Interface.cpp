@@ -36,7 +36,20 @@ void GuiClientInterface::OnNoticeMessage(string UserID, string cMsg)
 }
 void GuiClientInterface::OnCalendarMessage(string UserID, string cMsg, string cDate)
 {
-	// GUI가 코딩해야함
+	CONCApp *pApp = (CONCApp *)AfxGetApp();
+	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
+	CChildFrame *pChild = (CChildFrame *)pFrame->GetActiveFrame();
+	CCalendarView *pCalView = (CCalendarView *)pChild->GetActiveView();
+
+	CalenderNotice i_newschedule_CN;
+
+	i_newschedule_CN.Date = cDate;
+	i_newschedule_CN.Who = UserID;
+	i_newschedule_CN.Main_Contents = cMsg;
+	i_newschedule_CN.Public_Type = "Public";
+	i_newschedule_CN.Contents_Type = "Calendar";
+
+	pCalView->AddListSchedule(i_newschedule_CN);
 	CDataPacket::getInstance()->RecvMessageClear();
 }
 

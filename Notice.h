@@ -1,18 +1,7 @@
 #include "ONC.h"
+#include "DataManager.h"
 #pragma once
 
-struct NoticeInfo//DM 데이터 패킷
-{
-	unsigned int nType;
-	string TopicTitle;
-	string cUserID;
-	string cMsg;
-	string cDate;
-	string cPassWord;
-	string cSenderID;
-	string Participants;
-	bool PubPrivate;
-};
 
 struct ALLNoticeInfo
 {
@@ -39,17 +28,11 @@ public:
 	CPropertiesWnd();
 
 	void AdjustLayout();
-	void Get_CalendarNotice();
-/*	
-	vector<NoticeInfo> dm_noticeinfo{
-		{ 1, "", "ID", "NSL1", "2018-10-22", "", "", "", true },{ 1, "", "ID", "NSL2", "2019-02-26", "", "", "", true },{ 1, "", "ID", "NSL3", "2019-02-26", "", "", "", true },
-		{ 1, "", "IDDDD", "NSL4_ID 다름", "2019-02-26", "", "", "", true },{ 2, "", "ID", "개인1", "2019-02-26", "", "", "", false },{1, "", "ID", "NSL5", "2019-02-26", "", "","", true},
-		{ 2, "", "ID", "개인2", "2019-02-26", "", "", "", false },{ 1, "", "ID", "NSL6", "2019-03-01", "", "", "", true },{ 2, "", "ID", "개인3", "2019-04-20", "", "", "", false },
-		{ 3, "", "ID", "Notice", "2019-05-01", "", "", "", true },{ 2, "", "IDDDD", "개인4_ID 다름", "2019-02-26", "", "", "", false }
-	};
-	vector<NoticeInfo> cur_NSL_notice{};
-	vector<NoticeInfo> cur_Personal_notice{};
-	*/
+
+	vector<CalenderNotice> dm_noticeinfo{};
+	vector<CalenderNotice> cur_NSL_notice{};
+	vector<CalenderNotice> cur_Personal_notice{};
+
 	string N_cur_Year;
 	string N_cur_Month;
 	string N_cur_Day;
@@ -83,10 +66,12 @@ protected:
 	afx_msg void OnViewNSLBtnCLicked();
 	afx_msg void OnViewPERSONALBtnCLicked();
 	afx_msg void OnViewAddBtnCLicked();
-	afx_msg void OnSetFocus(CWnd* pOldWnd);
+	afx_msg
+		void Get_CalendarNotice_Notice();
+	void OnSetFocus(CWnd* pOldWnd);
 	afx_msg void OnSettingChange(UINT uFlags, LPCTSTR lpszSection);
-	//vector<NoticeInfo> LoadListNotice(int type, string name, string date);
-	//CString SelectedLatesofList(vector<NoticeInfo> schedule);
+	vector<CalenderNotice> LoadListNotice(int type, string name, string date);
+	CString SelectedLatesofList(vector<CalenderNotice> schedule);
 
 	DECLARE_MESSAGE_MAP()
 

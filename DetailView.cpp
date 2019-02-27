@@ -35,12 +35,19 @@ void CDetailView::DoDataExchange(CDataExchange * pDX)
 	DDX_Control(pDX, IDC_Date, D_Title);
 	D_Title.SetWindowTextW(Caption);
 	D_Notice.AddString(Contents);
-		/*
-		for (int i = 0; i < TempDataVector.GetSize(); i++)
-		{
-			Contents = TempDataVector[i];
-			D_Notice.AddString(Contents);
-		}
-		*/
-}
 
+	for (int i = 0; i < TempDataVector.GetSize(); i++)
+	{
+		Contents = TempDataVector[i];
+		D_Notice.AddString(Contents);
+	}
+
+
+	for (int i = 0; i < NoticeView.vecNoticeInfo.size(); i++)
+	{
+		string Noticecontents = (NoticeView.vecNoticeInfo[i].Notice_CUserID)+ (NoticeView.vecNoticeInfo[i].Notice_cMsg);
+		CString NewNoticecontents(Noticecontents.c_str());
+		D_Notice.InsertString(i + 1, NewNoticecontents);
+	}
+
+}
