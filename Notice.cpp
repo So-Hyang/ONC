@@ -86,7 +86,7 @@ int CPropertiesWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		return -1;      // fail to create
 	}
 
-	Get_CalendarNotice();
+	Get_CalendarNotice_Notice();
 	InitPropList();
 
 	m_wndToolBar.Create(this, AFX_DEFAULT_TOOLBAR_STYLE, IDR_PROPERTIES);
@@ -169,7 +169,7 @@ void CPropertiesWnd::InitPropList()
 ///////////////////////////////////////////
 ///////// 달력/공지 정보 가져오기
 ///////////////02-25//////////////////////
-void CPropertiesWnd::Get_CalendarNotice()
+void CPropertiesWnd::Get_CalendarNotice_Notice()
 {
 	DataManager *mDataManager;
 	mDataManager = DataManager::GetInstance();
@@ -309,12 +309,12 @@ void CPropertiesWnd::OnViewNSLBtnCLicked()
 	CDetailView Dialog_detail;
 	CString Dialog_detail_Contents;
 	Dialog_detail.Caption = _T("NSL 일정");
-	/*
+
 	for (int i = 0; i < cur_NSL_notice.size(); i++)
 	{
-		Dialog_detail_Contents = ((cur_NSL_notice[i].cMsg).c_str());
+		Dialog_detail_Contents = ((cur_NSL_notice[i].Main_Contents).c_str());
 		Dialog_detail.TempDataVector.Add(Dialog_detail_Contents);
-	}*/
+	}
 	
 	Dialog_detail.DoModal();
 }
@@ -324,11 +324,11 @@ void CPropertiesWnd::OnViewPERSONALBtnCLicked()
 	CDetailView Dialog_detail;
 	CString Dialog_detail_Contents;
 	Dialog_detail.Caption = _T("개인 일정");
-//	for (int i = 0; i < cur_Personal_notice.size(); i++)
+	for (int i = 0; i < cur_Personal_notice.size(); i++)
 	{
-		//		Dialog_detail_Contents = ((cur_Personal_notice[i].cMsg).c_str());
-		//		Dialog_detail.TempDataVector.Add(Dialog_detail_Contents);
-	}//
+				Dialog_detail_Contents = ((cur_Personal_notice[i].Main_Contents).c_str());
+				Dialog_detail.TempDataVector.Add(Dialog_detail_Contents);
+	}
 
 	Dialog_detail.DoModal();
 }

@@ -24,13 +24,13 @@
 
 
 
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
 
 static const POINT readbtnpos = { 516,465 };
 static const POINT calbkpos = { 0,0 };
-vector<CalendarInfo> cal_dumi;
 
 // CCalendarView
 Connect Main_Start;
@@ -103,7 +103,7 @@ void CCalendarView::OnLeftRightBtnClicked(UINT uiID)
 	}
 	CalcaulateCalendar();
 	s_date = to_string((C_cur_Year * 10000) + (C_cur_Month * 100));
-	DrawCalendarList(LoadListSchedule(C_type, C_status, C_name, s_date));
+	DrawCalendarList(LoadListSchedule(C_type,C_name, s_date));
 
 	Invalidate(TRUE);
 	UpdateWindow();
@@ -156,7 +156,7 @@ void CCalendarView::OnCalendarTodayBtnClicked()
 	GetCurrentYearMonth();
 	CalcaulateCalendar();
 	s_date = to_string((C_cur_Year * 10000) + (C_cur_Month * 100));
-	DrawCalendarList(LoadListSchedule(C_type, C_status, C_name, s_date));
+	DrawCalendarList(LoadListSchedule(C_type,C_name, s_date));
 	Invalidate(TRUE);
 	UpdateWindow();
 }
@@ -236,7 +236,8 @@ void CCalendarView::OnLButtonDblClk(UINT nFlags, CPoint point)////종우선배
 	string n_contents;
 	string s_date;
 	CString n_status;
-	CalendarInfo n_calinfo;
+	CalenderNotice n_calinfo_vector;
+	DataPacket n_calinfo_datapaket;
 
 	n_matrix = CalculateCoordinatevalueLocation(point);
 	ColorMatrix(n_matrix);
@@ -250,28 +251,41 @@ void CCalendarView::OnLButtonDblClk(UINT nFlags, CPoint point)////종우선배
 		Adddlg.Caption = n_date;
 
 		if (IDOK == Adddlg.DoModal()) {
-			//벡터값 가공하기
-			n_calinfo.nType = C_type;
 			//n_calinfo.cUserID = "";//본인 ID
 			n_contents = string(CT2CA(Adddlg.a_contents.operator LPCWSTR()));
-			n_calinfo.cMsg = n_contents;
+			s_date = string(CT2CA(n_date.operator LPCWSTR()));
+
+			//DB용 벡터값 추가하기
+			n_calinfo_vector.Main_Contents = n_contents;
+			n_calinfo_vector.Who = "ID"; //수정해야함
+			n_calinfo_vector.Date = s_date;
+			n_calinfo_vector.Contents_Type = "Calendar";
+
+			//통신용 데이터 패킷 추가하기
+			n_calinfo_datapaket.cMsg = n_contents;
+			n_calinfo_datapaket.cUserID = "ID";
+			n_calinfo_datapaket.cDate = s_date;
+			
+			
+
 			n_status = Adddlg.a_status;
 
 			if (n_status == "공개") 
 			{
-				n_calinfo.PubPrivate = true;
-				n_calinfo.nType = 1;
+				n_calinfo_vector.Public_Type = "Public";
+				n_calinfo_datapaket.PubPrivate = true;
+				n_calinfo_datapaket.nType = 1;
 			}
 			else if (n_status == "비공개") 
 			{
-				n_calinfo.PubPrivate = false;
-				n_calinfo.nType = 2;
+				n_calinfo_vector.Public_Type = "Private";
+				n_calinfo_datapaket.PubPrivate = false;
+				n_calinfo_datapaket.nType = 2;
 			}
-			s_date = string(CT2CA(n_date.operator LPCWSTR()));
-			n_calinfo.cDate = s_date;
 			//통신 팀 함수 사용해서 메세지 보내기
-			//내가 가진 DM에 데이터 추가하기
-			AddListSchedule(n_calinfo);
+
+			//내가 가진 DM 벡터에 추가된 벡터 추가하기
+			AddListSchedule(n_calinfo_vector);
 		}
 		Invalidate(TRUE);
 		UpdateWindow();
@@ -308,7 +322,7 @@ void CCalendarView::OnInitialUpdate()
 {
 	CView::OnInitialUpdate();
 
-	vector<CalendarInfo> initvector;
+	vector<CalenderNotice> initvector;
 
 	C_name = "ID";//다시 수정해야함
 	GetCurrentYearMonth();
@@ -349,9 +363,10 @@ void CCalendarView::OnInitialUpdate()
 			cnt++;
 		}
 	}
+		Get_CalendarNotice_Calendar();
 		CalcaulateCalendar();
 		s_date = to_string((C_cur_Year * 10000) + (C_cur_Month * 100));
-		initvector = LoadListSchedule(C_type, C_status, C_name, s_date);
+		initvector = LoadListSchedule(C_type, C_name, s_date);
 		DrawCalendarList(initvector);
 
 }
@@ -552,38 +567,45 @@ void CCalendarView::CreateAddView(CString type, CString status, CString name, CS
 {
 }
 
-vector<CalendarInfo> CCalendarView::LoadListSchedule(int type, CString status, CString name, string date)
+vector<CalenderNotice> CCalendarView::LoadListSchedule(string pubsub_status, CString name, string date)
 {
 	//DM에서 가져온 벡터
-	string test1, test2;
-	vector<CalendarInfo> n_calendarinfo; //반환할 벡터
+	int pubsub_type = 0;
+	vector<CalenderNotice> n_calendarinfo; //반환할 벡터
 										 //DM에서 데이터 가져왔다고 가정
-	switch (type)
+
+	if (pubsub_status == "Public") 
+	{
+		pubsub_type = 1;
+	}
+	else if (pubsub_status == "Private") 
+	{
+		pubsub_type = 2;
+	}
+	switch (pubsub_type)
 	{
 	case 1: //NSL 일정일때
 		for (int i = 0; i < dm_calendarinfo.size(); i++)
 		{
-			if (dm_calendarinfo[i].nType == 1) //NSL 일정
+			if (dm_calendarinfo[i].Public_Type == "Public") //NSL 일정
 			{
-				string temp = dm_calendarinfo[i].cDate;
+				string temp = dm_calendarinfo[i].Date;
 				if (temp.substr(0, 4) == (date.substr(0, 4))) //년, 월이 같으면 n_calendar에 값 추가하기
 				{
-					//test1 = temp.substr(5, 2); test2 = date.substr(4, 2);
 					if (temp.substr(5, 2) == (date.substr(4, 2)))
 					{
 						n_calendarinfo.push_back(dm_calendarinfo[i]);
 					}
 				}
 			}
-			
 		}
 		break;
 	case 2://개인 일정일때
 		for (int i = 0; i < dm_calendarinfo.size(); i++)
 		{
-			if (dm_calendarinfo[i].cUserID == "ID") //개인 일정 //본인 ID인 것만 표시하도록 수정하기
+			if (dm_calendarinfo[i].Who == "ID") //개인 일정 //본인 ID인 것만 표시하도록 수정하기
 			{
-				string temp = dm_calendarinfo[i].cDate;
+				string temp = dm_calendarinfo[i].Date;
 				if (temp.substr(0, 4) == (date.substr(0, 4))) //년, 월이 같으면 n_calendar에 값 추가하기
 				{
 					if (temp.substr(5, 2) == (date.substr(4, 2)))
@@ -602,12 +624,12 @@ vector<CalendarInfo> CCalendarView::LoadListSchedule(int type, CString status, C
 	return n_calendarinfo;
 }
 
-void CCalendarView::AddListSchedule(CalendarInfo newschedule)
+void CCalendarView::AddListSchedule(CalenderNotice newschedule)
 {
 	//일정 추가하기
 	dm_calendarinfo.push_back(newschedule);
 	//일정 리스트박스 다시 그리기
-	DrawCalendarList(LoadListSchedule(C_type, C_status, C_name, s_date));
+	DrawCalendarList(LoadListSchedule(C_type, C_name, s_date));
 }
 
 void CCalendarView::ChangeColorEmergencyNotice(string color)
@@ -665,19 +687,18 @@ void CCalendarView::GetCurrentYearMonth()
 void CCalendarView::OnCalendatTabBtnClicked(UINT uiID)
 {
 
-	vector<CalendarInfo> calendar;
+	vector<CalenderNotice> calendar;
 	s_date = to_string((C_cur_Year * 10000) + (C_cur_Month * 100));
 	
 	switch (uiID) {
 	case 105://NSL
-		C_status = "pub"; C_name = "이름"; C_type = 1;
-		//date = "20181022";
-		calendar = LoadListSchedule(C_type, C_status, C_name, s_date);//DM에서 코드 가져오는 함수
+		C_name = "이름"; C_type = "Public";
+		calendar = LoadListSchedule(C_type,C_name, s_date);//DM에서 코드 가져오는 함수
 		DrawCalendarList(calendar);
 		break;
 	case 106://개인
-		C_status = "pri"; C_name = "ID"; C_type = 2;
-		calendar = LoadListSchedule(C_type, C_status, C_name, s_date);//DM에서 코드 가져오는 함수
+		C_name = "ID"; C_type = "Private";
+		calendar = LoadListSchedule(C_type, C_name, s_date);//DM에서 코드 가져오는 함수
 		DrawCalendarList(calendar);
 		break;
 	}
@@ -712,7 +733,7 @@ void CCalendarView::OnCalendarListClicked(UINT uuid)
 	list_cal[listbox_index]->SetCurSel(-1);
 }
 
-void CCalendarView::DrawCalendarList(vector<CalendarInfo>n_calendar)
+void CCalendarView::DrawCalendarList(vector<CalenderNotice>n_calendar)
 {
 	int cnt_r = 0, i = 0;
 	string s_temp;
@@ -724,11 +745,11 @@ void CCalendarView::DrawCalendarList(vector<CalendarInfo>n_calendar)
 	}
 
 	while (i < n_calendar.size()) {
-		s_temp = n_calendar[i].cDate;
+		s_temp = n_calendar[i].Date;
 		c_temp = (s_temp.substr(8, 2)).c_str();
 		if (c_temp == t_date[cnt_r]) //일이 같으면 
 		{
-			s_temp = n_calendar[i].cMsg;
+			s_temp = n_calendar[i].Main_Contents;
 			c_temp = s_temp.c_str();
 			list_cal[cnt_r]->AddString(c_temp);
 			i++;
@@ -748,3 +769,24 @@ void CCalendarView::DrawCalendarList(vector<CalendarInfo>n_calendar)
 }
 
 
+///////////////////////////////////////////
+///////// 달력/공지 정보 가져오기
+///////////////02-25//////////////////////
+void CCalendarView::Get_CalendarNotice_Calendar()
+{
+	DataManager *mDataManager;
+	mDataManager = DataManager::GetInstance();
+
+	CalenderNotice dm_vector_data;
+	for (vector<CalenderNotice>::iterator i = mDataManager->calendernotice_v.begin(); i != mDataManager->calendernotice_v.end(); i++)
+	{
+
+		dm_vector_data.Who = (*i).Who;
+		dm_vector_data.Date = (*i).Date;
+		dm_vector_data.Contents_Type = (*i).Contents_Type;
+		dm_vector_data.Main_Contents = (*i).Main_Contents;
+		dm_vector_data.Public_Type = (*i).Public_Type;
+		dm_calendarinfo.push_back(dm_vector_data);
+	}
+
+}

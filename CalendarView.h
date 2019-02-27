@@ -3,21 +3,9 @@
 //
 
 #pragma once
+#include "DataManager.h"
 
 
-
-struct CalendarInfo//DM 데이터 패킷
-{
-	unsigned int nType;
-	string TopicTitle;
-	string cUserID;
-	string cMsg;
-	string cDate;
-	string cPassWord;
-	string cSenderID;
-	string Participants;
-	bool PubPrivate;
-};
 
 class CCalendarView : public CView
 {
@@ -49,9 +37,10 @@ public:
 
 	void CreateAddView(CString type, CString status, CString name, CString date);
 
-	vector<CalendarInfo> LoadListSchedule(int type, CString status, CString name, string date);
+	vector<CalenderNotice> LoadListSchedule(string pubsub_status, CString name, string date);
 
-	void AddListSchedule(CalendarInfo newschedule);
+
+	void AddListSchedule(CalenderNotice newschedule);
 
 	void ChangeColorEmergencyNotice(string color);
 
@@ -63,7 +52,9 @@ public:
 
 
 
-	void DrawCalendarList(vector<CalendarInfo> n_calendar);
+	void DrawCalendarList(vector<CalenderNotice> n_calendar);
+
+	void Get_CalendarNotice_Calendar();
 
 
 
@@ -88,13 +79,8 @@ public:
 
 	CString C_status, C_name;
 	string s_date;
-	int C_type = 1;
-	vector<CalendarInfo> dm_calendarinfo{
-		{ 1, "", "ID", "contents1", "2018-10-22", "", "", "", true },{ 1, "", "IDDD", "contents2", "2019-02-20", "", "", "", true },{ 2, "", "IDDDD", "contents3", "2019-02-20", "", "", "", true },
-		{ 1, "", "ID", "contents4", "2019-02-28", "", "", "", true },{ 2, "", "ID", "contents5", "2019-02-20", "", "", "", false },{ 2, "", "ID", "contents6", "2019-02-20", "", "", "", false },
-		{ 1, "", "ID", "contents7", "2019-03-01", "", "", "", true },{ 1, "", "ID", "contents8", "2019-04-20", "", "", "", true }
-
-	};
+	string C_type = "Public";
+	vector<CalenderNotice> dm_calendarinfo{};
 
 
 	// 재정의입니다.

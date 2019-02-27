@@ -28,7 +28,6 @@ public:
 	CPropertiesWnd();
 
 	void AdjustLayout();
-	void Get_CalendarNotice();
 
 	vector<CalenderNotice> dm_noticeinfo{};
 	vector<CalenderNotice> cur_NSL_notice{};
@@ -68,7 +67,9 @@ protected:
 	afx_msg void OnViewNSLBtnCLicked();
 	afx_msg void OnViewPERSONALBtnCLicked();
 	afx_msg void OnViewAddBtnCLicked();
-	afx_msg void OnSetFocus(CWnd* pOldWnd);
+	afx_msg
+		void Get_CalendarNotice_Notice();
+	void OnSetFocus(CWnd* pOldWnd);
 	afx_msg void OnSettingChange(UINT uFlags, LPCTSTR lpszSection);
 	vector<CalenderNotice> LoadListNotice(int type, string name, string date);
 	CString SelectedLatesofList(vector<CalenderNotice> schedule);
