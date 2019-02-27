@@ -274,7 +274,7 @@ DataPacket PacketManager::PassWordPacketAnalysis(DataPacket RecvMessage)
 /*수정담당자 : 김경선**********************************************************/
 /*수정사항 : *****************************************************************/
 
-
+#ifdef SERVERMODE
 void PacketManager::PacketCreater(DataPacket SenderMessage)
 {
 
@@ -572,4 +572,6 @@ void PacketManager::PassWordPacketCreater(DataPacket SenderMessage)
 	//DB 센더 해야함
 	
 }
+
+#endif
 

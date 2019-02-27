@@ -24,6 +24,9 @@ static struct Temp
 class Connect
 {
 public:
+	SOCKET ClientScoket;
+	SOCKADDR_IN ClientSock;
+
 	WSADATA wsaData;
 	SOCKET ServerSock;
 	SOCKADDR_IN ServerAddr;

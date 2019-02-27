@@ -33,6 +33,7 @@ public:
 
 	void AdjustLayout();
 	void Get_CalendarNotice();
+/*	
 	vector<NoticeInfo> dm_noticeinfo{
 		{ 1, "", "ID", "NSL1", "2018-10-22", "", "", "", true },{ 1, "", "ID", "NSL2", "2019-02-26", "", "", "", true },{ 1, "", "ID", "NSL3", "2019-02-26", "", "", "", true },
 		{ 1, "", "IDDDD", "NSL4_ID 다름", "2019-02-26", "", "", "", true },{ 2, "", "ID", "개인1", "2019-02-26", "", "", "", false },{1, "", "ID", "NSL5", "2019-02-26", "", "","", true},
@@ -41,6 +42,7 @@ public:
 	};
 	vector<NoticeInfo> cur_NSL_notice{};
 	vector<NoticeInfo> cur_Personal_notice{};
+	*/
 	string N_cur_Year;
 	string N_cur_Month;
 	string N_cur_Day;
@@ -72,8 +74,8 @@ protected:
 	afx_msg void OnViewPERSONALBtnCLicked();
 	afx_msg void OnSetFocus(CWnd* pOldWnd);
 	afx_msg void OnSettingChange(UINT uFlags, LPCTSTR lpszSection);
-	vector<NoticeInfo> LoadListNotice(int type, string name, string date);
-	CString SelectedLatesofList(vector<NoticeInfo> schedule);
+	//vector<NoticeInfo> LoadListNotice(int type, string name, string date);
+	//CString SelectedLatesofList(vector<NoticeInfo> schedule);
 
 	DECLARE_MESSAGE_MAP()
 

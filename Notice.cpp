@@ -145,18 +145,18 @@ void CPropertiesWnd::InitPropList()
 	pAll->AddSubItem(new CMFCPropertyGridProperty(_T("전체 공지사항"), _T("시완 2시까지 교수님 호출")));
 	m_wndPropList.AddProperty(pAll);
 
-	cur_NSL_notice = LoadListNotice(1, "", cur_date);
+//	cur_NSL_notice = LoadListNotice(1, "", cur_date);
 	CMFCPropertyGridProperty* pNSL = new CMFCPropertyGridProperty(_T("NSL 일정 List"));
 	m_wndPropList.AddProperty(pNSL);
-	temp_propertycontents = ((cur_NSL_notice[0].cMsg).c_str());
+	//temp_propertycontents = ((cur_NSL_notice[0].cMsg).c_str());
 	propertycontents = (LPCTSTR)temp_propertycontents;
 	CMFCPropertyGridProperty* pNSL_item = new CMFCPropertyGridProperty(_T("NSL 일정 List"), propertycontents);
 	pNSL->AddSubItem(pNSL_item);
 
-	cur_Personal_notice = LoadListNotice(2, "ID", cur_date);
+//	cur_Personal_notice = LoadListNotice(2, "ID", cur_date);
 	CMFCPropertyGridProperty* pPersonal = new CMFCPropertyGridProperty(_T("개인 일정 List"));
 	m_wndPropList.AddProperty(pPersonal);
-	temp_propertycontents = ((cur_Personal_notice[0].cMsg).c_str());
+	//temp_propertycontents = ((cur_Personal_notice[0].cMsg).c_str());
 	propertycontents = (LPCTSTR)temp_propertycontents;
 	CMFCPropertyGridProperty* pPersonal_item = new CMFCPropertyGridProperty(_T("개인 일정 List"), propertycontents);
 	pPersonal->AddSubItem(pPersonal_item);
@@ -169,6 +169,7 @@ void CPropertiesWnd::Get_CalendarNotice()
 	DataManager *mDataManager;
 	mDataManager = DataManager::GetInstance();
 
+	/*
 	for (vector<CalenderNotice>::iterator i = mDataManager->calendernotice_v.begin(); i != mDataManager->calendernotice_v.end(); i++)
 	{
 		string a = (*i).Date;
@@ -178,9 +179,9 @@ void CPropertiesWnd::Get_CalendarNotice()
 		string e = (*i).Main_Contents;
 		CString buf;
 		buf = b.c_str();
-			
+			*/
 		
-	}
+//	}
 
 }
 
@@ -197,6 +198,7 @@ void CPropertiesWnd::OnSettingChange(UINT uFlags, LPCTSTR lpszSection)
 	SetPropListFont();
 }
 
+/*
 vector<NoticeInfo> CPropertiesWnd::LoadListNotice(int type, string name, string date)
 {
 	//dm_noticeinfo
@@ -229,11 +231,14 @@ vector<NoticeInfo> CPropertiesWnd::LoadListNotice(int type, string name, string 
 	}
 	return result_Notice;
 }
+
+*/
+/*
 CString CPropertiesWnd::SelectedLatesofList(vector<NoticeInfo> schedule)
 {
 	return CString();
 }
-
+*/
 
 void CPropertiesWnd::SetPropListFont()
 {
@@ -272,12 +277,13 @@ void CPropertiesWnd::OnViewNSLBtnCLicked()
 	CDetailView Dialog_detail;
 	CString Dialog_detail_Contents;
 	Dialog_detail.Caption = _T("NSL 일정");
+	/*
 	for (int i = 0; i < cur_NSL_notice.size(); i++)
 	{
 		Dialog_detail_Contents = ((cur_NSL_notice[i].cMsg).c_str());
 		Dialog_detail.TempDataVector.Add(Dialog_detail_Contents);
 	}
-
+	*/
 	Dialog_detail.DoModal();
 }
 
