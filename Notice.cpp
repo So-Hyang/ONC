@@ -15,6 +15,7 @@
 #include "MainFrm.h"
 #include "ONC.h"
 #include "DetailView.h"
+#include "AddView.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE
@@ -42,6 +43,7 @@ BEGIN_MESSAGE_MAP(CPropertiesWnd, CDockablePane)
 	ON_COMMAND(ID_NSL, OnViewNSLBtnCLicked)
 	ON_COMMAND(ID_PERSONAL, OnViewPERSONALBtnCLicked)
 	ON_COMMAND(ID_VIEW_ALL, OnViewAllBtnCLicked)
+	ON_COMMAND(ID_VIEW_ADD, OnViewAddBtnCLicked)
 	ON_WM_SETFOCUS()
 	ON_WM_SETTINGCHANGE()
 END_MESSAGE_MAP()
@@ -298,6 +300,31 @@ void CPropertiesWnd::SetPropListFont()
 	//m_wndObjectCombo.SetFont(&m_fntPropList);
 }
 
+void CPropertiesWnd::AddNoticeInfo(ALLNoticeInfo Infos)
+{
+	vecNoticeInfo.push_back(Infos);
+}
+
+void CPropertiesWnd::AddNoticeInfoDB()
+{
+	ALLNoticeInfo NoticeInfos;
+	DataManager *mDataManager;
+	mDataManager = DataManager::GetInstance();
+
+	for (int i = 0; mDataManager->calendernotice_v.size(); i++)
+	{
+		if (mDataManager->calendernotice_v[i].Contents_Type == "3")
+		{
+			NoticeInfos.Notice_cMsg = mDataManager->calendernotice_v[i].Main_Contents;
+			NoticeInfos.Notice_CUserID = mDataManager->calendernotice_v[i].Who;
+			vecNoticeInfo.push_back(NoticeInfos);
+		}
+	}
+}
+
+
+
+
 
 void CPropertiesWnd::OnViewAllBtnCLicked()
 {
@@ -307,6 +334,14 @@ void CPropertiesWnd::OnViewAllBtnCLicked()
 	dlg.Caption = caption;
 	dlg.DoModal();
 }
+
+void CPropertiesWnd::OnViewAddBtnCLicked()
+{
+	AddView AD;
+	AD.DoModal();
+	CString listbox_contents;
+}
+
 
 
 void CPropertiesWnd::OnViewNSLBtnCLicked()

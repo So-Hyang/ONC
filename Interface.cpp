@@ -21,7 +21,15 @@ void GuiClientInterface::OnChatMessage(string TopicTitle, string cUserID, string
 }
 void GuiClientInterface::OnNoticeMessage(string UserID, string cMsg)
 {
-	// GUI가 코딩해야함
+	CONCApp *pApp = (CONCApp *)AfxGetApp();
+	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
+	//CChildFrame *pChild = (CChildFrame *)pFrame->GetActiveFrame();
+	CPropertiesWnd *pDetaiView = (CPropertiesWnd *)pFrame->GetActiveView();
+	ALLNoticeInfo NoticeInfos;
+
+	NoticeInfos.Notice_CUserID = UserID;
+	NoticeInfos.Notice_cMsg = cMsg;
+	pDetaiView->AddNoticeInfo(NoticeInfos);
 	CDataPacket::getInstance()->RecvMessageClear();
 }
 void GuiClientInterface::OnCalendarMessage(string UserID, string cMsg, string cDate)

@@ -14,6 +14,13 @@ struct NoticeInfo//DM 데이터 패킷
 	bool PubPrivate;
 };
 
+struct ALLNoticeInfo
+{
+	string Notice_CUserID;
+	string Notice_cMsg;
+};
+
+
 class CPropertiesToolBar : public CMFCToolBar
 {
 public:
@@ -47,6 +54,10 @@ public:
 	string N_cur_Month;
 	string N_cur_Day;
 
+	vector<ALLNoticeInfo>vecNoticeInfo;
+	void AddNoticeInfo(ALLNoticeInfo Infos);
+	void AddNoticeInfoDB();
+
 	// 특성입니다.
 public:
 	void SetVSDotNetLook(BOOL bSet)
@@ -72,6 +83,7 @@ protected:
 	afx_msg void OnUpdateExpandAllProperties(CCmdUI* pCmdUI);
 	afx_msg void OnViewNSLBtnCLicked();
 	afx_msg void OnViewPERSONALBtnCLicked();
+	afx_msg void OnViewAddBtnCLicked();
 	afx_msg void OnSetFocus(CWnd* pOldWnd);
 	afx_msg void OnSettingChange(UINT uFlags, LPCTSTR lpszSection);
 	//vector<NoticeInfo> LoadListNotice(int type, string name, string date);
