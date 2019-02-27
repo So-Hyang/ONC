@@ -7,7 +7,7 @@ using namespace std;
 
 typedef struct
 {
-	int nType;
+	/*int nType;
 	string TopicTitle;
 	char* cUserID;
 	char* cMsg;
@@ -15,20 +15,20 @@ typedef struct
 	char* PassWord;
 	char* SenderID;
 	string Participant;
-	bool PubPri;
+	bool PubPri;*/
 
 
 
-	//unsigned int nType = 0;
-	//string TopicTitle;
-	//string cUserID;
-	//string cMsg;
-	//string cDate;
-	//string cPassWord;
-	//string cSenderID;
-	//string Participants;
-	//string AllTopicTitle;
-	//bool PubPrivate;
+	unsigned int ntype = 0;
+	string Topictitle;
+	string cUserID;
+	string cMsg;
+	string cDate;
+	string cPassword;
+	string cSenderid;
+	string Participants;
+	string Alltopictitle;
+	bool PubPrivate;
 
 }DataPacket;
 

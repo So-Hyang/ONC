@@ -16,7 +16,7 @@ DataBaseSender::~DataBaseSender()
 
 
 
-void DataBaseSender::DB_Data_Send_to_mysql(DataPacket Data)
+void DataBaseSender::DB_Data_Send_to_mysql(DataPacket Data) // 함수 수정 02-27 김시완 // 
 {  
 
 	char* Contents_Type;
@@ -25,7 +25,7 @@ void DataBaseSender::DB_Data_Send_to_mysql(DataPacket Data)
 	memset(&Contents_Type, 0, sizeof(Contents_Type));
 	memset(&Public_Type, 0, sizeof(Public_Type));
 
-	switch (Data.nType)
+	switch (Data.ntype)
 	{
 	case 1:
 	{
@@ -33,11 +33,11 @@ void DataBaseSender::DB_Data_Send_to_mysql(DataPacket Data)
 		Contents_Type = "Calender";
 		DB_mysql_connect(DB_CalendarNotice);
 
-		if (Data.PubPri == true)
+		if (Data.PubPrivate == true)
 		{
 			Public_Type = "Public";
 		}
-		if (Data.PubPri == false)
+		if (Data.PubPrivate == false)
 		{
 			Public_Type = "Private";
 		}
@@ -63,6 +63,7 @@ void DataBaseSender::DB_Data_Send_to_mysql(DataPacket Data)
 		{
 			fprintf(stderr, "%s\n", mysql_error(&conn));
 		}
+		DB_mysql_disconnect(); //02-27 추가 김시완
 
 	}break;
 
@@ -72,14 +73,14 @@ void DataBaseSender::DB_Data_Send_to_mysql(DataPacket Data)
 		Contents_Type = "Notice";
 		DB_mysql_connect(DB_CalendarNotice);
 
-		if (Data.PubPri == true)
+		if ((Data.PubPrivate == true )||(Data.PubPrivate == false) ) //02-27 수정 김시완
 		{
 			Public_Type = "Public";
 		}
-		if (Data.PubPri == false)
+		/*if (Data.PubPri == false)
 		{
 			Public_Type = "Private";
-		}
+		}*/
 
 		memset(&query, 0, sizeof(query));
 
@@ -102,7 +103,7 @@ void DataBaseSender::DB_Data_Send_to_mysql(DataPacket Data)
 		{
 			fprintf(stderr, "%s\n", mysql_error(&conn));
 		}
-
+		DB_mysql_disconnect();// 02-27 추가 김시완
 	}break;
 
 
@@ -112,7 +113,7 @@ void DataBaseSender::DB_Data_Send_to_mysql(DataPacket Data)
 
 		string tmp = "";
 		tmp = " UPDATE people Set Password = '";
-		tmp += Data.PassWord;
+		tmp += Data.cPassword;
 		tmp += "' Where Name = '";
 		tmp = tmp + Data.cUserID;
 		tmp += "'";
@@ -124,7 +125,7 @@ void DataBaseSender::DB_Data_Send_to_mysql(DataPacket Data)
 		{
 			fprintf(stderr, "%s\n", mysql_error(&conn));
 		}
-
+		DB_mysql_disconnect();// 02-27 추가 김시완
 	}break;
 
 	default:
