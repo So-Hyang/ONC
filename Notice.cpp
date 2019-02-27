@@ -16,6 +16,7 @@
 #include "ONC.h"
 #include "DetailView.h"
 #include "AddView.h"
+#include "ChildFrm.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE
@@ -73,6 +74,7 @@ int CPropertiesWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	CRect rectDummy;
 	rectDummy.SetRectEmpty();
+	AddNoticeInfoDB();
 	// Create combo:
 	const DWORD dwViewStyle = WS_CHILD | WS_VISIBLE | CBS_DROPDOWNLIST | WS_BORDER | CBS_SORT | WS_CLIPSIBLINGS | WS_CLIPCHILDREN;
 
@@ -100,6 +102,7 @@ int CPropertiesWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_wndToolBar.SetRouteCommandsViaFrame(FALSE);
 
 	AdjustLayout();
+	
 	return 0;
 }
 
@@ -133,6 +136,7 @@ void CPropertiesWnd::InitPropList()
 		N_cur_Month = "0" + N_cur_Day;
 	string cur_date = N_cur_Year + "-" + N_cur_Month + "-" + N_cur_Day;
 	LPCTSTR propertycontents;
+	LPCTSTR bbb;
 	CString temp_propertycontents;
 
 	//내 아이디 가져오는 부분 필요함
@@ -143,8 +147,12 @@ void CPropertiesWnd::InitPropList()
 	m_wndPropList.SetVSDotNetLook();
 	m_wndPropList.MarkModifiedProperties();
 
+	string b = vecNoticeInfo.back().Notice_cMsg + vecNoticeInfo.back().Notice_CUserID;
+	CString bb(b.c_str());
+	bbb = (LPCTSTR)bb;
 	CMFCPropertyGridProperty* pAll = new CMFCPropertyGridProperty(_T("전체공지사항 List"));
-	pAll->AddSubItem(new CMFCPropertyGridProperty(_T("전체 공지사항"), _T("시완 2시까지 교수님 호출")));
+
+	pAll->AddSubItem(new CMFCPropertyGridProperty(_T("전체 공지사항"), bbb));
 	m_wndPropList.AddProperty(pAll);
 /*
 //	cur_NSL_notice = LoadListNotice(1, "", cur_date);
@@ -187,6 +195,27 @@ void CPropertiesWnd::Get_CalendarNotice()
 
 }
 
+void CPropertiesWnd::AddNoticeInfo(ALLNoticeInfo Infos)
+{
+	vecNoticeInfo.push_back(Infos);
+}
+
+void CPropertiesWnd::AddNoticeInfoDB()
+{
+	ALLNoticeInfo NoticeInfos;
+	DataManager *mDataManager;
+	mDataManager = DataManager::GetInstance();
+
+	for (int i = 0; i < mDataManager->calendernotice_v.size(); i++)
+	{
+		if (mDataManager->calendernotice_v[i].Contents_Type == "Notice")
+		{
+			NoticeInfos.Notice_cMsg = mDataManager->calendernotice_v[i].Main_Contents;
+			NoticeInfos.Notice_CUserID = mDataManager->calendernotice_v[i].Who;
+			vecNoticeInfo.push_back(NoticeInfos);
+		}
+	}
+}
 
 void CPropertiesWnd::OnSetFocus(CWnd* pOldWnd)
 {
@@ -300,28 +329,6 @@ void CPropertiesWnd::SetPropListFont()
 	//m_wndObjectCombo.SetFont(&m_fntPropList);
 }
 
-void CPropertiesWnd::AddNoticeInfo(ALLNoticeInfo Infos)
-{
-	vecNoticeInfo.push_back(Infos);
-}
-
-void CPropertiesWnd::AddNoticeInfoDB()
-{
-	ALLNoticeInfo NoticeInfos;
-	DataManager *mDataManager;
-	mDataManager = DataManager::GetInstance();
-
-	for (int i = 0; mDataManager->calendernotice_v.size(); i++)
-	{
-		if (mDataManager->calendernotice_v[i].Contents_Type == "3")
-		{
-			NoticeInfos.Notice_cMsg = mDataManager->calendernotice_v[i].Main_Contents;
-			NoticeInfos.Notice_CUserID = mDataManager->calendernotice_v[i].Who;
-			vecNoticeInfo.push_back(NoticeInfos);
-		}
-	}
-}
-
 
 
 
@@ -332,7 +339,16 @@ void CPropertiesWnd::OnViewAllBtnCLicked()
 	CString caption, list;
 	caption = "전체 공지사항 리스트";
 	dlg.Caption = caption;
+
+	for (int i = 0; i < vecNoticeInfo.size(); i++)
+	{
+		string Noticecontents = "[" + vecNoticeInfo[i].Notice_CUserID + "] : " + (vecNoticeInfo[i].Notice_cMsg);
+		CString NewNoticecontents(Noticecontents.c_str());
+		dlg.Contents = NewNoticecontents;
+	}
+
 	dlg.DoModal();
+
 }
 
 void CPropertiesWnd::OnViewAddBtnCLicked()

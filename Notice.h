@@ -57,7 +57,6 @@ public:
 	vector<ALLNoticeInfo>vecNoticeInfo;
 	void AddNoticeInfo(ALLNoticeInfo Infos);
 	void AddNoticeInfoDB();
-
 	// 특성입니다.
 public:
 	void SetVSDotNetLook(BOOL bSet)

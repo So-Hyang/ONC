@@ -25,11 +25,13 @@ void GuiClientInterface::OnNoticeMessage(string UserID, string cMsg)
 	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
 	//CChildFrame *pChild = (CChildFrame *)pFrame->GetActiveFrame();
 	CPropertiesWnd *pDetaiView = (CPropertiesWnd *)pFrame->GetActiveView();
+	/*
 	ALLNoticeInfo NoticeInfos;
 
 	NoticeInfos.Notice_CUserID = UserID;
 	NoticeInfos.Notice_cMsg = cMsg;
 	pDetaiView->AddNoticeInfo(NoticeInfos);
+	*/
 	CDataPacket::getInstance()->RecvMessageClear();
 }
 void GuiClientInterface::OnCalendarMessage(string UserID, string cMsg, string cDate)

@@ -166,7 +166,7 @@ BOOL CONCApp::InitInstance()
 
 	//************서버와 연결***************************************************//
 
-	GuiClientInterface::getInstance()->ConncetWithServer();
+//	GuiClientInterface::getInstance()->ConncetWithServer();
 
 	//************************************************************************//
 	
