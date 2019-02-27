@@ -1,5 +1,7 @@
 #pragma once
 
+
+
 //#define BUF_SIZE 200
 #include "stdafx.h"
 #include "DataPacket.h"
@@ -15,7 +17,6 @@
 #ifdef CLIENTMODE
 #include "PacketManager.h"
 #endif
-
 using namespace std;
 
 #pragma comment(lib, "ws2_32.lib")
@@ -25,7 +26,6 @@ class SendRecv
 public:
 
 	
-	SOCKET ServerSock, ClientSock;
 	SOCKADDR_IN ServerAddr;
 	HANDLE MSGThread;
 	

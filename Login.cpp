@@ -16,7 +16,6 @@
 
 
 vector<PeopleInfo> dumi;
-GuiClientInterface* GuiClientInterface::i_Instance = NULL;
 using namespace std;
 
 
@@ -122,5 +121,21 @@ BOOL CLogin::PreTranslateMessage(MSG* pMsg)
 		}
 		return true;
 	}
+
+	if (pMsg->message == WM_SYSKEYDOWN)
+	{
+		if (pMsg->wParam == VK_F4)
+			return TRUE;
+	}
+
+	if (pMsg->message == WM_KEYDOWN)
+	{
+		if (pMsg->wParam == VK_ESCAPE ||
+			pMsg->wParam == VK_RETURN ||
+			pMsg->wParam == VK_SPACE ||
+			pMsg->wParam == VK_CANCEL)       //CTRL + PAUSE ¹æÁö
+			return TRUE;
+	}
+
 	return CDialog::PreTranslateMessage(pMsg);
 }

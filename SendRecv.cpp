@@ -5,16 +5,6 @@
 /*수정담당자 : 김경선**********************************************************/
 /*수정사항 : Send함수 Recv함수 정의************************************************/
 
-
-CDataPacket* CDataPacket::c_Instance = NULL;
-
-DataPacket CDataPacket::RecverMessage;
-DataPacket CDataPacket::RecvMessage;
-DataPacket CDataPacket::SenderMessage;
-SendPacket CDataPacket::ClientSocket;
-//DataPacket_Temp CDataPacket::Temp_struct;
-
-
 void SendRecv::RecvThread(SOCKET cSock)
 {
 
@@ -27,6 +17,7 @@ void SendRecv::RecvThread(SOCKET cSock)
 unsigned WINAPI SendRecv::Recv(void* arg)
 {
 	PacketManager Analysis;
+	SendPacket ClientSocket;
 	ClientSocket = *(SendPacket *)arg;						//입력으로 들어온 클라이언트 소켓 배열을 소켓 배열 형태로 저장한다.
 	
 	while ((recv(ClientSocket.ClientSock, (char*)&CDataPacket::getInstance()->RecverMessage, sizeof(CDataPacket::getInstance()->RecverMessage), 0)) != -1)

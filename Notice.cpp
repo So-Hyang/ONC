@@ -144,7 +144,7 @@ void CPropertiesWnd::InitPropList()
 	CMFCPropertyGridProperty* pAll = new CMFCPropertyGridProperty(_T("전체공지사항 List"));
 	pAll->AddSubItem(new CMFCPropertyGridProperty(_T("전체 공지사항"), _T("시완 2시까지 교수님 호출")));
 	m_wndPropList.AddProperty(pAll);
-
+/*
 //	cur_NSL_notice = LoadListNotice(1, "", cur_date);
 	CMFCPropertyGridProperty* pNSL = new CMFCPropertyGridProperty(_T("NSL 일정 List"));
 	m_wndPropList.AddProperty(pNSL);
@@ -159,7 +159,7 @@ void CPropertiesWnd::InitPropList()
 	//temp_propertycontents = ((cur_Personal_notice[0].cMsg).c_str());
 	propertycontents = (LPCTSTR)temp_propertycontents;
 	CMFCPropertyGridProperty* pPersonal_item = new CMFCPropertyGridProperty(_T("개인 일정 List"), propertycontents);
-	pPersonal->AddSubItem(pPersonal_item);
+	pPersonal->AddSubItem(pPersonal_item);*/
 }
 ///////////////////////////////////////////
 ///////// 달력/공지 정보 가져오기
@@ -197,6 +197,43 @@ void CPropertiesWnd::OnSettingChange(UINT uFlags, LPCTSTR lpszSection)
 	CDockablePane::OnSettingChange(uFlags, lpszSection);
 	SetPropListFont();
 }
+//
+//vector<NoticeInfo> CPropertiesWnd::LoadListNotice(int type, string name, string date)
+//{
+//	//dm_noticeinfo
+//	vector<NoticeInfo> result_Notice{};//선별해서 나타내진 결과 벡터
+//									   //DB에서 정보 가져온 데이터중에서  type, status에 따라서 원하는 정보 불러옴
+//	switch (type)
+//	{
+//	case 1: //NSL //날짜일치 + type == true일치
+//		for (int i = 0; i < dm_noticeinfo.size(); i++)
+//		{
+//			if ((date == dm_noticeinfo[i].cDate)&&(true == dm_noticeinfo[i].PubPrivate))
+//			{
+//				result_Notice.push_back(dm_noticeinfo[i]);
+//			}
+//		}
+//		break;
+//	case 2://개인 //날짜일치+ID일치
+//		for (int i = 0; i < dm_noticeinfo.size(); i++)
+//		{
+//			if ((name == dm_noticeinfo[i].cUserID) && (date == dm_noticeinfo[i].cDate))
+//			{
+//				result_Notice.push_back(dm_noticeinfo[i]);
+//			}
+//		}
+//		break;
+//	case 3://공지사항
+//		break;
+//	default:
+//		break;
+//	}
+//	return result_Notice;
+//}
+//CString CPropertiesWnd::SelectedLatesofList(vector<NoticeInfo> schedule)
+//{
+//	return CString();
+//}
 
 /*
 vector<NoticeInfo> CPropertiesWnd::LoadListNotice(int type, string name, string date)
@@ -282,7 +319,7 @@ void CPropertiesWnd::OnViewNSLBtnCLicked()
 	{
 		Dialog_detail_Contents = ((cur_NSL_notice[i].cMsg).c_str());
 		Dialog_detail.TempDataVector.Add(Dialog_detail_Contents);
-	}
+	}*/
 	*/
 	Dialog_detail.DoModal();
 }
@@ -296,7 +333,7 @@ void CPropertiesWnd::OnViewPERSONALBtnCLicked()
 	{
 //		Dialog_detail_Contents = ((cur_Personal_notice[i].cMsg).c_str());
 //		Dialog_detail.TempDataVector.Add(Dialog_detail_Contents);
-	}
+	}*/
 
 	Dialog_detail.DoModal();
 }
