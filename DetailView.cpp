@@ -34,7 +34,6 @@ void CDetailView::DoDataExchange(CDataExchange * pDX)
 	DDX_Control(pDX, IDC_LIST_NOTICE, D_Notice);
 	DDX_Control(pDX, IDC_Date, D_Title);
 	D_Title.SetWindowTextW(Caption);
-	D_Notice.AddString(Contents);
 
 	for (int i = 0; i < TempDataVector.GetSize(); i++)
 	{

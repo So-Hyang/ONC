@@ -304,7 +304,8 @@ void CPropertiesWnd::OnViewAllBtnCLicked()
 	{
 		string Noticecontents = "[" + vecNoticeInfo[i].Notice_CUserID + "] : " + (vecNoticeInfo[i].Notice_cMsg);
 		CString NewNoticecontents(Noticecontents.c_str());
-		dlg.Contents = NewNoticecontents;
+		dlg.TempDataVector.Add(NewNoticecontents);
+		//Dialog_detail.TempDataVector.Add(Dialog_detail_Contents);
 	}
 
 	dlg.DoModal();
