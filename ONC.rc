@@ -17,7 +17,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// 한국어(대한민국) resources
+// Korean (Korea) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_KOR)
 LANGUAGE LANG_KOREAN, SUBLANG_DEFAULT
@@ -193,10 +193,10 @@ END
 IDR_PROPERTIES TOOLBAR 50, 25
 BEGIN
     BUTTON      ID_VIEW_ALL
+    BUTTON      ID_VIEW_ADD
     BUTTON      ID_NSL
     SEPARATOR
     BUTTON      ID_PERSONAL
-    BUTTON      ID_PROPERTIES2
 END
 
 IDR_TOOLBAR_USER TOOLBAR 16, 15
@@ -772,7 +772,7 @@ BEGIN
     IDS_FIND_TAB            "찾기"
 END
 
-#endif    // 한국어(대한민국) resources
+#endif    // Korean (Korea) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
