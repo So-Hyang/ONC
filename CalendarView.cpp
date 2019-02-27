@@ -786,6 +786,7 @@ void CCalendarView::Get_CalendarNotice_Calendar()
 		dm_vector_data.Contents_Type = (*i).Contents_Type;
 		dm_vector_data.Main_Contents = (*i).Main_Contents;
 		dm_vector_data.Public_Type = (*i).Public_Type;
+		if((*i).Contents_Type == "Calendar")
 		dm_calendarinfo.push_back(dm_vector_data);
 	}
 
