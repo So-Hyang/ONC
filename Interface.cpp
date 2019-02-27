@@ -7,7 +7,16 @@ GuiClientInterface* GuiClientInterface::i_Instance = NULL;
 //아날리시스에 on메세지 함수 실행 해야함, 리시브 스레드안에 유저인포 관리하는거 고려해야함
 void GuiClientInterface::OnChatMessage(string TopicTitle, string cUserID, string cMsg)
 {
-	//GUI가 코딩해야함
+	int nLocation;
+	string sSendMSG;
+	CString csSendMSG;
+
+	CONCApp *pApp = (CONCApp *)AfxGetApp();
+	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
+	nLocation = pFrame->m_wndOutput.FindChatRoom(TopicTitle);
+	sSendMSG = "[" + cUserID + "] : " + cMsg;
+	csSendMSG = sSendMSG.c_str();
+	pFrame->m_wndOutput.m_wndList[nLocation].AddString(csSendMSG);
 	CDataPacket::getInstance()->RecvMessageClear();
 }
 void GuiClientInterface::OnNoticeMessage(string UserID, string cMsg)
@@ -20,6 +29,7 @@ void GuiClientInterface::OnCalendarMessage(string UserID, string cMsg, string cD
 	// GUI가 코딩해야함
 	CDataPacket::getInstance()->RecvMessageClear();
 }
+
 void GuiClientInterface::OnEmergencyAramMessage(string cUserID, string cMsg)
 {
 	//GUI가 코딩해야함
@@ -41,7 +51,8 @@ void GuiClientInterface::OnAllTopicTitleMessage(string AllTopicTitle)
 	strtok(cPtr, ";");
 	while (cPtr != NULL)
 	{
-		pFrame->m_wndOutput.sTitleList[i];
+		pFrame->m_wndOutput.sTitleList[i]=cPtr;
+		cPtr = strtok(NULL, ";");
 		i++;
 	}
 	CDataPacket::getInstance()->RecvMessageClear();

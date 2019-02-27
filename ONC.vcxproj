@@ -200,6 +200,7 @@
     <ClInclude Include="DataManager.h" />
     <ClInclude Include="DataPacket.h" />
     <ClInclude Include="DBCollector.h" />
+    <ClInclude Include="DBConnect.h" />
     <ClInclude Include="Interface.h" />
     <ClInclude Include="PacketManager.h" />
     <ClInclude Include="ProfileView.h" />
@@ -227,6 +228,7 @@
     <ClCompile Include="DataBaseSender.cpp" />
     <ClCompile Include="DataManager.cpp" />
     <ClCompile Include="DBCollector.cpp" />
+    <ClCompile Include="DBConnect.cpp" />
     <ClCompile Include="DetailView.cpp" />
     <ClCompile Include="Interface.cpp" />
     <ClCompile Include="Login.cpp" />

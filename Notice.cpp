@@ -280,68 +280,23 @@ void CPropertiesWnd::OnViewNSLBtnCLicked()
 	/*
 	for (int i = 0; i < cur_NSL_notice.size(); i++)
 	{
-		Dialog_detail_Contents = ((cur_Personal_notice[i].cMsg).c_str());
+		Dialog_detail_Contents = ((cur_NSL_notice[i].cMsg).c_str());
 		Dialog_detail.TempDataVector.Add(Dialog_detail_Contents);
 	}
 	*/
 	Dialog_detail.DoModal();
-
-	/*
-	CString today_date;
-	today_date = (N_cur_Year + "-" + N_cur_Month + "-" + N_cur_Day).c_str();
-
-	for (int i = 0; i < cur_Personal_notice.size(); i++)
-	{
-	temp_propertyname.Format(_T("%d"), i);
-	propertyname = (LPCTSTR)temp_propertyname;
-	CString temp_propertycontents((cur_Personal_notice[i].cMsg).c_str());
-	propertycontents = (LPCTSTR)temp_propertycontents;
-	CMFCPropertyGridProperty* pPersonal_item = new CMFCPropertyGridProperty(propertyname, propertycontents);
-	pPersonal->AddSubItem(pPersonal_item);
-	}
-	for (int i = 0; i < cur_NSL_notice.size(); i++)
-	{
-	temp_propertyname.Format(_T("%d"), i);
-	propertyname = (LPCTSTR)temp_propertyname;
-	CString temp_propertycontents((cur_NSL_notice[i].cMsg).c_str());
-	propertycontents = (LPCTSTR)temp_propertycontents;
-	CMFCPropertyGridProperty* pNSL_item = new CMFCPropertyGridProperty(propertyname, propertycontents);
-	pNSL->AddSubItem(pNSL_item);
-	}
-
-	*/
-	/*
-	CDetailView dlg;
-	dlg.Caption = "NSL 공지사항 리스트";
-	dlg.DoModal();
-	*/
-
-	//NSL  자세히 버튼 클릭 이벤트
-	//NSL  자세히 버튼 클릭 이벤트
-	//공지사항 벡터 가져와서 그중에 type ==1, status == true인 거 골라내기
-	//일정을 최신순으로 정렬할 예정
-	//새로운 벡터에 30번까지만 데이터
-	
-
-	//일정을 최신순으로 정렬할 예정
-	//새로운 벡터에 30번까지만 데이터
-
 }
 
 void CPropertiesWnd::OnViewPERSONALBtnCLicked()
 {
 	CDetailView Dialog_detail;
+	CString Dialog_detail_Contents;
 	Dialog_detail.Caption = _T("개인 일정");
-	Dialog_detail.DoModal();
+	for (int i = 0; i < cur_Personal_notice.size(); i++)
+	{
+		Dialog_detail_Contents = ((cur_Personal_notice[i].cMsg).c_str());
+		Dialog_detail.TempDataVector.Add(Dialog_detail_Contents);
+	}
 
-	/*
-	CDetailView Dialog_detail;
 	Dialog_detail.DoModal();
-	dlg.DoModal();
-	*/
-
-	//개인일정  자세히 버튼 클릭 이벤트
-	//공지사항 벡터 가져와서 그중에 type ==2, status == false인 거 골라내기
-	//일정을 최신순으로 정렬할 예정
-	//새로운 벡터에 30번까지만 데이터
 }

@@ -3,6 +3,7 @@
 #include "User.h"
 
 
+
 // ProfileView 대화 상자입니다.
 
 class ProfileView : public CDialogEx

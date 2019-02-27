@@ -6,6 +6,8 @@
 #include "MainFrm.h"
 #include "ChildFrm.h"
 #include "ONC.h"
+#include "Interface.h"
+#include "ServerDataManager.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -66,9 +68,8 @@ int COutputWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		m_wndList[i].Create(dwStyle, rectDummy, &m_wndTabs, i+2);
 		m_wndTabs.AddTab(&m_wndList[i], csTitleList[i], (UINT)i);
 	}
-
+	
 	// 출력 탭을 더미 텍스트로 채웁니다.
-	FillBuildWindow();
 
 	return 0;
 }
@@ -107,9 +108,15 @@ void COutputWnd::AdjustHorzScroll(CListBox& wndListBox)
 	dc.SelectObject(pOldFont);
 }
 
-void COutputWnd::FillBuildWindow()
+int COutputWnd::FindChatRoom(string TopicTitle)
 {
-	
+	int i = 0;
+	for (i; i<10; i++)
+	{
+		if (sTitleList[i].compare(TopicTitle) == 0)
+			return i;
+	}
+	/*
 	m_wndList[0].AddString(_T("여기에 빌드 출력이 표시됩니다."));
 	m_wndList[0].AddString(_T("출력이 목록 뷰 행에 표시되지만"));
 	m_wndList[0].AddString(_T("표시 방법을 원하는 대로 변경할 수 있습니다."));
@@ -120,7 +127,7 @@ void COutputWnd::FillBuildWindow()
 	m_wndList[2].AddString(_T("표시 방법을 원하는 대로 변경할 수 있습니다."));
 	m_wndList[2].AddString(_T("표시 방법을 원하는 대로 변경할 수 있습니다."));
 	m_wndList[2].AddString(_T("표시 방법을 원하는 대로 변경할 수 있습니다."));
-	
+	*/
 }
 
 
@@ -209,19 +216,26 @@ BOOL COutputWnd::PreTranslateMessage(MSG* pMsg)				//엔터 눌렀을경우에 동작하는 
 {
 	short Shift;
 	Shift = GetKeyState(VK_SHIFT);
+	DataManager *mDataManager;
+	mDataManager = DataManager::GetInstance();
+
 	// 엔터키
 	//AfxMessageBox(_T("일반 채팅"));
+	
 	if ((pMsg->message == WM_KEYDOWN) && (pMsg->wParam == VK_RETURN) && (Shift>=0))
 	{
 		// 여기에 원하는 동작의 코드를 삽입
 		if (nType == 0)
 		{
+			int sel = m_wndTabs.GetActiveTab();
 			AfxMessageBox(_T("일반 채팅"));
+			//GuiClientInterface::getInstance()->SendChatMessage(ChattingPacket, sTitleList[sel], , string cMsg);
 			return true;
 		}
-		else if (nType == Emergency_Alarm)
+		else if (nType == EmergencyPacket)
 		{
 			AfxMessageBox(_T("긴급 알람"));
+			//GuiClientInterface::getInstance()->SendEmergencyAramMessage(EmergencyPacket, string cUserID, string cMsg);
 			nType = 0;
 			return true;
 		}
@@ -252,4 +266,13 @@ void COutputWnd::ChatRoomLeave()			//채팅방 나가기 눌렀을 경우 리스트 박스 리셋
 {
 	int sel = m_wndTabs.GetActiveTab();
 	m_wndList[sel].ResetContent();
+}
+
+void COutputWnd::RefreshTab()
+{
+	for (int i = 0; i<10; i++)
+	{
+		csTitleList[i] = sTitleList[i].c_str();
+		m_wndTabs.SetTabLabel(i, csTitleList[i]);
+	}
 }

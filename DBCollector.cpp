@@ -10,62 +10,25 @@ DBCollector::~DBCollector()
 {
 }
 
-void DBCollector::DB_finish_with_error(MYSQL *conn) // 에러문
-{
 
-	//fprintf(stderr, "%s\n", mysql_error(conn));
-	//printf("커맨드 실패: %s\n", query_stat);
-	mysql_close(conn);
-	exit(1);
-}
-
-void DBCollector::DB_mysql_connect(const char *input) //연결
-{
-
-	if (mysql_real_connect(conn, DB_HOST, DB_USER, DB_PASS, input, 0, NULL, 0) == NULL)
-	{
-		DB_finish_with_error(conn);
-	} //printf("연결 확인 \n");
-}
-
-
-bool DBCollector::DB_free()
-{
-	if (sql_result)
-	{
-		mysql_free_result(sql_result);
-		return true;
-	}
-
-	return false;
-}
-
-bool DBCollector::DB_mysql_disconnect()
-{
-	if (conn) 
-		mysql_close(conn);
-
-	DB_free();
-	return true;
-}
 
 
 void DBCollector::Set_Information() // people 정보 가져오기 + 구조체에 데이터 저장하기.
 {
-	//   싱글턴 인스턴스로 DM에 접근하기 위한 절차
-	DataManager *mDataManager;
+	DB_mysql_connect(DB_People);
+	DataManager *mDataManager;	//   싱글턴 인스턴스로 DM에 접근하기 위한 절차
 	mDataManager = DataManager::GetInstance();
 
 	// *------------------------쿼리 문으로 People 데이터 가져오기----------------------------* //
-  	query_stat = mysql_query(conn, "select * from people");  
+  	query_stat = mysql_query(&conn, "select * from people");  
 
 	if (query_stat != 0)
 	{
 
-		DB_finish_with_error(conn);
+		DB_finish_with_error(&conn);
 	}
 
-	sql_result = mysql_store_result(conn);
+	sql_result = mysql_store_result(&conn);
 	
 
 	// *------------------------People 데이터 저장----------------------------* //
@@ -82,26 +45,28 @@ void DBCollector::Set_Information() // people 정보 가져오기 + 구조체에 데이터 저
 		mDataManager->people_v.emplace_back(mDataManager->RecvPeople);
 		
 	}
-
+	//Set_Contents();
+	//DB_mysql_disconnect(); //임시 
 }
 
 void DBCollector::Set_Contents() // CalanderNotice 정보 가져오기 + 구조체에 데이터 저장하기.
 {
-
+	//DB_mysql_disconnect();
+	DB_mysql_connect(DB_CalendarNotice);
 	DataManager *mDataManager;
 	mDataManager = DataManager::GetInstance();
 	
 
 	// *------------------------쿼리 문으로 contents 데이터 가져오기----------------------------* //
-    query_stat = mysql_query(conn, "select * from contents"); 
+    query_stat = mysql_query(&conn, "select * from contents"); 
 
 	if (query_stat != 0)
 	{
 
-		DB_finish_with_error(conn);
+		DB_finish_with_error(&conn);
 	}
 
-	sql_result = mysql_store_result(conn);
+	sql_result = mysql_store_result(&conn);
 
 
 	

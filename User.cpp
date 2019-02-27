@@ -12,6 +12,7 @@
 #include "cstringt.h"
 #include "atlstr.h"
 #include "afxcmn.h"
+#include "DataPacket.h"
 
 class CClassViewMenuButton : public CMFCToolBarMenuButton
 {
@@ -104,17 +105,29 @@ int CClassView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	// 정적 트리 뷰 데이터를 더미 코드로 채웁니다.
 
-
-
+	
+	//DBConnect mDBConnect;
 	DBCollector mDBCollector;
-	mDBCollector.DB_mysql_connect(DB_People);
-	mDBCollector.Set_Information();
+	
+	
+	//mDBCollector.DB_mysql_disconnect();
+	mDBCollector.Set_Information();// 최초 DB에서 데이터를 가져오는 함수가 여기서 실행된다
+	mDBCollector.DB_mysql_disconnect();
+	mDBCollector.Set_Contents();
+	//mDBCollector.Set_Contents();                                // 프로필 트리뷰 및 로그인까지 영향을 미침(people_v 에 접근하는 
+	                                // 모든 경로에 영향을 미칠것 같음. -DB파트
 
+	//mDBCollector.Set_Contents(); // 당장은 사용 안하나 추후 소향이가 DB접근으로 사용할 예정으로 만듬.
+
+	
+	
 	DataManager *mDataManager;
 	mDataManager = DataManager::GetInstance();
 	
 	
+	
 	SetTreeData(mDataManager->people_v);
+	
 	
 	return 0;
 }
@@ -196,7 +209,7 @@ void CClassView::OnLoudSpeakerImageBtnClicked()
 	CONCApp *pApp = (CONCApp *)AfxGetApp();
 	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
 
-	pFrame->m_wndOutput.nType = Emergency_Alarm;
+	pFrame->m_wndOutput.nType = EmergencyPacket;
 }
 
 void CClassView::OnExitImageBtnClicked()
