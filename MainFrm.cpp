@@ -198,6 +198,17 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	// 문서 이름이 축소판 그림과 함께 표시되므로 작업 표시줄의 기능성이 개선됩니다.
 	ModifyStyle(0, FWS_PREFIXTITLE);
 
+	/*DataManager *mDataManager;
+	mDataManager = DataManager::GetInstance();
+
+	DBCollector mDBCollector;
+
+	mDBCollector.Set_Information();
+	mDBCollector.DB_mysql_disconnect();
+	mDBCollector.Set_Contents();
+	mDBCollector.DB_mysql_disconnect();*/
+
+
 	return 0;
 }
 

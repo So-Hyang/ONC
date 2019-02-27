@@ -8,6 +8,7 @@
 #include "Chat.h"
 #include "Notice.h"
 
+
 class CMainFrame : public CMDIFrameWndEx
 {
 	DECLARE_DYNAMIC(CMainFrame)
