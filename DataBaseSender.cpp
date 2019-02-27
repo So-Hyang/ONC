@@ -1,7 +1,7 @@
 #include "DataBaseSender.h"
 
 
-//using namespace std;
+
 
 DataBaseSender::DataBaseSender()
 {
@@ -14,17 +14,6 @@ DataBaseSender::~DataBaseSender()
 
 
 
-void DataBaseSender::DB_mysql_connect(const char *input) //연결
-{
-
-	if (mysql_real_connect(conn, DB_HOST, DB_USER, DB_PASS, input, 0, NULL, 0) == NULL)
-	{
-		//fprintf(stderr, "%s\n", mysql_error(conn));
-		//printf("커맨드 실패: %s\n", query_stat);
-		mysql_close(conn);
-		exit(1);
-	} //printf("커맨드 성공: %s\n", query_stat);
-}
 
 
 void DataBaseSender::DB_Data_Send_to_mysql(DataPacket Data)
@@ -70,9 +59,9 @@ void DataBaseSender::DB_Data_Send_to_mysql(DataPacket Data)
 		//memcpy(query, tmp.c_str(), strlen(tmp.c_str()));
 		query = (char *)tmp.c_str();
 
-		if (mysql_query(conn, query))
+		if (mysql_query(&conn, query))
 		{
-			fprintf(stderr, "%s\n", mysql_error(conn));
+			fprintf(stderr, "%s\n", mysql_error(&conn));
 		}
 
 	}break;
@@ -109,9 +98,9 @@ void DataBaseSender::DB_Data_Send_to_mysql(DataPacket Data)
 		//memcpy(query, tmp.c_str(), strlen(tmp.c_str()));
 		query = (char *)tmp.c_str();
 
-		if (mysql_query(conn, query))
+		if (mysql_query(&conn, query))
 		{
-			fprintf(stderr, "%s\n", mysql_error(conn));
+			fprintf(stderr, "%s\n", mysql_error(&conn));
 		}
 
 	}break;
@@ -131,9 +120,9 @@ void DataBaseSender::DB_Data_Send_to_mysql(DataPacket Data)
 		memset(&query, 0, sizeof(query));
 		query = (char *)tmp.c_str();
 
-		if (mysql_query(conn, query))
+		if (mysql_query(&conn, query))
 		{
-			fprintf(stderr, "%s\n", mysql_error(conn));
+			fprintf(stderr, "%s\n", mysql_error(&conn));
 		}
 
 	}break;
