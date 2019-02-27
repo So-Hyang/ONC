@@ -114,6 +114,7 @@ int CClassView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	mDBCollector.Set_Information();// 최초 DB에서 데이터를 가져오는 함수가 여기서 실행된다
 	mDBCollector.DB_mysql_disconnect();
 	mDBCollector.Set_Contents();
+	mDBCollector.DB_mysql_disconnect();
 	//mDBCollector.Set_Contents();                                // 프로필 트리뷰 및 로그인까지 영향을 미침(people_v 에 접근하는 
 	                                // 모든 경로에 영향을 미칠것 같음. -DB파트
 
