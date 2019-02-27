@@ -111,8 +111,7 @@ unsigned WINAPI Connect::Accept(void* arg)
 SOCKET Connect::ConnectWithServer()
 {
 	WSADATA ClientData;
-	SOCKET ClientScoket;
-	SOCKADDR_IN ClientSock;
+
 
 	if (WSAStartup(MAKEWORD(2, 2), &ClientData) != 0)
 	{
@@ -125,7 +124,7 @@ SOCKET Connect::ConnectWithServer()
 	}
 	memset(&ClientSock, 0, sizeof(ClientSock));
 	ClientSock.sin_family = AF_INET;
-	ClientSock.sin_addr.s_addr = inet_addr("202.31.137.123");
+	ClientSock.sin_addr.s_addr = inet_addr("202.31.137.39");
 	ClientSock.sin_port = htons(3);
 	connect(ClientScoket, (struct sockaddr*)&ClientSock, sizeof(ClientSock));
 

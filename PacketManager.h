@@ -1,36 +1,36 @@
 #pragma once
-//#include "stdafx.h"
-//#include "SendRecv.h"
-//#include "Interface.h"
-//#include "DataPacket.h"
-//#include "afxwin.h"
-//#include <afx.h>
-#include "stdafx.h"
 
+#include "stdafx.h"
 #include "DataPacket.h"
-#include "SendRecv.h"
 #include "ServerDataManager.h"
 #include "Interface.h"
 //#include "afxwin.h"
 //#include <afx.h>
 #include <string>
 
+#ifdef SERVERMODE
+#include "SendRecv.h"
+#endif
+
 using namespace std;
 
 class PacketManager
 {
-public: 
-	
+public:
+	PacketManager();
+	~PacketManager();
+
 	void PacketCreater(DataPacket SenderMessage);
 	DataPacket PacketAnalysis(DataPacket RecvMessage);
-	
-	
-	
+
+
 private:
-	GuiClientInterface Interface;
+	
 	int PacketCreaterType = 0;
 	string alltopic = "NSL";
-//	GuiClientInterface InterfaceAnalysis;
+	//	GuiClientInterface InterfaceAnalysis;
+
+#ifdef SERVERMODE
 	SendRecv Sender;
 	void CalendarPublicPacketCreater(DataPacket SenderMessage);
 	void CalendarPrivatePacketCreater(DataPacket SenderMessage);
@@ -41,6 +41,9 @@ private:
 	void EmergencyPacketCreater(DataPacket SenderMessage);
 	void PassWordPacketCreater(DataPacket SenderMessage);
 	void ChattingPacketCreater(DataPacket SenderMessage);
+#endif
+
+
 
 	DataPacket CalendarPublicPacketAnalysis(DataPacket RecvMessage);
 	DataPacket CalendarPrivatePacketAnalysis(DataPacket RecvMessage);
@@ -51,6 +54,7 @@ private:
 	DataPacket TopicParticipantPacketAnalysis(DataPacket RecvMessage);
 	DataPacket EmergencyPacketAnalysis(DataPacket RecvMessage);
 	DataPacket PassWordPacketAnalysis(DataPacket RecvMessage);
-	
+
 
 };
+

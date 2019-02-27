@@ -478,6 +478,7 @@ BEGIN
     LTEXT           "Student N",IDC_STATIC,13,197,32,13
     LTEXT           "Fine",IDC_STATIC,107,54,23,13
     GROUPBOX        "History",IDC_STATIC,7,91,257,83
+    PUSHBUTTON      "Button1",IDC_BUTTON1,243,198,21,15
 END
 
 

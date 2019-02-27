@@ -1,8 +1,7 @@
 #pragma once
-//#include "ServerDataManager.h"
-//#include "DataPacket.h"
-//#include "PacketManager.h"
-//#include "DataPacket.h"
+
+
+
 //#define BUF_SIZE 200
 #include "stdafx.h"
 #include "DataPacket.h"
@@ -15,6 +14,9 @@
 #include <fstream>
 #include <cstring>
 
+#ifdef CLIENTMODE
+#include "PacketManager.h"
+#endif
 using namespace std;
 
 #pragma comment(lib, "ws2_32.lib")
@@ -22,14 +24,15 @@ using namespace std;
 class SendRecv
 {
 public:
-	SOCKET ServerSock, ClientSock;
+
+	
 	SOCKADDR_IN ServerAddr;
 	HANDLE MSGThread;
 	
 
 	void RecvThread(SOCKET cSock);
 	static unsigned WINAPI Recv(void* arg);
-	void Send(DataPacket SenderMessage, int SocketValue);
+	int Send(DataPacket SenderMessage, int SocketValue);
 };
 
 //CDataPacket* CDataPacket::c_Instance = NULL;

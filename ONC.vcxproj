@@ -80,8 +80,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Program Files\MySQL Server 8.0\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Program Files\MySQL Server 8.0\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>D:\MySQL Server 8.0\include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\MySQL Server 8.0\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -203,6 +203,7 @@
     <ClInclude Include="DataManager.h" />
     <ClInclude Include="DataPacket.h" />
     <ClInclude Include="DBCollector.h" />
+    <ClInclude Include="DBConnect.h" />
     <ClInclude Include="Interface.h" />
     <ClInclude Include="PacketManager.h" />
     <ClInclude Include="ProfileView.h" />
@@ -229,7 +230,9 @@
     <ClCompile Include="Connect.cpp" />
     <ClCompile Include="DataBaseSender.cpp" />
     <ClCompile Include="DataManager.cpp" />
+    <ClCompile Include="Datapacket.cpp" />
     <ClCompile Include="DBCollector.cpp" />
+    <ClCompile Include="DBConnect.cpp" />
     <ClCompile Include="DetailView.cpp" />
     <ClCompile Include="Interface.cpp" />
     <ClCompile Include="Login.cpp" />
@@ -253,6 +256,7 @@
     <ClCompile Include="ViewTree.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="D:\MySQL Server 8.0\lib\libmysql.dll" />
     <None Include="ONC.reg" />
     <None Include="res\ONC.rc2" />
     <None Include="x64\Debug\libmysql.dll" />

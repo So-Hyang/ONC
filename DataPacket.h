@@ -38,12 +38,12 @@ using namespace std;
 
 
 
-static struct SendPacket
+struct SendPacket
 {
 	SOCKET ClientSock;
-} ClientSocket;
+};
 
-static struct DataPacket
+struct DataPacket
 {
 	unsigned int nType;
 	
@@ -63,8 +63,8 @@ class CDataPacket
 private : 
 	static CDataPacket *c_Instance;
 public:
-	static DataPacket RecverMessage, RecvMessage, SenderMessage;
-	static SendPacket ClientSocket, ServerSocket;
+	DataPacket RecverMessage, RecvMessage, SenderMessage;
+	SendPacket ClientSocket, ServerSocket;
 
 	static CDataPacket *getInstance() //포인터 값을 리턴해주는 함수
 	{
@@ -75,4 +75,7 @@ public:
 
 		return c_Instance; //포인터 리턴
 	};
+
+	void SendMessageClear();
+	void RecvMessageClear();
 };

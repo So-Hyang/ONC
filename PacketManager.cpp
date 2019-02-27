@@ -1,125 +1,132 @@
+#include "stdafx.h"
 #include "PacketManager.h"
+
 
 /*클래스명 : PacketManager****************************************************/
 /*수정일자 : 2019_02_07*******************************************************/
 /*수정담당자 : 김경선**********************************************************/
 /*수정사항 : SendRecv클래스의 Recv된 메세지 가져오기****************************/
 
-//public
-//ServerDataManager* ServerDataManager::getInstance;
+
+PacketManager::PacketManager()
+{
+}
 
 
+PacketManager::~PacketManager()
+{
+}
 
 DataPacket PacketManager::PacketAnalysis(DataPacket RecvMessage)
 {
-
+	GuiClientInterface *Interface = GuiClientInterface::getInstance();
 	switch (RecvMessage.nType)
 	{
 
-		case CalendarPublicPacket: 
+	case CalendarPublicPacket:
 
-			#ifdef SERVERMODE
-				CalendarPublicPacketAnalysis(RecvMessage);
-			#endif
+#ifdef SERVERMODE
+		CalendarPublicPacketAnalysis(RecvMessage);
+#endif
 
-			#ifdef CLIENTMODE
-				Interface.OnCalendarMessage(RecvMessage.cUserID, RecvMessage.cMsg, RecvMessage.cDate);
-			#endif
+#ifdef CLIENTMODE
+		Interface->OnCalendarMessage(RecvMessage.cUserID, RecvMessage.cMsg, RecvMessage.cDate);
+#endif
 
-			RecvMessage.nType = 0;
-			break;
-		case CalendarPrivatePacket: 
+		RecvMessage.nType = 0;
+		break;
+	case CalendarPrivatePacket:
 
-			#ifdef SERVERMODE
-				CalendarPrivatePacketAnalysis(RecvMessage);
-			#endif
+#ifdef SERVERMODE
+		CalendarPrivatePacketAnalysis(RecvMessage);
+#endif
 
-			RecvMessage.nType = 0;
-			break;
-		case NoicePacket: 
+		RecvMessage.nType = 0;
+		break;
+	case NoicePacket:
 
-			#ifdef SERVERMODE
-				NoicePacketAnalysis(RecvMessage);
-			#endif	
+#ifdef SERVERMODE
+		NoicePacketAnalysis(RecvMessage);
+#endif	
 
-			#ifdef CLIENTMODE
-				Interface.OnNoticeMessage(RecvMessage.cUserID, RecvMessage.cMsg);
-			#endif
+#ifdef CLIENTMODE
+		Interface->OnNoticeMessage(RecvMessage.cUserID, RecvMessage.cMsg);
+#endif
 
-			RecvMessage.nType = 0;
-			break;
-		case ChattingPacket: 
+		RecvMessage.nType = 0;
+		break;
+	case ChattingPacket:
 
-			#ifdef SERVERMODE
-				ChattingPacketAnalysis(RecvMessage);
-			#endif
+#ifdef SERVERMODE
+		ChattingPacketAnalysis(RecvMessage);
+#endif
 
-			#ifdef CLIENTMODE
-				Interface.OnChatMessage(RecvMessage.TopicTitle, RecvMessage.cUserID, RecvMessage.cMsg);
-			#endif
+#ifdef CLIENTMODE
+		Interface->OnChatMessage(RecvMessage.TopicTitle, RecvMessage.cUserID, RecvMessage.cMsg);
+#endif
 
-			RecvMessage.nType = 0;
-			break;
-		case TopicEnterPacket:
+		RecvMessage.nType = 0;
+		break;
+	case TopicEnterPacket:
 
-			#ifdef SERVERMODE
-				TopicEnterPacketAnalysis(RecvMessage);
-			#endif	
+#ifdef SERVERMODE
+		TopicEnterPacketAnalysis(RecvMessage);
+#endif	
 
-			RecvMessage.nType = 0;
-			break;
-		case TopicLeavePacket: 
+		RecvMessage.nType = 0;
+		break;
+	case TopicLeavePacket:
 
-			#ifdef SERVERMODE
-				TopicLeavePacketAnalysis(RecvMessage);
-			#endif	
+#ifdef SERVERMODE
+		TopicLeavePacketAnalysis(RecvMessage);
+#endif	
 
-			RecvMessage.nType = 0;
-			break;
-		case TopicParticipantPacket: 
+		RecvMessage.nType = 0;
+		break;
+	case TopicParticipantPacket:
 
-			#ifdef SERVERMODE
-				TopicParticipantPacketAnalysis(RecvMessage);
-			#endif	
+#ifdef SERVERMODE
+		TopicParticipantPacketAnalysis(RecvMessage);
+#endif	
 
-			#ifdef CLIENTMODE
-				Interface.OnTopicParticipantMessage(RecvMessage.cUserID, RecvMessage.TopicTitle, RecvMessage.Participants);
-			#endif
+#ifdef CLIENTMODE
+		Interface->OnTopicParticipantMessage(RecvMessage.cUserID, RecvMessage.TopicTitle, RecvMessage.Participants);
+#endif
 
-			RecvMessage.nType = 0;
-			break;
-		case EmergencyPacket: 
+		RecvMessage.nType = 0;
+		break;
+	case EmergencyPacket:
 
-			#ifdef SERVERMODE
-				EmergencyPacketAnalysis(RecvMessage);
-			#endif
+#ifdef SERVERMODE
+		EmergencyPacketAnalysis(RecvMessage);
+#endif
 
-			#ifdef CLIENTMODE
-				Interface.OnEmergencyAramMessage(RecvMessage.cUserID,RecvMessage.cMsg);
-			#endif
+#ifdef CLIENTMODE
+		Interface->OnEmergencyAramMessage(RecvMessage.cUserID, RecvMessage.cMsg);
+#endif
 
-			RecvMessage.nType = 0;
-			break;
-		case PasswordPacket:
+		RecvMessage.nType = 0;
+		break;
+	case PasswordPacket:
 
-			#ifdef SERVERMODE
-				PassWordPacketAnalysis(RecvMessage);
-			#endif	
+#ifdef SERVERMODE
+		PassWordPacketAnalysis(RecvMessage);
+#endif	
 
-			RecvMessage.nType = 0;
-			break;
-		case  AllTopicTitlePAcket:
+		RecvMessage.nType = 0;
+		break;
+	case  AllTopicTitlePAcket:
 
-			#ifdef CLIENTMODE
-				Interface.OnAllTopicTitleMessage(RecvMessage.AllTopicTitle);
-			#endif
-				RecvMessage.nType = 0;
-				break;
+#ifdef CLIENTMODE
+		Interface->OnAllTopicTitleMessage(RecvMessage.AllTopicTitle);
+#endif
+		RecvMessage.nType = 0;
+		break;
 	}
 	return CDataPacket::getInstance()->SenderMessage;
-//#ifdef SERVERMODE
-	
-//#endif
+	//#ifdef SERVERMODE
+
+	//#endif
 }
 /****************************************************************************/
 /*수정일자 : 2019_02_07*******************************************************/
@@ -140,9 +147,9 @@ DataPacket PacketManager::CalendarPublicPacketAnalysis(DataPacket RecvMessage)
 	RecvMessage.Participants = "";
 	RecvMessage.AllTopicTitle = "";
 	RecvMessage.PubPrivate = true;
-	
+
 	return CDataPacket::getInstance()->SenderMessage;
-	
+
 }
 
 DataPacket PacketManager::CalendarPrivatePacketAnalysis(DataPacket RecvMessage)
@@ -150,8 +157,8 @@ DataPacket PacketManager::CalendarPrivatePacketAnalysis(DataPacket RecvMessage)
 	CDataPacket::getInstance()->SenderMessage.nType = RecvMessage.nType;//
 	RecvMessage.TopicTitle = "";
 	CDataPacket::getInstance()->SenderMessage.cUserID = RecvMessage.cUserID;//
-	CDataPacket::getInstance()->SenderMessage.cMsg=RecvMessage.cMsg;//
-	CDataPacket::getInstance()->SenderMessage.cDate=RecvMessage.cDate;//
+	CDataPacket::getInstance()->SenderMessage.cMsg = RecvMessage.cMsg;//
+	CDataPacket::getInstance()->SenderMessage.cDate = RecvMessage.cDate;//
 	RecvMessage.cPassWord = "";
 	RecvMessage.cSenderID = "";
 	RecvMessage.Participants = "";
@@ -164,8 +171,8 @@ DataPacket PacketManager::NoicePacketAnalysis(DataPacket RecvMessage)
 {
 	CDataPacket::getInstance()->SenderMessage.nType = RecvMessage.nType; //
 	RecvMessage.TopicTitle = "";
-	CDataPacket::getInstance()->SenderMessage.cUserID = RecvMessage.cUserID ;//
-	CDataPacket::getInstance()->SenderMessage.cMsg = RecvMessage.cMsg ;//
+	CDataPacket::getInstance()->SenderMessage.cUserID = RecvMessage.cUserID;//
+	CDataPacket::getInstance()->SenderMessage.cMsg = RecvMessage.cMsg;//
 	RecvMessage.cDate;//
 	RecvMessage.cPassWord = "";
 	RecvMessage.cSenderID = "";
@@ -176,10 +183,10 @@ DataPacket PacketManager::NoicePacketAnalysis(DataPacket RecvMessage)
 }
 DataPacket PacketManager::ChattingPacketAnalysis(DataPacket RecvMessage)
 {
-	CDataPacket::getInstance()->SenderMessage.nType=RecvMessage.nType;//
+	CDataPacket::getInstance()->SenderMessage.nType = RecvMessage.nType;//
 	CDataPacket::getInstance()->SenderMessage.TopicTitle = RecvMessage.TopicTitle;
-	CDataPacket::getInstance()->SenderMessage.cUserID=RecvMessage.cUserID;//
-	CDataPacket::getInstance()->SenderMessage.cMsg=RecvMessage.cMsg;//
+	CDataPacket::getInstance()->SenderMessage.cUserID = RecvMessage.cUserID;//
+	CDataPacket::getInstance()->SenderMessage.cMsg = RecvMessage.cMsg;//
 	RecvMessage.cDate = "";//
 	RecvMessage.cPassWord = "";
 	RecvMessage.cSenderID = "";
@@ -191,10 +198,10 @@ DataPacket PacketManager::ChattingPacketAnalysis(DataPacket RecvMessage)
 }
 DataPacket PacketManager::TopicEnterPacketAnalysis(DataPacket RecvMessage)
 {
-	CDataPacket::getInstance()->SenderMessage.nType=RecvMessage.nType;//
-	CDataPacket::getInstance()->SenderMessage.TopicTitle=RecvMessage.TopicTitle;
-	CDataPacket::getInstance()->SenderMessage.cUserID=RecvMessage.cUserID ;//
-	CDataPacket::getInstance()->SenderMessage.cMsg=RecvMessage.cMsg ;//
+	CDataPacket::getInstance()->SenderMessage.nType = RecvMessage.nType;//
+	CDataPacket::getInstance()->SenderMessage.TopicTitle = RecvMessage.TopicTitle;
+	CDataPacket::getInstance()->SenderMessage.cUserID = RecvMessage.cUserID;//
+	CDataPacket::getInstance()->SenderMessage.cMsg = RecvMessage.cMsg;//
 	RecvMessage.cDate = "";//
 	RecvMessage.cPassWord = "";
 	RecvMessage.cSenderID = "";
@@ -206,10 +213,10 @@ DataPacket PacketManager::TopicEnterPacketAnalysis(DataPacket RecvMessage)
 }
 DataPacket PacketManager::TopicLeavePacketAnalysis(DataPacket RecvMessage)
 {
-	CDataPacket::getInstance()->SenderMessage.nType = RecvMessage.nType ;//
+	CDataPacket::getInstance()->SenderMessage.nType = RecvMessage.nType;//
 	CDataPacket::getInstance()->SenderMessage.TopicTitle = RecvMessage.TopicTitle;
-	CDataPacket::getInstance()->SenderMessage.cUserID=RecvMessage.cUserID ;//
-	CDataPacket::getInstance()->SenderMessage.cMsg = RecvMessage.cMsg ;//
+	CDataPacket::getInstance()->SenderMessage.cUserID = RecvMessage.cUserID;//
+	CDataPacket::getInstance()->SenderMessage.cMsg = RecvMessage.cMsg;//
 	RecvMessage.cDate = "";//
 	RecvMessage.cPassWord = "";
 	RecvMessage.cSenderID = "";
@@ -221,14 +228,14 @@ DataPacket PacketManager::TopicLeavePacketAnalysis(DataPacket RecvMessage)
 }
 DataPacket PacketManager::TopicParticipantPacketAnalysis(DataPacket RecvMessage)
 {
-	CDataPacket::getInstance()->SenderMessage.nType=RecvMessage.nType;//
+	CDataPacket::getInstance()->SenderMessage.nType = RecvMessage.nType;//
 	CDataPacket::getInstance()->SenderMessage.TopicTitle = RecvMessage.TopicTitle;
-	CDataPacket::getInstance()->SenderMessage.cUserID = RecvMessage.cUserID ;//
+	CDataPacket::getInstance()->SenderMessage.cUserID = RecvMessage.cUserID;//
 	RecvMessage.cMsg = "";//
 	RecvMessage.cDate = "";//
 	RecvMessage.cPassWord = "";
 	RecvMessage.cSenderID = "";
-	CDataPacket::getInstance()->SenderMessage.Participants=RecvMessage.Participants;
+	CDataPacket::getInstance()->SenderMessage.Participants = RecvMessage.Participants;
 	RecvMessage.AllTopicTitle = "";
 	RecvMessage.PubPrivate = false;
 	return CDataPacket::getInstance()->SenderMessage;
@@ -236,10 +243,10 @@ DataPacket PacketManager::TopicParticipantPacketAnalysis(DataPacket RecvMessage)
 }
 DataPacket PacketManager::EmergencyPacketAnalysis(DataPacket RecvMessage)
 {
-	CDataPacket::getInstance()->SenderMessage.nType=RecvMessage.nType;//
+	CDataPacket::getInstance()->SenderMessage.nType = RecvMessage.nType;//
 	RecvMessage.TopicTitle = "";
-	CDataPacket::getInstance()->SenderMessage.cUserID=RecvMessage.cUserID;//
-	CDataPacket::getInstance()->SenderMessage.cMsg=RecvMessage.cMsg;//
+	CDataPacket::getInstance()->SenderMessage.cUserID = RecvMessage.cUserID;//
+	CDataPacket::getInstance()->SenderMessage.cMsg = RecvMessage.cMsg;//
 	RecvMessage.cDate = "";//
 	RecvMessage.cPassWord = "";
 	RecvMessage.cSenderID = "";
@@ -250,9 +257,9 @@ DataPacket PacketManager::EmergencyPacketAnalysis(DataPacket RecvMessage)
 }
 DataPacket PacketManager::PassWordPacketAnalysis(DataPacket RecvMessage)
 {
-	CDataPacket::getInstance()->SenderMessage.nType=RecvMessage.nType;//
+	CDataPacket::getInstance()->SenderMessage.nType = RecvMessage.nType;//
 	RecvMessage.TopicTitle = "";
-	CDataPacket::getInstance()->SenderMessage.cUserID=RecvMessage.cUserID;//
+	CDataPacket::getInstance()->SenderMessage.cUserID = RecvMessage.cUserID;//
 	RecvMessage.cMsg = "";//
 	RecvMessage.cDate = "";//
 	RecvMessage.cPassWord = "";
@@ -274,164 +281,164 @@ DataPacket PacketManager::PassWordPacketAnalysis(DataPacket RecvMessage)
 /*수정담당자 : 김경선**********************************************************/
 /*수정사항 : *****************************************************************/
 
-
+#ifdef SERVERMODE
 void PacketManager::PacketCreater(DataPacket SenderMessage)
 {
 
 	switch (SenderMessage.nType)
 	{
-		case CalendarPublicPacket: 
+	case CalendarPublicPacket:
 
-			#ifdef SERVERMODE
-				CalendarPublicPacketCreater(SenderMessage);
-			#endif
+#ifdef SERVERMODE
+		CalendarPublicPacketCreater(SenderMessage);
+#endif
 
-			SenderMessage.nType = 0;
-			SenderMessage.TopicTitle = "";
-			SenderMessage.cUserID = "";
-			SenderMessage.cMsg = "";
-			SenderMessage.cDate = "";
-			SenderMessage.cPassWord = "";
-			SenderMessage.cSenderID = "";
-			SenderMessage.Participants = "";
-			SenderMessage.AllTopicTitle = "";
-			SenderMessage.PubPrivate = false;
-			break;
-		case CalendarPrivatePacket:
+		SenderMessage.nType = 0;
+		SenderMessage.TopicTitle = "";
+		SenderMessage.cUserID = "";
+		SenderMessage.cMsg = "";
+		SenderMessage.cDate = "";
+		SenderMessage.cPassWord = "";
+		SenderMessage.cSenderID = "";
+		SenderMessage.Participants = "";
+		SenderMessage.AllTopicTitle = "";
+		SenderMessage.PubPrivate = false;
+		break;
+	case CalendarPrivatePacket:
 
-			#ifdef SERVERMODE
-				CalendarPrivatePacketCreater(SenderMessage);
-			#endif
+#ifdef SERVERMODE
+		CalendarPrivatePacketCreater(SenderMessage);
+#endif
 
-			SenderMessage.nType = 0;
-			SenderMessage.TopicTitle = "";
-			SenderMessage.cUserID = "";
-			SenderMessage.cMsg = "";
-			SenderMessage.cDate = "";
-			SenderMessage.cPassWord = "";
-			SenderMessage.cSenderID = "";
-			SenderMessage.Participants = "";
-			SenderMessage.AllTopicTitle = "";
-			SenderMessage.PubPrivate = false;
-			break;
-		case NoicePacket: 
+		SenderMessage.nType = 0;
+		SenderMessage.TopicTitle = "";
+		SenderMessage.cUserID = "";
+		SenderMessage.cMsg = "";
+		SenderMessage.cDate = "";
+		SenderMessage.cPassWord = "";
+		SenderMessage.cSenderID = "";
+		SenderMessage.Participants = "";
+		SenderMessage.AllTopicTitle = "";
+		SenderMessage.PubPrivate = false;
+		break;
+	case NoicePacket:
 
-			#ifdef SERVERMODE
-				NoicePacketCreater(SenderMessage);
-			#endif		
+#ifdef SERVERMODE
+		NoicePacketCreater(SenderMessage);
+#endif		
 
-			SenderMessage.nType = 0;
-			SenderMessage.TopicTitle = "";
-			SenderMessage.cUserID = "";
-			SenderMessage.cMsg = "";
-			SenderMessage.cDate = "";
-			SenderMessage.cPassWord = "";
-			SenderMessage.cSenderID = "";
-			SenderMessage.Participants = "";
-			SenderMessage.AllTopicTitle = "";
-			SenderMessage.PubPrivate = false;
-			break;
-		case ChattingPacket: 
+		SenderMessage.nType = 0;
+		SenderMessage.TopicTitle = "";
+		SenderMessage.cUserID = "";
+		SenderMessage.cMsg = "";
+		SenderMessage.cDate = "";
+		SenderMessage.cPassWord = "";
+		SenderMessage.cSenderID = "";
+		SenderMessage.Participants = "";
+		SenderMessage.AllTopicTitle = "";
+		SenderMessage.PubPrivate = false;
+		break;
+	case ChattingPacket:
 
-			#ifdef SERVERMODE
-				ChattingPacketCreater(SenderMessage);
-			#endif	
+#ifdef SERVERMODE
+		ChattingPacketCreater(SenderMessage);
+#endif	
 
-			SenderMessage.nType = 0;
-			SenderMessage.TopicTitle = "";
-			SenderMessage.cUserID = "";
-			SenderMessage.cMsg = "";
-			SenderMessage.cDate = "";
-			SenderMessage.cPassWord = "";
-			SenderMessage.cSenderID = "";
-			SenderMessage.Participants = "";
-			SenderMessage.AllTopicTitle = "";
-			SenderMessage.PubPrivate = false;
-			break;
-		case TopicEnterPacket: 
+		SenderMessage.nType = 0;
+		SenderMessage.TopicTitle = "";
+		SenderMessage.cUserID = "";
+		SenderMessage.cMsg = "";
+		SenderMessage.cDate = "";
+		SenderMessage.cPassWord = "";
+		SenderMessage.cSenderID = "";
+		SenderMessage.Participants = "";
+		SenderMessage.AllTopicTitle = "";
+		SenderMessage.PubPrivate = false;
+		break;
+	case TopicEnterPacket:
 
-			#ifdef SERVERMODE
-				TopicEnterPacketCreater(SenderMessage);
-			#endif	
+#ifdef SERVERMODE
+		TopicEnterPacketCreater(SenderMessage);
+#endif	
 
-			SenderMessage.nType = 0;
-			SenderMessage.TopicTitle = "";
-			SenderMessage.cUserID = "";
-			SenderMessage.cMsg = "";
-			SenderMessage.cDate = "";
-			SenderMessage.cPassWord = "";
-			SenderMessage.cSenderID = "";
-			SenderMessage.Participants = "";
-			SenderMessage.AllTopicTitle = "";
-			SenderMessage.PubPrivate = false;
-			break;
-		case TopicLeavePacket: 
+		SenderMessage.nType = 0;
+		SenderMessage.TopicTitle = "";
+		SenderMessage.cUserID = "";
+		SenderMessage.cMsg = "";
+		SenderMessage.cDate = "";
+		SenderMessage.cPassWord = "";
+		SenderMessage.cSenderID = "";
+		SenderMessage.Participants = "";
+		SenderMessage.AllTopicTitle = "";
+		SenderMessage.PubPrivate = false;
+		break;
+	case TopicLeavePacket:
 
-			#ifdef SERVERMODE
-				TopicLeavePacketCreater(SenderMessage);
-			#endif
+#ifdef SERVERMODE
+		TopicLeavePacketCreater(SenderMessage);
+#endif
 
-			SenderMessage.nType = 0;
-			SenderMessage.TopicTitle = "";
-			SenderMessage.cUserID = "";
-			SenderMessage.cMsg = "";
-			SenderMessage.cDate = "";
-			SenderMessage.cPassWord = "";
-			SenderMessage.cSenderID = "";
-			SenderMessage.Participants = "";
-			SenderMessage.AllTopicTitle = "";
-			SenderMessage.PubPrivate = false;
-			break;
-		case TopicParticipantPacket: 
+		SenderMessage.nType = 0;
+		SenderMessage.TopicTitle = "";
+		SenderMessage.cUserID = "";
+		SenderMessage.cMsg = "";
+		SenderMessage.cDate = "";
+		SenderMessage.cPassWord = "";
+		SenderMessage.cSenderID = "";
+		SenderMessage.Participants = "";
+		SenderMessage.AllTopicTitle = "";
+		SenderMessage.PubPrivate = false;
+		break;
+	case TopicParticipantPacket:
 
-			#ifdef SERVERMODE
-				TopicParticipantPacketCreater(SenderMessage);
-			#endif	
+#ifdef SERVERMODE
+		TopicParticipantPacketCreater(SenderMessage);
+#endif	
 
-			SenderMessage.nType = 0;
-			SenderMessage.TopicTitle = "";
-			SenderMessage.cUserID = "";
-			SenderMessage.cMsg = "";
-			SenderMessage.cDate = "";
-			SenderMessage.cPassWord = "";
-			SenderMessage.cSenderID = "";
-			SenderMessage.Participants = "";
-			SenderMessage.AllTopicTitle = "";
-			SenderMessage.PubPrivate = false;
-			break;
-		case EmergencyPacket: 
-			
-			#ifdef SERVERMODE
-				EmergencyPacketCreater(SenderMessage);
-			#endif
-			SenderMessage.nType = 0;
-			SenderMessage.TopicTitle = "";
-			SenderMessage.cUserID = "";
-			SenderMessage.cMsg = "";
-			SenderMessage.cDate = "";
-			SenderMessage.cPassWord = "";
-			SenderMessage.cSenderID = "";
-			SenderMessage.Participants = "";
-			SenderMessage.AllTopicTitle = "";
-			SenderMessage.PubPrivate = false;
-			break;
-		case PasswordPacket:
-			
-			#ifdef SERVERMODE
-				PassWordPacketCreater(SenderMessage);
-			#endif		
+		SenderMessage.nType = 0;
+		SenderMessage.TopicTitle = "";
+		SenderMessage.cUserID = "";
+		SenderMessage.cMsg = "";
+		SenderMessage.cDate = "";
+		SenderMessage.cPassWord = "";
+		SenderMessage.cSenderID = "";
+		SenderMessage.Participants = "";
+		SenderMessage.AllTopicTitle = "";
+		SenderMessage.PubPrivate = false;
+		break;
+	case EmergencyPacket:
 
-			SenderMessage.nType = 0;
-			SenderMessage.TopicTitle = "";
-			SenderMessage.cUserID = "";
-			SenderMessage.cMsg = "";
-			SenderMessage.cDate = "";
-			SenderMessage.cPassWord = "";
-			SenderMessage.cSenderID = "";
-			SenderMessage.Participants = "";
-			SenderMessage.AllTopicTitle = "";
-			SenderMessage.PubPrivate = false;
-			break;
+#ifdef SERVERMODE
+		EmergencyPacketCreater(SenderMessage);
+#endif
+		SenderMessage.nType = 0;
+		SenderMessage.TopicTitle = "";
+		SenderMessage.cUserID = "";
+		SenderMessage.cMsg = "";
+		SenderMessage.cDate = "";
+		SenderMessage.cPassWord = "";
+		SenderMessage.cSenderID = "";
+		SenderMessage.Participants = "";
+		SenderMessage.AllTopicTitle = "";
+		SenderMessage.PubPrivate = false;
+		break;
+	case PasswordPacket:
+
+#ifdef SERVERMODE
+		PassWordPacketCreater(SenderMessage);
+#endif		
+
+		SenderMessage.nType = 0;
+		SenderMessage.TopicTitle = "";
+		SenderMessage.cUserID = "";
+		SenderMessage.cMsg = "";
+		SenderMessage.cDate = "";
+		SenderMessage.cPassWord = "";
+		SenderMessage.cSenderID = "";
+		SenderMessage.Participants = "";
+		SenderMessage.AllTopicTitle = "";
+		SenderMessage.PubPrivate = false;
+		break;
 	}
 
 	return;
@@ -452,7 +459,7 @@ void PacketManager::CalendarPublicPacketCreater(DataPacket SenderMessage)
 {
 
 	int count = 0;
-	int SingletonReturn=0;
+	int SingletonReturn = 0;
 	while (SingletonReturn != -1)
 	{
 		SingletonReturn = ServerDataManager::getInstance()->FindSocketValue(alltopic, NULL, count, NULL);
@@ -496,7 +503,7 @@ void PacketManager::ChattingPacketCreater(DataPacket SenderMessages)
 		Sender.Send(SenderMessages, SingletonReturn);
 		count++;
 	}
-	
+
 }
 
 void PacketManager::TopicEnterPacketCreater(DataPacket SenderMessage)
@@ -505,9 +512,9 @@ void PacketManager::TopicEnterPacketCreater(DataPacket SenderMessage)
 	//Analysis가 대입한 목적지 소켓값 SendMessage.ReciverSocketValue값 대입
 	//소켓 수 측정
 	// 해당 소켓으로 Send
-	UserNum =ServerDataManager::getInstance()->SearchInfo("", SenderMessage.cUserID, NULL);
+	UserNum = ServerDataManager::getInstance()->SearchInfo("", SenderMessage.cUserID, NULL);
 	ServerDataManager::getInstance()->InsertInfo(NULL, SenderMessage.TopicTitle, UserNum);
-	
+
 }
 void PacketManager::TopicLeavePacketCreater(DataPacket SenderMessage)
 {
@@ -517,7 +524,7 @@ void PacketManager::TopicLeavePacketCreater(DataPacket SenderMessage)
 	// 해당 소켓수 만큼 목적지로 Send
 	UserNum = ServerDataManager::getInstance()->SearchInfo("", SenderMessage.cUserID, NULL);
 	ServerDataManager::getInstance()->DeleteInfo(NULL, SenderMessage.TopicTitle, UserNum);
-	
+
 }
 void PacketManager::TopicParticipantPacketCreater(DataPacket SenderMessage)
 {
@@ -528,9 +535,9 @@ void PacketManager::TopicParticipantPacketCreater(DataPacket SenderMessage)
 	string seperate = ";";
 	string all;
 	int count = 0;
-	
+
 	string SingletonReturn = "";
-	
+
 	while (SingletonReturn != "find fail")
 	{
 		SingletonReturn = ServerDataManager::getInstance()->FindUserID(SenderMessage.TopicTitle, count);
@@ -540,9 +547,9 @@ void PacketManager::TopicParticipantPacketCreater(DataPacket SenderMessage)
 	}
 	count = 0;
 	UserLocation = ServerDataManager::getInstance()->SearchInfo("", SenderMessage.cUserID, NULL);
-	SenderScok= ServerDataManager::getInstance()->FindSocketValue("", SenderMessage.cUserID, NULL, UserLocation);
+	SenderScok = ServerDataManager::getInstance()->FindSocketValue("", SenderMessage.cUserID, NULL, UserLocation);
 	SenderMessage.Participants = TopicParticipant;
-//	a = ServerDataManager::getInstance()->SearchInfo(NULL, SenderMessage.cUserID);
+	//	a = ServerDataManager::getInstance()->SearchInfo(NULL, SenderMessage.cUserID);
 	//SenderSocketValue = ServerDataManager::getInstance()->FindSocketValue(NULL, SenderMessage.cUserID, NULL, a);
 
 	Sender.Send(SenderMessage, SenderScok);
@@ -561,7 +568,7 @@ void PacketManager::EmergencyPacketCreater(DataPacket SenderMessage)
 		Sender.Send(SenderMessage, SingletonReturn);
 		count++;
 	}
-	
+
 }
 void PacketManager::PassWordPacketCreater(DataPacket SenderMessage)
 {
@@ -570,6 +577,9 @@ void PacketManager::PassWordPacketCreater(DataPacket SenderMessage)
 	// 해당 소켓으로 Send
 	// DB와 상의
 	//DB 센더 해야함
-	
+
 }
+
+#endif
+
 
