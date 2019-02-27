@@ -21,6 +21,7 @@ static char THIS_FILE[] = __FILE__;
 // COutputBar
 
 
+
 COutputWnd::COutputWnd()
 {
 }
@@ -216,26 +217,27 @@ BOOL COutputWnd::PreTranslateMessage(MSG* pMsg)				//엔터 눌렀을경우에 동작하는 
 {
 	short Shift;
 	Shift = GetKeyState(VK_SHIFT);
+	CString csMSG;
+	string sMSG;
 	DataManager *mDataManager;
 	mDataManager = DataManager::GetInstance();
+	GetDlgItem(5426)->GetWindowTextW(csMSG);
+	sMSG = string(CT2CA(csMSG.operator LPCWSTR()));
 
 	// 엔터키
-	//AfxMessageBox(_T("일반 채팅"));
-	
 	if ((pMsg->message == WM_KEYDOWN) && (pMsg->wParam == VK_RETURN) && (Shift>=0))
 	{
-		// 여기에 원하는 동작의 코드를 삽입
 		if (nType == 0)
 		{
 			int sel = m_wndTabs.GetActiveTab();
 			AfxMessageBox(_T("일반 채팅"));
-			//GuiClientInterface::getInstance()->SendChatMessage(ChattingPacket, sTitleList[sel], , string cMsg);
+			GuiClientInterface::getInstance()->SendChatMessage(ChattingPacket, sTitleList[sel], mDataManager->myinfo.Name, sMSG);
 			return true;
 		}
 		else if (nType == EmergencyPacket)
 		{
 			AfxMessageBox(_T("긴급 알람"));
-			//GuiClientInterface::getInstance()->SendEmergencyAramMessage(EmergencyPacket, string cUserID, string cMsg);
+			GuiClientInterface::getInstance()->SendEmergencyAramMessage(EmergencyPacket, mDataManager->myinfo.Name, sMSG);
 			nType = 0;
 			return true;
 		}
@@ -254,10 +256,16 @@ BOOL COutputWnd::PreTranslateMessage(MSG* pMsg)				//엔터 눌렀을경우에 동작하는 
 
 LRESULT COutputWnd::OnTabSetActive(WPARAM wParam, LPARAM lParam)		//탭을 클릭했을때 동작하는 함수
 {
-	CString label;
+	CString csLabel;
+	string sLabel;
+	DataManager *mDataManager;
+	mDataManager = DataManager::GetInstance();
 	int sel = m_wndTabs.GetActiveTab();
-	m_wndTabs.GetTabLabel(sel, label);
-	label.Format(_T("%d"), sel);
+	m_wndTabs.GetTabLabel(sel, csLabel);
+	sLabel = string(CT2CA(csLabel.operator LPCWSTR()));
+	GuiClientInterface::getInstance()->SendTopicParticipantMessage(TopicParticipantPacket, mDataManager->myinfo.Name, sLabel);
+	
+	//Label.Format(_T("%d"), sel);
 	//AfxMessageBox(label);
 	return 0;
 }
