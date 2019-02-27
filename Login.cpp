@@ -16,7 +16,6 @@
 
 
 vector<PeopleInfo> dumi;
-GuiClientInterface* GuiClientInterface::i_Instance = NULL;
 using namespace std;
 
 

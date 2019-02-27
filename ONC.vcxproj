@@ -227,6 +227,7 @@
     <ClCompile Include="Connect.cpp" />
     <ClCompile Include="DataBaseSender.cpp" />
     <ClCompile Include="DataManager.cpp" />
+    <ClCompile Include="Datapacket.cpp" />
     <ClCompile Include="DBCollector.cpp" />
     <ClCompile Include="DBConnect.cpp" />
     <ClCompile Include="DetailView.cpp" />

@@ -16,18 +16,19 @@ using namespace std;
 
 class PacketManager
 {
-public: 
-	
+public:
+	PacketManager();
+	~PacketManager();
+
 	void PacketCreater(DataPacket SenderMessage);
 	DataPacket PacketAnalysis(DataPacket RecvMessage);
-	
-	
-	
+
+
 private:
-	GuiClientInterface Interface;
+	
 	int PacketCreaterType = 0;
 	string alltopic = "NSL";
-//	GuiClientInterface InterfaceAnalysis;
+	//	GuiClientInterface InterfaceAnalysis;
 
 #ifdef SERVERMODE
 	SendRecv Sender;
@@ -42,9 +43,7 @@ private:
 	void ChattingPacketCreater(DataPacket SenderMessage);
 #endif
 
-#ifdef CLIENTMODE
-	
-#endif
+
 
 	DataPacket CalendarPublicPacketAnalysis(DataPacket RecvMessage);
 	DataPacket CalendarPrivatePacketAnalysis(DataPacket RecvMessage);
@@ -55,6 +54,7 @@ private:
 	DataPacket TopicParticipantPacketAnalysis(DataPacket RecvMessage);
 	DataPacket EmergencyPacketAnalysis(DataPacket RecvMessage);
 	DataPacket PassWordPacketAnalysis(DataPacket RecvMessage);
-	
+
 
 };
+
