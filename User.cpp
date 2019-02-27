@@ -12,6 +12,7 @@
 #include "cstringt.h"
 #include "atlstr.h"
 #include "afxcmn.h"
+#include "DataPacket.h"
 
 class CClassViewMenuButton : public CMFCToolBarMenuButton
 {
@@ -208,7 +209,7 @@ void CClassView::OnLoudSpeakerImageBtnClicked()
 	CONCApp *pApp = (CONCApp *)AfxGetApp();
 	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
 
-	pFrame->m_wndOutput.nType = Emergency_Alarm;
+	pFrame->m_wndOutput.nType = EmergencyPacket;
 }
 
 void CClassView::OnExitImageBtnClicked()

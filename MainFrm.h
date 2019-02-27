@@ -16,7 +16,7 @@ public:
 
 // 특성입니다.
 public:
-	COutputWnd        m_wndOutput;
+	COutputWnd m_wndOutput;
 
 // 작업입니다.
 public:

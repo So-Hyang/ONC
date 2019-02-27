@@ -22,18 +22,16 @@ void CDetailView::DoDataExchange(CDataExchange * pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
 
-	DDX_Control(pDX, IDC_LIST_NOTICE, notice);
-	DDX_Control(pDX, IDC_Date, date);
-	notice.AddString(Contents);
-	/*
-	for (int i = 0; i < 30; i++) 
+	DDX_Control(pDX, IDC_LIST_NOTICE, D_Notice);
+	DDX_Control(pDX, IDC_Date, D_Title);
+	D_Title.SetWindowTextW(Caption);
+	for (int i = 0; i < TempDataVector.GetSize(); i++) 
 	{
-		if (Contents[i] != "") 
-		{
-			notice.AddString(Contents[i]);
-		}
+		Contents = TempDataVector[i];
+		D_Notice.AddString(Contents);
 	}
-	*/
 
-	date.SetWindowTextW(Caption);
+
+
+
 }

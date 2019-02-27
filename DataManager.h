@@ -4,6 +4,17 @@
 #include <vector>
 
 using namespace std;
+struct MyInfo
+{
+	string Name;
+	string IP;
+	string Birthday;
+	string Student_N;
+	string Phone_N;
+	string Fine;
+	string Password;
+
+};
 
 struct People_DB
 {
@@ -40,8 +51,11 @@ private:
 	 
 
 public:
+	MyInfo myinfo;
 	People_DB RecvPeople;
 	CalenderNotice RecvContents;
+	bool FindMyInfo();
+	string GetIpAddress();
 	static DataManager *GetInstance();
 	virtual ~DataManager() {
 		instanceflag = false;

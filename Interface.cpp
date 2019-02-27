@@ -1,8 +1,20 @@
 #include "Interface.h"
+
+
+
 //아날리시스에 on메세지 함수 실행 해야함, 리시브 스레드안에 유저인포 관리하는거 고려해야함
 void GuiClientInterface::OnChatMessage(string TopicTitle, string cUserID, string cMsg)
 {
-	//GUI가 코딩해야함
+	int nLocation;
+	string sSendMSG;
+	CString csSendMSG;
+
+	CONCApp *pApp = (CONCApp *)AfxGetApp();
+	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
+	nLocation = pFrame->m_wndOutput.FindChatRoom(TopicTitle);
+	sSendMSG = "[" + cUserID + "] : " + cMsg;
+	csSendMSG = sSendMSG.c_str();
+	pFrame->m_wndOutput.m_wndList[nLocation].AddString(csSendMSG);
 }
 void GuiClientInterface::OnNoticeMessage(string UserID, string cMsg)
 {
@@ -11,7 +23,21 @@ void GuiClientInterface::OnNoticeMessage(string UserID, string cMsg)
 void GuiClientInterface::OnCalendarMessage(string UserID, string cMsg, string cDate)
 {
 	// GUI가 코딩해야함
+	CONCApp *pApp = (CONCApp *)AfxGetApp();
+	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
+	CChildFrame *pChild = (CChildFrame *)pFrame->GetActiveFrame();
+	CCalendarView *pCalView = (CCalendarView *)pChild->GetActiveView();
+	CalendarInfo i_newschedule;
+
+	i_newschedule.cDate = cDate;
+	i_newschedule.cUserID = UserID;
+	i_newschedule.cMsg = cMsg;
+	i_newschedule.nType = 1;
+	i_newschedule.PubPrivate = true;
+	pCalView->AddListSchedule(i_newschedule);
+
 }
+
 void GuiClientInterface::OnEmergencyAramMessage(string cUserID, string cMsg)
 {
 	//GUI가 코딩해야함
@@ -22,7 +48,20 @@ void GuiClientInterface::OnTopicParticipantMessage(string cUserID, string TopicT
 }
 void GuiClientInterface::OnAllTopicTitleMessage(string AllTopicTitle)
 {
-	// GUI가 코딩해야함
+	char* cPtr = (char*)AllTopicTitle.c_str();
+	int i = 0;
+
+	CONCApp *pApp = (CONCApp *)AfxGetApp();
+	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
+	
+	strtok(cPtr, ";");
+	while (cPtr != NULL)
+	{
+		pFrame->m_wndOutput.sTitleList[i]=cPtr;
+		cPtr = strtok(NULL, ";");
+		i++;
+	}
+	pFrame->m_wndOutput.RefreshTab();
 }
 void GuiClientInterface::ConncetWithServer()
 {
