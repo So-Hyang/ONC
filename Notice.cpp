@@ -320,7 +320,7 @@ void CPropertiesWnd::OnViewNSLBtnCLicked()
 		Dialog_detail_Contents = ((cur_NSL_notice[i].cMsg).c_str());
 		Dialog_detail.TempDataVector.Add(Dialog_detail_Contents);
 	}*/
-	*/
+	
 	Dialog_detail.DoModal();
 }
 
@@ -330,10 +330,10 @@ void CPropertiesWnd::OnViewPERSONALBtnCLicked()
 	CString Dialog_detail_Contents;
 	Dialog_detail.Caption = _T("개인 일정");
 //	for (int i = 0; i < cur_Personal_notice.size(); i++)
-	{
+//	{
 //		Dialog_detail_Contents = ((cur_Personal_notice[i].cMsg).c_str());
 //		Dialog_detail.TempDataVector.Add(Dialog_detail_Contents);
-	}*/
+//	}
 
 	Dialog_detail.DoModal();
 }
