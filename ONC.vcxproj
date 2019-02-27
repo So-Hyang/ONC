@@ -80,8 +80,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Program Files\MySQL\MySQL Server 8.0\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Program Files\MySQL\MySQL Server 8.0\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>D:\MySQL Server 8.0\include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\MySQL Server 8.0\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -250,7 +250,7 @@
     <ClCompile Include="ViewTree.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="libmysql.dll" />
+    <None Include="D:\MySQL Server 8.0\lib\libmysql.dll" />
     <None Include="ONC.reg" />
     <None Include="res\ONC.rc2" />
   </ItemGroup>

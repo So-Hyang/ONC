@@ -13,11 +13,13 @@
 #include "ChildFrm.h"
 #include "ONCDoc.h"
 #include "CalendarView.h"
+#include "Interface.h"
 #include <vector>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
+
 
 
 // CONCApp
@@ -164,7 +166,7 @@ BOOL CONCApp::InitInstance()
 
 	//************서버와 연결***************************************************//
 
-	SeverSock = Main_Start.ConnectWithServer();
+	GuiClientInterface::getInstance()->ConncetWithServer();
 
 	//************************************************************************//
 	

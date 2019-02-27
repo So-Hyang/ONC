@@ -1,7 +1,7 @@
 #pragma once
 //#include "Connect.h"
 #include "stdafx.h"
-#include "SendRecv.h"
+
 #include "Connect.h"
 #include "DataPacket.h"
 #include "ONC.h"
@@ -30,9 +30,8 @@ public :
 		return i_Instance; //포인터 리턴
 	};
 	SOCKET ConnectServerSocket;
-	SendRecv ClientRecv;
+	
 	Connect ConnectStart;
-	SendRecv Sender;
 	void OnChatMessage(   string TopicTitle, string cUserID, string cMsg);
 	void OnNoticeMessage(   string UserID, string cMsg);
 	void OnCalendarMessage( string UserID, string cMsg, string cDate);
@@ -47,6 +46,7 @@ public :
 	void SendTopicLeaveMessage(unsigned int nType, string cUserID, string TopicTitle);
 	void SendEmergencyAramMessage(unsigned int nType, string cUserID, string cMsg);
 	void SendTopicParticipantMessage(unsigned int nType, string cUserID, string TopicTitle);
+	void SendPassWordMessage(unsigned int nType, string cUserID, string PassWord);
 	void ConncetWithServer();
 	void DisConnecttion(SOCKET ServerSock);
 };

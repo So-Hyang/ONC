@@ -23,6 +23,19 @@ typedef struct
 	string Participant;
 	bool PubPri;
 
+
+
+	//unsigned int nType = 0;
+	//string TopicTitle;
+	//string cUserID;
+	//string cMsg;
+	//string cDate;
+	//string cPassWord;
+	//string cSenderID;
+	//string Participants;
+	//string AllTopicTitle;
+	//bool PubPrivate;
+
 }DataPacket;
 
 class DataBaseSender

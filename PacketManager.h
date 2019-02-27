@@ -1,19 +1,16 @@
 #pragma once
-//#include "stdafx.h"
-//#include "SendRecv.h"
-//#include "Interface.h"
-//#include "DataPacket.h"
-//#include "afxwin.h"
-//#include <afx.h>
-#include "stdafx.h"
 
+#include "stdafx.h"
 #include "DataPacket.h"
-#include "SendRecv.h"
 #include "ServerDataManager.h"
 #include "Interface.h"
 //#include "afxwin.h"
 //#include <afx.h>
 #include <string>
+
+#ifdef SERVERMODE
+#include "SendRecv.h"
+#endif
 
 using namespace std;
 
@@ -31,6 +28,8 @@ private:
 	int PacketCreaterType = 0;
 	string alltopic = "NSL";
 //	GuiClientInterface InterfaceAnalysis;
+
+#ifdef SERVERMODE
 	SendRecv Sender;
 	void CalendarPublicPacketCreater(DataPacket SenderMessage);
 	void CalendarPrivatePacketCreater(DataPacket SenderMessage);
@@ -41,6 +40,11 @@ private:
 	void EmergencyPacketCreater(DataPacket SenderMessage);
 	void PassWordPacketCreater(DataPacket SenderMessage);
 	void ChattingPacketCreater(DataPacket SenderMessage);
+#endif
+
+#ifdef CLIENTMODE
+	
+#endif
 
 	DataPacket CalendarPublicPacketAnalysis(DataPacket RecvMessage);
 	DataPacket CalendarPrivatePacketAnalysis(DataPacket RecvMessage);
