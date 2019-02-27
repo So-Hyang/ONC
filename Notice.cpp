@@ -15,6 +15,7 @@
 #include "MainFrm.h"
 #include "ONC.h"
 #include "DetailView.h"
+#include "AddView.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE
@@ -42,6 +43,7 @@ BEGIN_MESSAGE_MAP(CPropertiesWnd, CDockablePane)
 	ON_COMMAND(ID_NSL, OnViewNSLBtnCLicked)
 	ON_COMMAND(ID_PERSONAL, OnViewPERSONALBtnCLicked)
 	ON_COMMAND(ID_VIEW_ALL, OnViewAllBtnCLicked)
+	ON_COMMAND(ID_VIEW_ADD, OnViewAddBtnCLicked)
 	ON_WM_SETFOCUS()
 	ON_WM_SETTINGCHANGE()
 END_MESSAGE_MAP()
@@ -84,6 +86,7 @@ int CPropertiesWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		return -1;      // fail to create
 	}
 
+	Get_CalendarNotice();
 	InitPropList();
 
 	m_wndToolBar.Create(this, AFX_DEFAULT_TOOLBAR_STYLE, IDR_PROPERTIES);
@@ -154,7 +157,7 @@ void CPropertiesWnd::InitPropList()
 	pNSL->AddSubItem(pNSL_item);
 
 	propertycontents = L"";
-	cur_Personal_notice = LoadListNotice(2, "ID", cur_date);
+	cur_Personal_notice = LoadListNotice(2, "LeeJongWoo", cur_date);
 	CMFCPropertyGridProperty* pPersonal = new CMFCPropertyGridProperty(_T("개인 일정 List"));
 	m_wndPropList.AddProperty(pPersonal);
 	if (cur_Personal_notice.size() != 0)
@@ -170,26 +173,17 @@ void CPropertiesWnd::Get_CalendarNotice()
 {
 	DataManager *mDataManager;
 	mDataManager = DataManager::GetInstance();
-
-	/*
+	
+	CalenderNotice dm_vector_data;
 	for (vector<CalenderNotice>::iterator i = mDataManager->calendernotice_v.begin(); i != mDataManager->calendernotice_v.end(); i++)
 	{
-		string a = (*i).Date;
-		string b = (*i).Who;
-		string c = (*i).Contents_Type;
-		string d = (*i).Public_Type;
-		string e = (*i).Main_Contents;
-		CString buf;
-		buf = b.c_str();
-			*/
-//	}
-	for (int i = 0; i < mDataManager->calendernotice_v.size(); i++)
-	{
-		dm_noticeinfo[i].Who = mDataManager->calendernotice_v[i].Who;
-		dm_noticeinfo[i].Date = mDataManager->calendernotice_v[i].Date;
-		dm_noticeinfo[i].Contents_Type = mDataManager->calendernotice_v[i].Contents_Type;
-		dm_noticeinfo[i].Public_Type = mDataManager->calendernotice_v[i].Public_Type;
-		dm_noticeinfo[i].Main_Contents = mDataManager->calendernotice_v[i].Main_Contents;
+		
+		dm_vector_data.Who = (*i).Who;
+		dm_vector_data.Date = (*i).Date;
+		dm_vector_data.Contents_Type = (*i).Contents_Type;
+		dm_vector_data.Main_Contents = (*i).Main_Contents;
+		dm_vector_data.Public_Type = (*i).Public_Type;
+		dm_noticeinfo.push_back(dm_vector_data);
 	}
 
 }
@@ -209,21 +203,17 @@ void CPropertiesWnd::OnSettingChange(UINT uFlags, LPCTSTR lpszSection)
 
 vector<CalenderNotice> CPropertiesWnd::LoadListNotice(int type, string name, string date)
 {
-	//dm_noticeinfo
 	vector<CalenderNotice> result_Notice{};//선별해서 나타내진 결과 벡터
-	CalenderNotice test1;								   //db에서 정보 가져온 데이터중에서  type, status에 따라서 원하는 정보 불러옴
-	test1.Main_Contents = "소향테스트임";
 	switch (type)
 	{
 	case 1: //NSL //날짜일치 + type == true일치
 		for (int i = 0; i < dm_noticeinfo.size(); i++)
 		{
-			if ((date == dm_noticeinfo[i].Date) && ("pub" == dm_noticeinfo[i].Public_Type))
+			if ((date == dm_noticeinfo[i].Date) && ("Public" == dm_noticeinfo[i].Public_Type))
 			{
 				result_Notice.push_back(dm_noticeinfo[i]);
 			}
 		}
-		result_Notice.push_back(test1);
 		break;
 	case 2://개인 //날짜일치+ID일치
 		for (int i = 0; i < dm_noticeinfo.size(); i++)
@@ -270,6 +260,31 @@ void CPropertiesWnd::SetPropListFont()
 	//m_wndObjectCombo.SetFont(&m_fntPropList);
 }
 
+void CPropertiesWnd::AddNoticeInfo(ALLNoticeInfo Infos)
+{
+	vecNoticeInfo.push_back(Infos);
+}
+
+void CPropertiesWnd::AddNoticeInfoDB()
+{
+	ALLNoticeInfo NoticeInfos;
+	DataManager *mDataManager;
+	mDataManager = DataManager::GetInstance();
+
+	for (int i = 0; mDataManager->calendernotice_v.size(); i++)
+	{
+		if (mDataManager->calendernotice_v[i].Contents_Type == "3")
+		{
+			NoticeInfos.Notice_cMsg = mDataManager->calendernotice_v[i].Main_Contents;
+			NoticeInfos.Notice_CUserID = mDataManager->calendernotice_v[i].Who;
+			vecNoticeInfo.push_back(NoticeInfos);
+		}
+	}
+}
+
+
+
+
 
 void CPropertiesWnd::OnViewAllBtnCLicked()
 {
@@ -279,6 +294,14 @@ void CPropertiesWnd::OnViewAllBtnCLicked()
 	dlg.Caption = caption;
 	dlg.DoModal();
 }
+
+void CPropertiesWnd::OnViewAddBtnCLicked()
+{
+	AddView AD;
+	AD.DoModal();
+	CString listbox_contents;
+}
+
 
 
 void CPropertiesWnd::OnViewNSLBtnCLicked()

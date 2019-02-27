@@ -2,6 +2,7 @@
 #include "DetailView.h"
 #include "ONC.h"
 #include "afxdialogex.h"
+#include "Notice.h"
 
 IMPLEMENT_DYNAMIC(CDetailView, CDialogEx)
 
@@ -21,6 +22,8 @@ CDetailView::~CDetailView()
 void CDetailView::DoDataExchange(CDataExchange * pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
+	CPropertiesWnd NoticeView;
+	CString NewNoticecontents;
 
 	DDX_Control(pDX, IDC_LIST_NOTICE, D_Notice);
 	DDX_Control(pDX, IDC_Date, D_Title);
@@ -34,5 +37,12 @@ void CDetailView::DoDataExchange(CDataExchange * pDX)
 
 	*/
 
+
+	for (int i = 0; i < NoticeView.vecNoticeInfo.size(); i++)
+	{
+		string Noticecontents = (NoticeView.vecNoticeInfo[i].Notice_CUserID)+ (NoticeView.vecNoticeInfo[i].Notice_cMsg);
+		CString NewNoticecontents(Noticecontents.c_str());
+		D_Notice.InsertString(i + 1, NewNoticecontents);
+	}
 
 }
