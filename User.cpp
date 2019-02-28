@@ -13,7 +13,7 @@
 #include "atlstr.h"
 #include "afxcmn.h"
 #include "DataPacket.h"
-
+#include "Interface.h"
 class CClassViewMenuButton : public CMFCToolBarMenuButton
 {
 	friend class CClassView;
@@ -215,27 +215,45 @@ void CClassView::OnLoudSpeakerImageBtnClicked()
 
 void CClassView::OnExitImageBtnClicked()
 {
+	DataManager *mDataManager;
+	mDataManager = DataManager::GetInstance();
+	CONCApp *pApp = (CONCApp *)AfxGetApp();
+	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
+
 	int MB_return = 0;
 	MB_return = MessageBox(_T("프로그램을 종료하시겠습니까?"), _T("ONC"), MB_OKCANCEL);
-
+	
 	if (MB_return == IDOK) {
+		GuiClientInterface::getInstance()->DisConnecttion(pFrame->Mysocket);
 		CreateExitView();
 	}
-	else {}
+	//else {}
 }
 
 void CClassView::OnInImageBtnClicked()
 {
-
+	GuiClientInterface *mGuiClientInterface;
+	mGuiClientInterface = GuiClientInterface::getInstance();
+	DataManager *mDataManager;
+	mDataManager = DataManager::GetInstance();
+	CONCApp *pApp = (CONCApp *)AfxGetApp();
+	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
+	mGuiClientInterface->SendTopicEnterMessage(TopicEnterPacket, mDataManager->myinfo.Name, pFrame->m_wndOutput.ActiveTab());
+	GuiClientInterface::getInstance()->SendTopicParticipantMessage(TopicParticipantPacket, mDataManager->myinfo.Name, pFrame->m_wndOutput.ActiveTab());
 }
 
 void CClassView::OnOutImageBtnClicked()
 {
 	CONCApp *pApp = (CONCApp *)AfxGetApp();
 	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
+	GuiClientInterface *mGuiClientInterface;
+	mGuiClientInterface = GuiClientInterface::getInstance();
+	DataManager *mDataManager;
+	mDataManager = DataManager::GetInstance();
 
 	pFrame->m_wndOutput.ChatRoomLeave();
-
+	mGuiClientInterface->SendTopicLeaveMessage(TopicLeavePacket, mDataManager->myinfo.Name, pFrame->m_wndOutput.ActiveTab());
+	GuiClientInterface::getInstance()->SendTopicParticipantMessage(TopicParticipantPacket, mDataManager->myinfo.Name, pFrame->m_wndOutput.ActiveTab());
 }
 
 
@@ -310,29 +328,44 @@ void CClassView::OnSortingSortbyaccess() //마우스 우클릭하여서 프로필 눌렀을때
 
 }
 
-void CClassView::SetTreeData(vector<People_DB> peoples)
+void CClassView::SetTreeData(vector<People_DB> Participants)
 {
-	this->vecPeople = peoples;
+	this->vecPeople = Participants;
+	MakeTreeview();
+}
+
+void CClassView::SetTreeData(string Participants)
+{
+	//vector<People_DB> peoples;
+	//this->vecPeople = peoples;
+	this->vecPeople.clear();
+	
+	char* cPtr = (char*)Participants.c_str();
+	int i = 0;
+
+	char *ptr = strtok(cPtr, ";");
+
+	while (ptr != NULL)
+	{
+		this->vecPeople.resize(i+1);
+		string str(ptr);
+		this->vecPeople[i].Name = str;
+		ptr = strtok(NULL, ";");
+		i++;
+	}
+	
 	MakeTreeview();
 }
 
 void CClassView::MakeTreeview()
 {
-
 	CString buf;
 	int n=0;
+	m_wndClassView.DeleteAllItems();
 	HTREEITEM hRoot = m_wndClassView.InsertItem(_T("NSL"), 0, 0);
 	for (vector<People_DB>::iterator i = vecPeople.begin(); i != vecPeople.end(); i++)
-	{
-		
+	{		
 		buf = (*i).Name.c_str();
 		m_wndClassView.InsertItem(buf, 0, 0, hRoot);
-
-	
 	}
-
-	
-
 }
-
-

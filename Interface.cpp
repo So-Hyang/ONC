@@ -12,7 +12,7 @@ void GuiClientInterface::OnChatMessage(string TopicTitle, string cUserID, string
 	CString csSendMSG;
 
 	CONCApp *pApp = (CONCApp *)AfxGetApp();
-	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
+	CMainFrame* pFrame = (CMainFrame*)pApp->GetMainWnd();
 	nLocation = pFrame->m_wndOutput.FindChatRoom(TopicTitle);
 	sSendMSG = "[" + cUserID + "] : " + cMsg;
 	csSendMSG = sSendMSG.c_str();
@@ -37,6 +37,10 @@ void GuiClientInterface::OnEmergencyAramMessage(string cUserID, string cMsg)
 }
 void GuiClientInterface::OnTopicParticipantMessage(string cUserID, string TopicTitle, string Participants)
 {
+	CONCApp *pApp = (CONCApp *)AfxGetApp();
+	CMainFrame* pFrame = (CMainFrame*)pApp->GetMainWnd();
+
+	pFrame->m_wndClassView.SetTreeData(Participants);
 	// GUI가 코딩해야함
 	CDataPacket::getInstance()->RecvMessageClear();
 }
@@ -46,24 +50,30 @@ void GuiClientInterface::OnAllTopicTitleMessage(string AllTopicTitle)
 	int i = 0;
 
 	CONCApp *pApp = (CONCApp *)AfxGetApp();
-	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
+	CMainFrame* pFrame = (CMainFrame*)pApp->GetMainWnd();
 	
-	strtok(cPtr, ";");
-	while (cPtr != NULL)
+	char *ptr = strtok(cPtr, ";");
+	while (ptr != NULL)
 	{
-		pFrame->m_wndOutput.sTitleList[i]=cPtr;
-		cPtr = strtok(NULL, ";");
+		string str = ptr;
+		pFrame->m_wndOutput.sTitleList[i] = str;
+		ptr = strtok(NULL, ";");
 		i++;
 	}
+	
+	//pFrame->m_wndOutput.RefreshTab();
+	pFrame->m_wndOutput.nChatNum = i;
+	pFrame->m_wndOutput.Invalidate();
 	CDataPacket::getInstance()->RecvMessageClear();
 }
-void GuiClientInterface::ConncetWithServer()
+SOCKET GuiClientInterface::ConncetWithServer()
 {
 	
 	ConnectServerSocket = ConnectStart.ConnectWithServer();
 	                                                                
 //	CDataPacket::getInstance()->ClientSocket.ClientSock = ConnectServerSocket;
 	ClientRecv.RecvThread(ConnectServerSocket);
+	return ConnectServerSocket;
 }
 void GuiClientInterface::DisConnecttion(SOCKET ServerSock)
 {
@@ -82,7 +92,7 @@ void GuiClientInterface::SendChatMessage(unsigned int nType, string TopicTitle, 
 	CDataPacket::getInstance()->SenderMessage.TopicTitle = TopicTitle;
 	CDataPacket::getInstance()->SenderMessage.cUserID = cUserID;
 	CDataPacket::getInstance()->SenderMessage.cMsg = cMsg;
-	if (Sender.Send(CDataPacket::getInstance()->SenderMessage, CDataPacket::getInstance()->ClientSocket.ClientSock) == 1)
+	if (Sender.Send(CDataPacket::getInstance()->SenderMessage, CDataPacket::getInstance()->ClientSocket.ClientSock) != -1)
 	{
 		CDataPacket::getInstance()->SendMessageClear();
 	}
@@ -162,7 +172,7 @@ void GuiClientInterface::SendTopicParticipantMessage(unsigned int nType, string 
 	CDataPacket::getInstance()->SenderMessage.cUserID = cUserID;
 	CDataPacket::getInstance()->SenderMessage.TopicTitle = TopicTitle;
 
-	if (Sender.Send(CDataPacket::getInstance()->SenderMessage, CDataPacket::getInstance()->ClientSocket.ClientSock) == 1)
+	if (Sender.Send(CDataPacket::getInstance()->SenderMessage, CDataPacket::getInstance()->ClientSocket.ClientSock) != -1)
 	{
 		CDataPacket::getInstance()->SendMessageClear();
 	}

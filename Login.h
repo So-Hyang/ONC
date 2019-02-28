@@ -21,7 +21,7 @@ class CLogin : public CDialogEx
 public:
 	CLogin(CWnd* pParent = NULL);   // 표준 생성자입니다.
 	virtual ~CLogin();
-
+	SOCKET aa;
 
 private:
 	PeopleInfo PeopleInfo;
