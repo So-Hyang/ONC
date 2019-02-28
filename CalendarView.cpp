@@ -240,13 +240,6 @@ void CCalendarView::OnLButtonDblClk(UINT nFlags, CPoint point)////종우선배
 			n_calinfo_vector.Date = s_date;
 			n_calinfo_vector.Contents_Type = "Calendar";
 
-			//통신용 데이터 패킷 추가하기
-			//n_calinfo_datapaket.cMsg = n_contents;
-		//	n_calinfo_datapaket.cUserID = s_name;
-		//	n_calinfo_datapaket.cDate = s_date;
-			
-			
-
 			n_status = Adddlg.a_status;
 
 			if (n_status == "공개") 
@@ -578,7 +571,7 @@ vector<CalenderNotice> CCalendarView::LoadListSchedule(string pubsub_status, CSt
 	case 2://개인 일정일때
 		for (int i = 0; i < dm_calendarinfo.size(); i++)
 		{
-			if (dm_calendarinfo[i].Who == "ID") //개인 일정 //본인 ID인 것만 표시하도록 수정하기
+			if ((dm_calendarinfo[i].Who).c_str() == C_name) //개인 일정 //본인 ID인 것만 표시하도록 수정하기
 			{
 				string temp = dm_calendarinfo[i].Date;
 				if (temp.substr(0, 4) == (date.substr(0, 4))) //년, 월이 같으면 n_calendar에 값 추가하기
@@ -696,12 +689,12 @@ void CCalendarView::OnCalendatTabBtnClicked(UINT uiID)
 	
 	switch (uiID) {
 	case 105://NSL
-		C_name = "이름"; C_type = "Public";
+		C_type = "Public";
 		calendar = LoadListSchedule(C_type,C_name, s_date);//DM에서 코드 가져오는 함수
 		DrawCalendarList(calendar);
 		break;
 	case 106://개인
-		C_name = "ID"; C_type = "Private";
+		C_type = "Private";
 		calendar = LoadListSchedule(C_type, C_name, s_date);//DM에서 코드 가져오는 함수
 		DrawCalendarList(calendar);
 		break;
