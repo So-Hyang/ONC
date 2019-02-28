@@ -35,12 +35,9 @@
 #define ID_SORTING_SORTBYACCESS         148
 #define ID_VIEW_OUTPUTWND               149
 #define ID_VIEW_PROPERTIESWND           150
-
 #define ID_NSL                          151
-#define ID_EXPAND_ALL                   6000
 #define ID_PERSONAL                     152
-#define ID_PROPERTIES2                  153
-
+#define ID_VIEW_ADD                     153
 #define ID_VIEW_ALL                     154
 #define IDS_FILE_VIEW                   155
 #define IDS_CLASS_VIEW                  156
@@ -111,6 +108,7 @@
 #define IDC_EDIT2                       1014
 #define IDC_EDIT3                       1015
 #define Emergency_Alarm                 2001
+#define ID_EXPAND_ALL                   6000
 #define IDB_BITMAP_EXIT                 32776
 #define ID_BITMAP_OUT                   32778
 #define IDR_BITMAP_LS                   32779
@@ -118,12 +116,13 @@
 #define ID_32781                        32781
 #define ID_TEXT_SAVE                    32782
 
+
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        341
-#define _APS_NEXT_COMMAND_VALUE         32787
+#define _APS_NEXT_COMMAND_VALUE         32789
 #define _APS_NEXT_CONTROL_VALUE         1016
 #define _APS_NEXT_SYMED_VALUE           310
 #endif

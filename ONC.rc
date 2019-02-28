@@ -17,7 +17,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// 한국어(대한민국) resources
+// Korean (Korea) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_KOR)
 LANGUAGE LANG_KOREAN, SUBLANG_DEFAULT
@@ -193,10 +193,10 @@ END
 IDR_PROPERTIES TOOLBAR 50, 25
 BEGIN
     BUTTON      ID_VIEW_ALL
+    BUTTON      ID_VIEW_ADD
     BUTTON      ID_NSL
     SEPARATOR
     BUTTON      ID_PERSONAL
-    BUTTON      ID_PROPERTIES2
 END
 
 IDR_TOOLBAR_USER TOOLBAR 16, 15
@@ -467,18 +467,17 @@ STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSM
 CAPTION "Dialog"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    EDITTEXT        IDC_EDIT4,132,29,121,14,ES_AUTOHSCROLL
-    EDITTEXT        IDC_EDIT1,132,53,121,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT4,132,29,121,14,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_EDIT1,132,53,121,14,ES_AUTOHSCROLL | ES_READONLY
     LISTBOX         IDC_LIST2,7,103,257,66,LBS_SORT | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
-    EDITTEXT        IDC_EDIT2,61,176,173,15,ES_AUTOHSCROLL
-    EDITTEXT        IDC_EDIT3,61,194,174,15,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT2,61,176,173,15,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_EDIT3,61,194,174,15,ES_AUTOHSCROLL | ES_READONLY
     LTEXT           "NAME",IDC_STATIC,107,31,23,13
     CONTROL         "",IDC_STATIC,"Static",SS_BLACKFRAME,7,7,79,74
     LTEXT           "Phone N",IDC_STATIC,18,178,32,13
     LTEXT           "Student N",IDC_STATIC,13,197,32,13
     LTEXT           "Fine",IDC_STATIC,107,54,23,13
     GROUPBOX        "History",IDC_STATIC,7,91,257,83
-    PUSHBUTTON      "Button1",IDC_BUTTON1,243,198,21,15
 END
 
 
@@ -773,7 +772,7 @@ BEGIN
     IDS_FIND_TAB            "찾기"
 END
 
-#endif    // 한국어(대한민국) resources
+#endif    // Korean (Korea) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

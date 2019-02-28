@@ -62,5 +62,8 @@ public:
 	}
 	vector<People_DB>people_v;
 	vector<CalenderNotice>calendernotice_v;
+	
+
+
 };
 

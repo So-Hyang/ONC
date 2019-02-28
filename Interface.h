@@ -4,11 +4,13 @@
 
 #include "Connect.h"
 #include "DataPacket.h"
-#include "ONC.h"
 #include "MainFrm.h"
 #include "ChildFrm.h"
+#include "ONC.h"
 #include "ONCDoc.h"
 #include "CalendarView.h"
+#include "Notice.h"
+#include "DataManager.h"
 
 #include <string>
 //#include <windows.h>

@@ -3,21 +3,11 @@
 //
 
 #pragma once
+#include "DataManager.h"
+#include "Interface.h"
 
 
 
-struct CalendarInfo//DM 데이터 패킷
-{
-	unsigned int nType;
-	string TopicTitle;
-	string cUserID;
-	string cMsg;
-	string cDate;
-	string cPassWord;
-	string cSenderID;
-	string Participants;
-	bool PubPrivate;
-};
 
 class CCalendarView : public CView
 {
@@ -49,9 +39,10 @@ public:
 
 	void CreateAddView(CString type, CString status, CString name, CString date);
 
-	vector<CalendarInfo> LoadListSchedule(int type, CString status, CString name, string date);
+	vector<CalenderNotice> LoadListSchedule(string pubsub_status, CString name, string date);
 
-	void AddListSchedule(CalendarInfo newschedule);
+
+	void AddListSchedule(CalenderNotice newschedule);
 
 	void ChangeColorEmergencyNotice(string color);
 
@@ -63,7 +54,10 @@ public:
 
 
 
-	void DrawCalendarList(vector<CalendarInfo> n_calendar);
+	void DrawCalendarList(vector<CalenderNotice> n_calendar);
+
+	void Get_CalendarNotice_Calendar();
+
 
 
 
@@ -79,7 +73,7 @@ public:
 
 	COLORREF newColor;
 	bool temp_noticecolor_key = true; //긴급메세지 수신/읽기용 임시로 놔둔 방편
-	CString emergencymsg = L"2시까지 시완, 종우 교수님 방으로 호출"; //긴급메세지 변수
+	CString emergencymsg = L"긴급 메세지 입니다"; //긴급메세지 변수
 	int BackgroundAdd = IDB_BITMAP_CALENDAR_BK;
 	CString day[7] = { L"일" ,L"월", L"화", L"수", L"목", L"금", L"토" };
 	CString t_date[35] = {};
@@ -87,14 +81,9 @@ public:
 	int C_cur_Year = 0;
 
 	CString C_status, C_name;
-	string s_date;
-	int C_type = 1;
-	vector<CalendarInfo> dm_calendarinfo{
-		{ 1, "", "ID", "contents1", "2018-10-22", "", "", "", true },{ 1, "", "IDDD", "contents2", "2019-02-20", "", "", "", true },{ 2, "", "IDDDD", "contents3", "2019-02-20", "", "", "", true },
-		{ 1, "", "ID", "contents4", "2019-02-28", "", "", "", true },{ 2, "", "ID", "contents5", "2019-02-20", "", "", "", false },{ 2, "", "ID", "contents6", "2019-02-20", "", "", "", false },
-		{ 1, "", "ID", "contents7", "2019-03-01", "", "", "", true },{ 1, "", "ID", "contents8", "2019-04-20", "", "", "", true }
-
-	};
+	string s_date = "",s_name = "";
+	string C_type = "Public";
+	vector<CalenderNotice> dm_calendarinfo;
 
 
 	// 재정의입니다.

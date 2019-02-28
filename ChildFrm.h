@@ -29,6 +29,10 @@ public:
 #ifdef _DEBUG
 	virtual void AssertValid() const;
 	virtual void Dump(CDumpContext& dc) const;
+	/*CView * GetFtViewPane();
+	CView * GetFtViewPane1();
+	CView * GetFtViewPane2();
+	CView * GetFtViewPane3();*/
 #endif
 
 // 생성된 메시지 맵 함수
