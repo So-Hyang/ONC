@@ -170,7 +170,7 @@ void CPropertiesWnd::InitPropList()
 	else
 		temp_propertycontents = L"";
 	propertycontents = (LPCTSTR)temp_propertycontents;
-	CMFCPropertyGridProperty* pNSL = new CMFCPropertyGridProperty(_T("NSL 일정 List"));
+	pNSL = new CMFCPropertyGridProperty(_T("NSL 일정 List"));
 	pNSL->AddSubItem(new CMFCPropertyGridProperty(_T("NSL 일정 List"), propertycontents));
 	m_wndPropList.AddProperty(pNSL);
 
@@ -181,7 +181,7 @@ void CPropertiesWnd::InitPropList()
 	else
 		temp_propertycontents = L"";
 	propertycontents = (LPCTSTR)temp_propertycontents;
-	CMFCPropertyGridProperty* pPersonal = new CMFCPropertyGridProperty(_T("개인 일정 List"));
+	pPersonal = new CMFCPropertyGridProperty(_T("개인 일정 List"));
 	pPersonal->AddSubItem(new CMFCPropertyGridProperty(_T("개인 일정 List"), propertycontents));
 	m_wndPropList.AddProperty(pPersonal);
 	
@@ -234,11 +234,19 @@ void CPropertiesWnd::AddNoticeInfoDB()
 
 void CPropertiesWnd::AddListNotice(CalenderNotice newschedule) 
 {
+	LPCTSTR propertycontents_P, propertycontents_N;
 	//일정 추가하기
 	dm_noticeinfo.push_back(newschedule);
 	cur_NSL_notice = LoadListNotice(1, n_userID, n_cur_date);
 	cur_Personal_notice = LoadListNotice(2, n_userID, n_cur_date);
 
+	propertycontents_P = (LPCTSTR) ((cur_Personal_notice[0].Main_Contents).c_str());
+	pPersonal->AddSubItem(new CMFCPropertyGridProperty(_T("개인 일정 List"), propertycontents_P));
+	m_wndPropList.AddProperty(pPersonal);
+
+	propertycontents_N = (LPCTSTR)((cur_NSL_notice[0].Main_Contents).c_str());
+	pNSL->AddSubItem(new CMFCPropertyGridProperty(_T("NSL 일정 List"), propertycontents_N));
+	m_wndPropList.AddProperty(pNSL);
 }
 
 void CPropertiesWnd::OnSetFocus(CWnd* pOldWnd)

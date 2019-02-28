@@ -40,6 +40,8 @@ public:
 	void AddNoticeInfo(ALLNoticeInfo Infos);
 	void AddNoticeInfoDB();
 	void AddListNotice(CalenderNotice newschedule);
+	CMFCPropertyGridProperty* pNSL;
+	CMFCPropertyGridProperty* pPersonal;
 	// 특성입니다.
 public:
 	void SetVSDotNetLook(BOOL bSet)
