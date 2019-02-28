@@ -41,12 +41,4 @@ void CDetailView::DoDataExchange(CDataExchange * pDX)
 		D_Notice.AddString(Contents);
 	}
 
-
-	for (int i = 0; i < NoticeView.vecNoticeInfo.size(); i++)
-	{
-		string Noticecontents = (NoticeView.vecNoticeInfo[i].Notice_CUserID)+ (NoticeView.vecNoticeInfo[i].Notice_cMsg);
-		CString NewNoticecontents(Noticecontents.c_str());
-		D_Notice.InsertString(i + 1, NewNoticecontents);
-	}
-
 }

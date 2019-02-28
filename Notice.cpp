@@ -17,6 +17,7 @@
 #include "DetailView.h"
 #include "AddView.h"
 #include "ChildFrm.h"
+#include "Interface.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE
@@ -339,8 +340,15 @@ void CPropertiesWnd::OnViewAllBtnCLicked()
 void CPropertiesWnd::OnViewAddBtnCLicked()
 {
 	AddView AD;
-	AD.DoModal();
-	CString listbox_contents;
+	
+	if (IDOK == AD.DoModal())
+	{
+		CT2CA pszConvertedAnsiString(AD.a_contents);
+		string notice_msg(pszConvertedAnsiString);
+		string notice_name = DataManager::GetInstance()->myinfo.Name;
+		string notice_date = "2019-02-28";
+		GuiClientInterface::getInstance()->SendNoticeMessage(3, notice_name, notice_msg, notice_date);
+	}
 }
 
 

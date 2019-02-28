@@ -22,16 +22,12 @@ void GuiClientInterface::OnChatMessage(string TopicTitle, string cUserID, string
 void GuiClientInterface::OnNoticeMessage(string UserID, string cMsg)
 {
 	CONCApp *pApp = (CONCApp *)AfxGetApp();
-	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
-	//CChildFrame *pChild = (CChildFrame *)pFrame->GetActiveFrame();
-	CPropertiesWnd *pDetaiView = (CPropertiesWnd *)pFrame->GetActiveView();
-	/*
+	CMainFrame* pMain = (CMainFrame*)pApp->GetMainWnd();
+	CChildFrame *pChild = (CChildFrame *)pMain->GetActiveFrame();
 	ALLNoticeInfo NoticeInfos;
-
 	NoticeInfos.Notice_CUserID = UserID;
 	NoticeInfos.Notice_cMsg = cMsg;
-	pDetaiView->AddNoticeInfo(NoticeInfos);
-	*/
+	pMain->m_wndProperties.AddNoticeInfo(NoticeInfos);
 	CDataPacket::getInstance()->RecvMessageClear();
 }
 
