@@ -37,21 +37,14 @@ void GuiClientInterface::OnNoticeMessage(string UserID, string cMsg)
 
 void GuiClientInterface::OnCalendarMessage(string UserID, string cMsg, string cDate)
 {
-	//원래 하던 방식 //캘린더뷰
+	//캘린더뷰
 	CONCApp *pApp = (CONCApp *)AfxGetApp();
 	CMainFrame* pMain = (CMainFrame*)pApp->GetMainWnd();
 	CChildFrame *pChild = (CChildFrame *)pMain->GetActiveFrame();
-	CCalendarView *pCalView = (CCalendarView *)pChild->GetActiveView();
+	CONCDoc *pDoc = (CONCDoc *)pApp->pDoc;
+	CCalendarView *pCalView = (CCalendarView *)pDoc->GetCalendarView();
 
-	//종우선배 따라하는 방식 //노티스뷰
-	CMainFrame* pMain2 = (CMainFrame*)AfxGetMainWnd();
 	CalenderNotice i_newschedule_CN;
-	pMain2->m_wndProperties.AddListNotice(i_newschedule_CN);
-	
-
-
-
-	i_newschedule_CN.Date = pCalView->s_date;
 
 	i_newschedule_CN.Date = cDate;
 	i_newschedule_CN.Who = UserID;
@@ -59,11 +52,8 @@ void GuiClientInterface::OnCalendarMessage(string UserID, string cMsg, string cD
 	i_newschedule_CN.Public_Type = "Public";
 	i_newschedule_CN.Contents_Type = "Calendar";
 
-	//pCalView->dm_calendarinfo.push_back(i_newschedule_CN);
-	//pCalView->AddListSchedule(i_newschedule_CN);
-	//pNotice->AddListNotice(i_newschedule_CN);
-	
-	//CCalendarView *pCalView = (((CMainFrame *)AfxGetMainWnd())->GetActiveFrame())->GetActiveView();
+	pCalView->AddListSchedule(i_newschedule_CN);
+	pMain->m_wndProperties.AddListNotice(i_newschedule_CN); //노티스뷰에 데이터 추가함
 
 	CDataPacket::getInstance()->RecvMessageClear();
 }
@@ -71,9 +61,10 @@ void GuiClientInterface::OnCalendarMessage(string UserID, string cMsg, string cD
 void GuiClientInterface::OnEmergencyAramMessage(string cUserID, string cMsg)
 {
 	CONCApp *pApp = (CONCApp *)AfxGetApp();
-	CMainFrame* pFrame = (CMainFrame*)pApp->GetMainWnd();
-	CChildFrame *pChild = (CChildFrame *)pFrame->GetActiveFrame();
-	CCalendarView *pCalView = (CCalendarView *)pChild->GetActiveView();
+	CMainFrame* pMain = (CMainFrame*)pApp->GetMainWnd();
+	CChildFrame *pChild = (CChildFrame *)pMain->GetActiveFrame();
+	CONCDoc *pDoc = (CONCDoc *)pApp->pDoc;
+	CCalendarView *pCalView = (CCalendarView *)pDoc->GetCalendarView();
 
 	pCalView->emergencymsg = cMsg.c_str();
 	pCalView->ChangeColorEmergencyNotice("Red");

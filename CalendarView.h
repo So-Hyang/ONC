@@ -8,6 +8,7 @@
 
 
 
+
 class CCalendarView : public CView
 {
 protected: // serialization에서만 만들어집니다.
@@ -56,6 +57,7 @@ public:
 	void DrawCalendarList(vector<CalenderNotice> n_calendar);
 
 	void Get_CalendarNotice_Calendar();
+
 
 
 

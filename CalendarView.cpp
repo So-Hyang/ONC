@@ -602,7 +602,7 @@ vector<CalenderNotice> CCalendarView::LoadListSchedule(string pubsub_status, CSt
 void CCalendarView::AddListSchedule(CalenderNotice newschedule)
 {
 	//일정 추가하기
-	//dm_calendarinfo.push_back(newschedule);
+	dm_calendarinfo.push_back(newschedule);
 	//일정 리스트박스 다시 그리기
 	DrawCalendarList(LoadListSchedule(C_type, C_name, s_date));
 }
@@ -795,3 +795,4 @@ void CCalendarView::Get_CalendarNotice_Calendar()
 	}
 
 }
+

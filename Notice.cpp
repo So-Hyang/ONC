@@ -138,7 +138,8 @@ void CPropertiesWnd::InitPropList()
 	
 	DataManager *mDataManager;
 	mDataManager = DataManager::GetInstance();
-	n_userID = mDataManager->myinfo.Name;
+	n_userID = "sohyang";
+	//n_userID = mDataManager->myinfo.Name;
 
 	if (cur_time.GetMonth() < 10)
 		N_cur_Month = "0" + N_cur_Month;
