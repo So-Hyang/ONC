@@ -165,11 +165,6 @@ BOOL CONCApp::InitInstance()
 
 	pDoc = pDocTemplate->OpenDocumentFile(NULL);
 
-	//************서버와 연결***************************************************//
-
-	GuiClientInterface::getInstance()->ConncetWithServer();
-
-	//************************************************************************//
 	
 	
 	return TRUE;

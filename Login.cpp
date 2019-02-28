@@ -62,6 +62,15 @@ void CLogin::OnIPAuthenticationBtnClicked()
 		GetDlgItem(IDC_IPCER)->SetWindowTextW(cstr);
 
 		PassWord = mDataManager->myinfo.Password.c_str();
+
+		//************서버와 연결***************************************************//
+		CONCApp *pApp = (CONCApp *)AfxGetApp();
+		CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
+
+		pFrame->Mysocket = GuiClientInterface::getInstance()->ConncetWithServer();
+
+		//************************************************************************//
+
 	}
 	else
 		AfxMessageBox(_T("IP인증에 실패하였습니다."));
@@ -70,11 +79,17 @@ void CLogin::OnIPAuthenticationBtnClicked()
 
 void CLogin::OnLogOKBtnClicked()
 {
-	
+	DataManager *mDataManager;
+	mDataManager = DataManager::GetInstance();
+
 	CString csInput;
+	string sPassWord;
+
 	if (PassWord == "NULL")
 	{
 		GetDlgItem(IDC_PWINPUT)->GetWindowTextW(PassWord);
+		sPassWord = string(CT2CA(PassWord.operator LPCWSTR()));
+		GuiClientInterface::getInstance()->SendPassWordMessage(PasswordPacket, mDataManager->myinfo.Name, sPassWord);
 		//SendPWMessage(UserID, PassWord); 서버로 비밀번호 전송해서 DB에 비밀번호 저장하는 함수 필요함
 		AfxMessageBox(_T("패스워드가 설정되었습니다."));
 	}

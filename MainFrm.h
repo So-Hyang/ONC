@@ -19,7 +19,8 @@ public:
 public:
 	COutputWnd m_wndOutput;
 	CPropertiesWnd    m_wndProperties;
-
+	CClassView m_wndClassView;
+	SOCKET Mysocket;
 // 작업입니다.
 public:
 
@@ -42,7 +43,6 @@ protected:  // 컨트롤 모음이 포함된 멤버입니다.
 	CMFCStatusBar     m_wndStatusBar;
 	CMFCToolBarImages m_UserImages;
 	CFileView         m_wndFileView;
-	CClassView        m_wndClassView;
 	
 
 // 생성된 메시지 맵 함수

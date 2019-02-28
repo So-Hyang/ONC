@@ -20,6 +20,7 @@ public:
 	string sTitleList[10];
 	int FindChatRoom(string TopicTitle);
 	CListBox m_wndList[10];
+	int nChatNum=0;
 
 	// 특성입니다.
 
@@ -34,11 +35,13 @@ protected:
 public:
 	virtual ~COutputWnd();
 	void RefreshTab();
+	string ActiveTab();
 
 private:
 	void SaveText(char* filedirectory, char* filename, string data);
 	char* AppendChar(char* arg1, char* arg2);
 	CMFCTabCtrl	m_wndTabs;
+	int nTabcreate= 0;
 
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
@@ -51,4 +54,5 @@ public:
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
 	void ChatRoomLeave();
 
+	afx_msg void OnPaint();
 };

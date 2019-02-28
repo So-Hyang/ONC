@@ -55,6 +55,6 @@ public :
 	void SendEmergencyAramMessage(unsigned int nType, string cUserID, string cMsg);
 	void SendTopicParticipantMessage(unsigned int nType, string cUserID, string TopicTitle);
 	void SendPassWordMessage(unsigned int nType, string cUserID, string PassWord);
-	void ConncetWithServer();
+	SOCKET ConncetWithServer();
 	void DisConnecttion(SOCKET ServerSock);
 };
