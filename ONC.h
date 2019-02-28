@@ -8,6 +8,7 @@
 #endif
 
 #include "resource.h"       // 주 기호입니다.
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -33,6 +34,8 @@ public:
 	// 구현입니다.
 	UINT  m_nAppLook;
 	BOOL  m_bHiColorIcons;
+	CMultiDocTemplate* pDocTemplate;
+	CDocument* pDoc;
 
 	virtual void PreLoadState();
 	virtual void LoadCustomState();

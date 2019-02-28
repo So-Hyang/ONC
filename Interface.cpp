@@ -12,7 +12,7 @@ void GuiClientInterface::OnChatMessage(string TopicTitle, string cUserID, string
 	CString csSendMSG;
 
 	CONCApp *pApp = (CONCApp *)AfxGetApp();
-	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
+	CMainFrame* pFrame = (CMainFrame*)pApp->GetMainWnd();
 	nLocation = pFrame->m_wndOutput.FindChatRoom(TopicTitle);
 	sSendMSG = "[" + cUserID + "] : " + cMsg;
 	csSendMSG = sSendMSG.c_str();
@@ -21,22 +21,62 @@ void GuiClientInterface::OnChatMessage(string TopicTitle, string cUserID, string
 }
 void GuiClientInterface::OnNoticeMessage(string UserID, string cMsg)
 {
-	// GUI가 코딩해야함
+	CONCApp *pApp = (CONCApp *)AfxGetApp();
+	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
+	//CChildFrame *pChild = (CChildFrame *)pFrame->GetActiveFrame();
+	CPropertiesWnd *pDetaiView = (CPropertiesWnd *)pFrame->GetActiveView();
+	/*
+	ALLNoticeInfo NoticeInfos;
+
+	NoticeInfos.Notice_CUserID = UserID;
+	NoticeInfos.Notice_cMsg = cMsg;
+	pDetaiView->AddNoticeInfo(NoticeInfos);
+	*/
 	CDataPacket::getInstance()->RecvMessageClear();
 }
+
 void GuiClientInterface::OnCalendarMessage(string UserID, string cMsg, string cDate)
 {
-	// GUI가 코딩해야함
+	//캘린더뷰
+	CONCApp *pApp = (CONCApp *)AfxGetApp();
+	CMainFrame* pMain = (CMainFrame*)pApp->GetMainWnd();
+	CChildFrame *pChild = (CChildFrame *)pMain->GetActiveFrame();
+	CONCDoc *pDoc = (CONCDoc *)pApp->pDoc;
+	CCalendarView *pCalView = (CCalendarView *)pDoc->GetCalendarView();
+
+	CalenderNotice i_newschedule_CN;
+
+	i_newschedule_CN.Date = cDate;
+	i_newschedule_CN.Who = UserID;
+	i_newschedule_CN.Main_Contents = cMsg;
+	i_newschedule_CN.Public_Type = "Public";
+	i_newschedule_CN.Contents_Type = "Calendar";
+
+	pCalView->AddListSchedule(i_newschedule_CN);
+	pMain->m_wndProperties.AddListNotice(i_newschedule_CN); //노티스뷰에 데이터 추가함
+
 	CDataPacket::getInstance()->RecvMessageClear();
 }
 
 void GuiClientInterface::OnEmergencyAramMessage(string cUserID, string cMsg)
 {
-	//GUI가 코딩해야함
+	CONCApp *pApp = (CONCApp *)AfxGetApp();
+	CMainFrame* pMain = (CMainFrame*)pApp->GetMainWnd();
+	CChildFrame *pChild = (CChildFrame *)pMain->GetActiveFrame();
+	CONCDoc *pDoc = (CONCDoc *)pApp->pDoc;
+	CCalendarView *pCalView = (CCalendarView *)pDoc->GetCalendarView();
+
+	pCalView->emergencymsg = cMsg.c_str();
+	pCalView->ChangeColorEmergencyNotice("Red");
+
 	CDataPacket::getInstance()->RecvMessageClear();
 }
 void GuiClientInterface::OnTopicParticipantMessage(string cUserID, string TopicTitle, string Participants)
 {
+	CONCApp *pApp = (CONCApp *)AfxGetApp();
+	CMainFrame* pFrame = (CMainFrame*)pApp->GetMainWnd();
+
+	pFrame->m_wndClassView.SetTreeData(Participants);
 	// GUI가 코딩해야함
 	CDataPacket::getInstance()->RecvMessageClear();
 }
@@ -46,18 +86,23 @@ void GuiClientInterface::OnAllTopicTitleMessage(string AllTopicTitle)
 	int i = 0;
 
 	CONCApp *pApp = (CONCApp *)AfxGetApp();
-	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
+	CMainFrame* pFrame = (CMainFrame*)pApp->GetMainWnd();
 	
-	strtok(cPtr, ";");
-	while (cPtr != NULL)
+	char *ptr = strtok(cPtr, ";");
+	while (ptr != NULL)
 	{
-		pFrame->m_wndOutput.sTitleList[i]=cPtr;
-		cPtr = strtok(NULL, ";");
+		string str = ptr;
+		pFrame->m_wndOutput.sTitleList[i] = str;
+		ptr = strtok(NULL, ";");
 		i++;
 	}
+	
+	//pFrame->m_wndOutput.RefreshTab();
+	pFrame->m_wndOutput.nChatNum = i;
+	pFrame->m_wndOutput.Invalidate();
 	CDataPacket::getInstance()->RecvMessageClear();
 }
-void GuiClientInterface::ConncetWithServer()
+SOCKET GuiClientInterface::ConncetWithServer()
 {
 	
 	ConnectServerSocket = ConnectStart.ConnectWithServer();
@@ -68,6 +113,7 @@ void GuiClientInterface::ConncetWithServer()
 	send(ConnectServerSocket, (char*)&CDataPacket::getInstance()->SenderMessage, sizeof(CDataPacket::getInstance()->SenderMessage), 0);
 //	CDataPacket::getInstance()->ClientSocket.ClientSock = ConnectServerSocket;
 	ClientRecv.RecvThread(ConnectServerSocket);
+	return ConnectServerSocket;
 }
 void GuiClientInterface::DisConnecttion(SOCKET ServerSock)
 {
@@ -86,7 +132,7 @@ void GuiClientInterface::SendChatMessage(unsigned int nType, string TopicTitle, 
 	CDataPacket::getInstance()->SenderMessage.TopicTitle = TopicTitle;
 	CDataPacket::getInstance()->SenderMessage.cUserID = cUserID;
 	CDataPacket::getInstance()->SenderMessage.cMsg = cMsg;
-	if (Sender.Send(CDataPacket::getInstance()->SenderMessage, CDataPacket::getInstance()->ClientSocket.ClientSock) == 1)
+	if (Sender.Send(CDataPacket::getInstance()->SenderMessage, CDataPacket::getInstance()->ClientSocket.ClientSock) != -1)
 	{
 		CDataPacket::getInstance()->SendMessageClear();
 	}
@@ -166,7 +212,7 @@ void GuiClientInterface::SendTopicParticipantMessage(unsigned int nType, string 
 	CDataPacket::getInstance()->SenderMessage.cUserID = cUserID;
 	CDataPacket::getInstance()->SenderMessage.TopicTitle = TopicTitle;
 
-	if (Sender.Send(CDataPacket::getInstance()->SenderMessage, CDataPacket::getInstance()->ClientSocket.ClientSock) == 1)
+	if (Sender.Send(CDataPacket::getInstance()->SenderMessage, CDataPacket::getInstance()->ClientSocket.ClientSock) != -1)
 	{
 		CDataPacket::getInstance()->SendMessageClear();
 	}

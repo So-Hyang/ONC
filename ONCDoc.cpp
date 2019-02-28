@@ -10,6 +10,7 @@
 #endif
 
 #include "ONCDoc.h"
+#include "CalendarView.h"
 
 #include <propkey.h>
 
@@ -48,7 +49,25 @@ BOOL CONCDoc::OnNewDocument()
 	return TRUE;
 }
 
+CView* CONCDoc::GetCalendarView()
+{
+	CRuntimeClass* prt = RUNTIME_CLASS(CCalendarView);
+	CView* pView = NULL;
+	POSITION pos = GetFirstViewPosition();
 
+	while (pos != NULL)
+	{
+		pView = GetNextView(pos);
+		if (pView->GetRuntimeClass() == prt)
+		{
+			if (pView->IsKindOf(RUNTIME_CLASS(CCalendarView)))
+				break;
+		}
+		pView = NULL;       // not valid vie
+	}
+
+	return static_cast<CCalendarView*>(pView);
+}
 
 
 // CONCDoc serialization

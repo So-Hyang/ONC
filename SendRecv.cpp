@@ -16,11 +16,12 @@ void SendRecv::RecvThread(SOCKET cSock)
 
 unsigned WINAPI SendRecv::Recv(void* arg)
 {
+	int i=0;
 	PacketManager Analysis;
 	SendPacket ClientSocket;
 	ClientSocket = *(SendPacket *)arg;						//입력으로 들어온 클라이언트 소켓 배열을 소켓 배열 형태로 저장한다.
 	
-	while ((recv(ClientSocket.ClientSock, (char*)&CDataPacket::getInstance()->RecverMessage, sizeof(CDataPacket::getInstance()->RecverMessage), 0)) != -1)
+	while (i=(recv(ClientSocket.ClientSock, (char*)&CDataPacket::getInstance()->RecverMessage, sizeof(CDataPacket::getInstance()->RecverMessage), 0)) != -1)
 	{
 		memcpy(&CDataPacket::getInstance()->RecvMessage, &CDataPacket::getInstance()->RecverMessage, sizeof(CDataPacket::getInstance()->RecvMessage));
 	

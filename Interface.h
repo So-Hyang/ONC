@@ -4,11 +4,13 @@
 
 #include "Connect.h"
 #include "DataPacket.h"
-#include "ONC.h"
 #include "MainFrm.h"
 #include "ChildFrm.h"
+#include "ONC.h"
 #include "ONCDoc.h"
 #include "CalendarView.h"
+#include "Notice.h"
+#include "DataManager.h"
 
 #include <string>
 //#include <windows.h>
@@ -53,6 +55,6 @@ public :
 	void SendEmergencyAramMessage(unsigned int nType, string cUserID, string cMsg);
 	void SendTopicParticipantMessage(unsigned int nType, string cUserID, string TopicTitle);
 	void SendPassWordMessage(unsigned int nType, string cUserID, string PassWord);
-	void ConncetWithServer();
+	SOCKET ConncetWithServer();
 	void DisConnecttion(SOCKET ServerSock);
 };

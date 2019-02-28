@@ -29,7 +29,8 @@ public:
 
 	void AdjustLayout();
 	void OnChangeVisualStyle();
-	void SetTreeData(vector<People_DB> peoples);
+	void SetTreeData(string Participants);
+	void SetTreeData(vector<People_DB> Participants);
 
 private:
 	void MakeTreeview();

@@ -61,3 +61,30 @@ void CChildFrame::Dump(CDumpContext& dc) const
 #endif //_DEBUG
 
 // CChildFrame 메시지 처리기
+//CView* CChildFrame::GetFtViewPane()
+//{
+//	CWnd* pWnd = m_wndSplitter.GetPane(0, 0);
+//	CView* pView = DYNAMIC_DOWNCAST(CView, pWnd);
+//	return pView;
+//}
+//
+//CView* CChildFrame::GetFtViewPane1()
+//{
+//	CWnd* pWnd = m_wndSplitter.GetPane(0, 1);
+//	CView* pView = DYNAMIC_DOWNCAST(CView, pWnd);
+//	return pView;
+//}
+//
+//CView* CChildFrame::GetFtViewPane2()
+//{
+//	CWnd* pWnd = m_wndSplitter.GetPane(1, 0);
+//	CView* pView = DYNAMIC_DOWNCAST(CView, pWnd);
+//	return pView;
+//}
+//
+//CView* CChildFrame::GetFtViewPane3()
+//{
+//	CWnd* pWnd = m_wndSplitter.GetPane(1, 1);
+//	CView* pView = DYNAMIC_DOWNCAST(CView, pWnd);
+//	return pView;
+//}
