@@ -34,14 +34,24 @@ void GuiClientInterface::OnNoticeMessage(string UserID, string cMsg)
 	*/
 	CDataPacket::getInstance()->RecvMessageClear();
 }
+
 void GuiClientInterface::OnCalendarMessage(string UserID, string cMsg, string cDate)
 {
+	//원래 하던 방식 //캘린더뷰
 	CONCApp *pApp = (CONCApp *)AfxGetApp();
-	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
-	CChildFrame *pChild = (CChildFrame *)pFrame->GetActiveFrame();
+	CMainFrame* pMain = (CMainFrame*)pApp->GetMainWnd();
+	CChildFrame *pChild = (CChildFrame *)pMain->GetActiveFrame();
 	CCalendarView *pCalView = (CCalendarView *)pChild->GetActiveView();
 
+	//종우선배 따라하는 방식 //노티스뷰
+	CMainFrame* pMain2 = (CMainFrame*)AfxGetMainWnd();
 	CalenderNotice i_newschedule_CN;
+	pMain2->m_wndProperties.AddListNotice(i_newschedule_CN);
+	
+
+
+
+	i_newschedule_CN.Date = pCalView->s_date;
 
 	i_newschedule_CN.Date = cDate;
 	i_newschedule_CN.Who = UserID;
@@ -49,13 +59,25 @@ void GuiClientInterface::OnCalendarMessage(string UserID, string cMsg, string cD
 	i_newschedule_CN.Public_Type = "Public";
 	i_newschedule_CN.Contents_Type = "Calendar";
 
-	pCalView->AddListSchedule(i_newschedule_CN);
+	//pCalView->dm_calendarinfo.push_back(i_newschedule_CN);
+	//pCalView->AddListSchedule(i_newschedule_CN);
+	//pNotice->AddListNotice(i_newschedule_CN);
+	
+	//CCalendarView *pCalView = (((CMainFrame *)AfxGetMainWnd())->GetActiveFrame())->GetActiveView();
+
 	CDataPacket::getInstance()->RecvMessageClear();
 }
 
 void GuiClientInterface::OnEmergencyAramMessage(string cUserID, string cMsg)
 {
-	//GUI가 코딩해야함
+	CONCApp *pApp = (CONCApp *)AfxGetApp();
+	CMainFrame* pFrame = (CMainFrame*)pApp->GetMainWnd();
+	CChildFrame *pChild = (CChildFrame *)pFrame->GetActiveFrame();
+	CCalendarView *pCalView = (CCalendarView *)pChild->GetActiveView();
+
+	pCalView->emergencymsg = cMsg.c_str();
+	pCalView->ChangeColorEmergencyNotice("Red");
+
 	CDataPacket::getInstance()->RecvMessageClear();
 }
 void GuiClientInterface::OnTopicParticipantMessage(string cUserID, string TopicTitle, string Participants)

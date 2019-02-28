@@ -9,6 +9,7 @@
 #include "ChildFrm.h"
 #include "ONCDoc.h"
 #include "CalendarView.h"
+#include "Notice.h"
 
 #include <string>
 //#include <windows.h>

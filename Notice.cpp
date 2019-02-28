@@ -130,21 +130,21 @@ void CPropertiesWnd::InitPropList()
 	string N_cur_Year = to_string(cur_time.GetYear());
 	string N_cur_Month = to_string(cur_time.GetMonth());
 	string N_cur_Day = to_string(cur_time.GetDay());
-	string cur_date;
-	string userID;
+
+
 	LPCTSTR propertycontents;
 	LPCTSTR bbb;
 	CString temp_propertycontents;
 	
 	DataManager *mDataManager;
 	mDataManager = DataManager::GetInstance();
-	userID = mDataManager->myinfo.Name;
+	n_userID = mDataManager->myinfo.Name;
 
 	if (cur_time.GetMonth() < 10)
 		N_cur_Month = "0" + N_cur_Month;
 	if (cur_time.GetDay() < 10)
 		N_cur_Month = "0" + N_cur_Day;
-	cur_date = N_cur_Year + "-" + N_cur_Month + "-" + N_cur_Day;
+	n_cur_date = N_cur_Year + "-" + N_cur_Month + "-" + N_cur_Day;
 
 
 	SetPropListFont();
@@ -163,7 +163,7 @@ void CPropertiesWnd::InitPropList()
 	m_wndPropList.AddProperty(pAll);
 
 	//NSL 일정
-	cur_NSL_notice = LoadListNotice(1, userID, cur_date);
+	cur_NSL_notice = LoadListNotice(1, n_userID, n_cur_date);
 	if (cur_NSL_notice.size() != 0)
 		temp_propertycontents = ((cur_NSL_notice[0].Main_Contents).c_str());
 	else
@@ -174,7 +174,7 @@ void CPropertiesWnd::InitPropList()
 	m_wndPropList.AddProperty(pNSL);
 
 	//개인 일정
-	cur_Personal_notice = LoadListNotice(2, userID, cur_date);
+	cur_Personal_notice = LoadListNotice(2, n_userID, n_cur_date);
 	if (cur_Personal_notice.size() != 0)
 		temp_propertycontents = ((cur_Personal_notice[0].Main_Contents).c_str());
 	else
@@ -229,6 +229,15 @@ void CPropertiesWnd::AddNoticeInfoDB()
 			vecNoticeInfo.push_back(NoticeInfos);
 		}
 	}
+}
+
+void CPropertiesWnd::AddListNotice(CalenderNotice newschedule) 
+{
+	//일정 추가하기
+	dm_noticeinfo.push_back(newschedule);
+	cur_NSL_notice = LoadListNotice(1, n_userID, n_cur_date);
+	cur_Personal_notice = LoadListNotice(2, n_userID, n_cur_date);
+
 }
 
 void CPropertiesWnd::OnSetFocus(CWnd* pOldWnd)

@@ -24,7 +24,6 @@
 
 
 
-
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -80,6 +79,12 @@ CCalendarView::CCalendarView()
 	//send(SeverSock,(char*)&CDataPacket::getInstance()->Temp_struct, sizeof(CDataPacket::getInstance()->Temp_struct),0);
 	//Recieve.Send(CDataPacket::getInstance()->RecverMessage.temp, SeverSock);
 	*/
+
+	DataManager *mDataManager;
+	mDataManager = DataManager::GetInstance();
+
+	s_name = mDataManager->myinfo.Name;
+	C_name = (mDataManager->myinfo.Name).c_str();
 }
 
 ////버튼 클릭 이벤트
@@ -203,6 +208,7 @@ void CCalendarView::OnContextMenu(CWnd* /* pWnd */, CPoint point)
 void CCalendarView::OnLButtonDblClk(UINT nFlags, CPoint point)////종우선배
 {
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+	//GuiClientInterface *nGUIInterface;
 	POINT n_matrix;
 	CString n_date;
 	AddView Adddlg;
@@ -230,14 +236,14 @@ void CCalendarView::OnLButtonDblClk(UINT nFlags, CPoint point)////종우선배
 
 			//DB용 벡터값 추가하기
 			n_calinfo_vector.Main_Contents = n_contents;
-			n_calinfo_vector.Who = "ID"; //수정해야함
+			n_calinfo_vector.Who = s_name; 
 			n_calinfo_vector.Date = s_date;
 			n_calinfo_vector.Contents_Type = "Calendar";
 
 			//통신용 데이터 패킷 추가하기
-			n_calinfo_datapaket.cMsg = n_contents;
-			n_calinfo_datapaket.cUserID = "ID";
-			n_calinfo_datapaket.cDate = s_date;
+			//n_calinfo_datapaket.cMsg = n_contents;
+		//	n_calinfo_datapaket.cUserID = s_name;
+		//	n_calinfo_datapaket.cDate = s_date;
 			
 			
 
@@ -246,16 +252,13 @@ void CCalendarView::OnLButtonDblClk(UINT nFlags, CPoint point)////종우선배
 			if (n_status == "공개") 
 			{
 				n_calinfo_vector.Public_Type = "Public";
-				n_calinfo_datapaket.PubPrivate = true;
-				n_calinfo_datapaket.nType = 1;
+				GuiClientInterface::getInstance()->SendCalendarPublicMessage(1, s_name, n_contents, s_date, true);
 			}
 			else if (n_status == "비공개") 
 			{
 				n_calinfo_vector.Public_Type = "Private";
-				n_calinfo_datapaket.PubPrivate = false;
-				n_calinfo_datapaket.nType = 2;
+				GuiClientInterface::getInstance()->SendCalendarPrivateMessage(2, s_name, n_contents, s_date, false);
 			}
-			//통신 팀 함수 사용해서 메세지 보내기
 
 			//내가 가진 DM 벡터에 추가된 벡터 추가하기
 			AddListSchedule(n_calinfo_vector);
@@ -295,18 +298,8 @@ void CCalendarView::OnInitialUpdate()
 {
 	CView::OnInitialUpdate();
 
-	/*
-	string userID;
-	LPCTSTR propertycontents;
-	LPCTSTR bbb;
-	CString temp_propertycontents;
 
-	DataManager *mDataManager;
-	mDataManager = DataManager::GetInstance();
-	userID = mDataManager->myinfo.Name;
-	*/
-
-	C_name = "ID";//다시 수정해야함
+	
 
 	GetCurrentYearMonth();
 	
@@ -609,7 +602,7 @@ vector<CalenderNotice> CCalendarView::LoadListSchedule(string pubsub_status, CSt
 void CCalendarView::AddListSchedule(CalenderNotice newschedule)
 {
 	//일정 추가하기
-	dm_calendarinfo.push_back(newschedule);
+	//dm_calendarinfo.push_back(newschedule);
 	//일정 리스트박스 다시 그리기
 	DrawCalendarList(LoadListSchedule(C_type, C_name, s_date));
 }

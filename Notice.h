@@ -33,11 +33,13 @@ public:
 	vector<CalenderNotice> cur_NSL_notice{};
 	vector<CalenderNotice> cur_Personal_notice{};
 
-	
+	string n_userID;
+	string n_cur_date;
 
 	vector<ALLNoticeInfo>vecNoticeInfo;
 	void AddNoticeInfo(ALLNoticeInfo Infos);
 	void AddNoticeInfoDB();
+	void AddListNotice(CalenderNotice newschedule);
 	// 특성입니다.
 public:
 	void SetVSDotNetLook(BOOL bSet)

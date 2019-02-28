@@ -4,6 +4,7 @@
 
 #pragma once
 #include "DataManager.h"
+#include "Interface.h"
 
 
 
@@ -78,9 +79,9 @@ public:
 	int C_cur_Year = 0;
 
 	CString C_status, C_name;
-	string s_date;
+	string s_date = "",s_name = "";
 	string C_type = "Public";
-	vector<CalenderNotice> dm_calendarinfo{};
+	vector<CalenderNotice> dm_calendarinfo;
 
 
 	// 재정의입니다.
