@@ -70,7 +70,7 @@ public:
 
 	COLORREF newColor;
 	bool temp_noticecolor_key = true; //긴급메세지 수신/읽기용 임시로 놔둔 방편
-	CString emergencymsg = L"2시까지 시완, 종우 교수님 방으로 호출"; //긴급메세지 변수
+	CString emergencymsg = L"긴급 메세지 입니다"; //긴급메세지 변수
 	int BackgroundAdd = IDB_BITMAP_CALENDAR_BK;
 	CString day[7] = { L"일" ,L"월", L"화", L"수", L"목", L"금", L"토" };
 	CString t_date[35] = {};

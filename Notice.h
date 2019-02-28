@@ -33,9 +33,7 @@ public:
 	vector<CalenderNotice> cur_NSL_notice{};
 	vector<CalenderNotice> cur_Personal_notice{};
 
-	string N_cur_Year;
-	string N_cur_Month;
-	string N_cur_Day;
+	
 
 	vector<ALLNoticeInfo>vecNoticeInfo;
 	void AddNoticeInfo(ALLNoticeInfo Infos);

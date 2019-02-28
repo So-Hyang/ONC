@@ -112,14 +112,7 @@ void CCalendarView::OnLeftRightBtnClicked(UINT uiID)
 
 void CCalendarView::OnCalendarReadBtnClicked()
 {
-	CClientDC DC(this);
-	CBrush Noticebrush, *Oldbrush;
-	//¿ö´× ¸Þ¼¼Áö ºñÆ®¸Ê ¶ç¿ì´Â °úÁ¤
-	CDC MemDC;
-	BITMAP bmpInfo;
-	CBitmap bmp; //¿ö´× ¸Þ¼¼Áö ºñÆ®¸Ê
-	CBitmap* pOldBmp = NULL;
-
+		/*
 	if (temp_noticecolor_key) {
 		ChangeColorEmergencyNotice("Red");
 	}
@@ -127,28 +120,8 @@ void CCalendarView::OnCalendarReadBtnClicked()
 		ChangeColorEmergencyNotice("White");
 	}
 	temp_noticecolor_key = !temp_noticecolor_key;
-
-
-	Noticebrush.CreateSolidBrush(newColor);
-	Oldbrush = DC.SelectObject(&Noticebrush);
-	DC.Rectangle(58, readbtnpos.y - 15, readbtnpos.x + 110, readbtnpos.y + 35);
-	DC.SetTextColor(RGB(255, 255, 255));
-	DC.SetBkColor(newColor);
-	DC.TextOut(80, readbtnpos.y + 4, emergencymsg);
-
-	////
-	MemDC.CreateCompatibleDC(&DC);
-	bmp.LoadBitmapW(IDB_BITMAP_WARNING);
-	bmp.GetBitmap(&bmpInfo);
-	pOldBmp = MemDC.SelectObject(&bmp);
-	MemDC.SelectObject(&bmp);
-	DC.BitBlt(10, readbtnpos.y - 10, bmpInfo.bmWidth, bmpInfo.bmHeight, &MemDC, 0, 0, SRCCOPY);
-	MemDC.SelectObject(pOldBmp);
-
-
-	DC.SelectObject(Oldbrush);
-	Noticebrush.DeleteObject();
-
+	*/
+	ChangeColorEmergencyNotice("White");
 }
 
 void CCalendarView::OnCalendarTodayBtnClicked()
@@ -322,9 +295,19 @@ void CCalendarView::OnInitialUpdate()
 {
 	CView::OnInitialUpdate();
 
-	vector<CalenderNotice> initvector;
+	/*
+	string userID;
+	LPCTSTR propertycontents;
+	LPCTSTR bbb;
+	CString temp_propertycontents;
+
+	DataManager *mDataManager;
+	mDataManager = DataManager::GetInstance();
+	userID = mDataManager->myinfo.Name;
+	*/
 
 	C_name = "ID";//´Ù½Ã ¼öÁ¤ÇØ¾ßÇÔ
+
 	GetCurrentYearMonth();
 	
 
@@ -366,8 +349,7 @@ void CCalendarView::OnInitialUpdate()
 		Get_CalendarNotice_Calendar();
 		CalcaulateCalendar();
 		s_date = to_string((C_cur_Year * 10000) + (C_cur_Month * 100));
-		initvector = LoadListSchedule(C_type, C_name, s_date);
-		DrawCalendarList(initvector);
+		DrawCalendarList(LoadListSchedule(C_type, C_name, s_date));
 
 }
 
@@ -634,6 +616,15 @@ void CCalendarView::AddListSchedule(CalenderNotice newschedule)
 
 void CCalendarView::ChangeColorEmergencyNotice(string color)
 {
+	
+	CClientDC DC(this);
+	CBrush Noticebrush, *Oldbrush;
+	//¿ö´× ¸Þ¼¼Áö ºñÆ®¸Ê ¶ç¿ì´Â °úÁ¤
+	CDC MemDC;
+	BITMAP bmpInfo;
+	CBitmap bmp; //¿ö´× ¸Þ¼¼Áö ºñÆ®¸Ê
+	CBitmap* pOldBmp = NULL;
+
 	if (color == "")
 	{
 	}
@@ -645,6 +636,26 @@ void CCalendarView::ChangeColorEmergencyNotice(string color)
 	{
 		newColor = RGB(255, 255, 255);
 	}
+
+	Noticebrush.CreateSolidBrush(newColor);
+	Oldbrush = DC.SelectObject(&Noticebrush);
+	DC.Rectangle(58, readbtnpos.y - 15, readbtnpos.x + 110, readbtnpos.y + 35);
+	DC.SetTextColor(RGB(255, 255, 255));
+	DC.SetBkColor(newColor);
+	DC.TextOut(80, readbtnpos.y + 4, emergencymsg);
+
+	////
+	MemDC.CreateCompatibleDC(&DC);
+	bmp.LoadBitmapW(IDB_BITMAP_WARNING);
+	bmp.GetBitmap(&bmpInfo);
+	pOldBmp = MemDC.SelectObject(&bmp);
+	MemDC.SelectObject(&bmp);
+	DC.BitBlt(10, readbtnpos.y - 10, bmpInfo.bmWidth, bmpInfo.bmHeight, &MemDC, 0, 0, SRCCOPY);
+	MemDC.SelectObject(pOldBmp);
+
+
+	DC.SelectObject(Oldbrush);
+	Noticebrush.DeleteObject();
 }
 
 void CCalendarView::EmergencyNotice()

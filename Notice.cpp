@@ -126,19 +126,27 @@ void CPropertiesWnd::OnUpdateExpandAllProperties(CCmdUI* /* pCmdUI */)
 void CPropertiesWnd::InitPropList()
 {
 	CTime cur_time = CTime::GetCurrentTime();
-	N_cur_Year = to_string(cur_time.GetYear());
-	N_cur_Month = to_string(cur_time.GetMonth());
-	N_cur_Day = to_string(cur_time.GetDay());
+
+	string N_cur_Year = to_string(cur_time.GetYear());
+	string N_cur_Month = to_string(cur_time.GetMonth());
+	string N_cur_Day = to_string(cur_time.GetDay());
+	string cur_date;
+	string userID;
+	LPCTSTR propertycontents;
+	LPCTSTR bbb;
+	CString temp_propertycontents;
+	
+	DataManager *mDataManager;
+	mDataManager = DataManager::GetInstance();
+	userID = mDataManager->myinfo.Name;
+
 	if (cur_time.GetMonth() < 10)
 		N_cur_Month = "0" + N_cur_Month;
 	if (cur_time.GetDay() < 10)
 		N_cur_Month = "0" + N_cur_Day;
-	string cur_date = N_cur_Year + "-" + N_cur_Month + "-" + N_cur_Day;
-	LPCTSTR propertycontents;
-	LPCTSTR bbb;
-	CString temp_propertycontents;
+	cur_date = N_cur_Year + "-" + N_cur_Month + "-" + N_cur_Day;
 
-	//내 아이디 가져오는 부분 필요함
+
 	SetPropListFont();
 
 	m_wndPropList.EnableHeaderCtrl(FALSE);
@@ -154,26 +162,31 @@ void CPropertiesWnd::InitPropList()
 	pAll->AddSubItem(new CMFCPropertyGridProperty(_T("전체 공지사항"), bbb));
 	m_wndPropList.AddProperty(pAll);
 
-	propertycontents = L"";
-	cur_NSL_notice = LoadListNotice(1, "", cur_date);
+	//NSL 일정
+	cur_NSL_notice = LoadListNotice(1, userID, cur_date);
+	if (cur_NSL_notice.size() != 0)
+		temp_propertycontents = ((cur_NSL_notice[0].Main_Contents).c_str());
+	else
+		temp_propertycontents = L"";
+	propertycontents = (LPCTSTR)temp_propertycontents;
 	CMFCPropertyGridProperty* pNSL = new CMFCPropertyGridProperty(_T("NSL 일정 List"));
+	pNSL->AddSubItem(new CMFCPropertyGridProperty(_T("NSL 일정 List"), propertycontents));
 	m_wndPropList.AddProperty(pNSL);
-	if(cur_NSL_notice.size() !=0)
-	temp_propertycontents = ((cur_NSL_notice[0].Main_Contents).c_str());
-	propertycontents = (LPCTSTR)temp_propertycontents;
-	CMFCPropertyGridProperty* pNSL_item = new CMFCPropertyGridProperty(_T("NSL 일정 List"), propertycontents);
-	pNSL->AddSubItem(pNSL_item);
 
-	propertycontents = L"";
-	cur_Personal_notice = LoadListNotice(2, "LeeJongWoo", cur_date);
-	CMFCPropertyGridProperty* pPersonal = new CMFCPropertyGridProperty(_T("개인 일정 List"));
-	m_wndPropList.AddProperty(pPersonal);
+	//개인 일정
+	cur_Personal_notice = LoadListNotice(2, userID, cur_date);
 	if (cur_Personal_notice.size() != 0)
-	temp_propertycontents = ((cur_Personal_notice[0].Main_Contents).c_str());
+		temp_propertycontents = ((cur_Personal_notice[0].Main_Contents).c_str());
+	else
+		temp_propertycontents = L"";
 	propertycontents = (LPCTSTR)temp_propertycontents;
-	CMFCPropertyGridProperty* pPersonal_item = new CMFCPropertyGridProperty(_T("개인 일정 List"), propertycontents);
-	pPersonal->AddSubItem(pPersonal_item);
+	CMFCPropertyGridProperty* pPersonal = new CMFCPropertyGridProperty(_T("개인 일정 List"));
+	pPersonal->AddSubItem(new CMFCPropertyGridProperty(_T("개인 일정 List"), propertycontents));
+	m_wndPropList.AddProperty(pPersonal);
+	
+	
 }
+
 ///////////////////////////////////////////
 ///////// 달력/공지 정보 가져오기
 ///////////////02-25//////////////////////
@@ -238,7 +251,7 @@ vector<CalenderNotice> CPropertiesWnd::LoadListNotice(int type, string name, str
 	case 1: //NSL //날짜일치 + type == true일치
 		for (int i = 0; i < dm_noticeinfo.size(); i++)
 		{
-			if ((date == dm_noticeinfo[i].Date) && ("Public" == dm_noticeinfo[i].Public_Type))
+			if ((date == dm_noticeinfo[i].Date) && ("Public" == dm_noticeinfo[i].Public_Type) && ("Calendar" == dm_noticeinfo[i].Contents_Type))
 			{
 				result_Notice.push_back(dm_noticeinfo[i]);
 			}
@@ -247,8 +260,9 @@ vector<CalenderNotice> CPropertiesWnd::LoadListNotice(int type, string name, str
 	case 2://개인 //날짜일치+ID일치
 		for (int i = 0; i < dm_noticeinfo.size(); i++)
 		{
-			if ((name == dm_noticeinfo[i].Who) && (date == dm_noticeinfo[i].Date))
+			if ((name == dm_noticeinfo[i].Who) && (date == dm_noticeinfo[i].Date) && ("Calendar" == dm_noticeinfo[i].Contents_Type))
 			{
+				if((dm_noticeinfo[i].Public_Type == "Public") || (dm_noticeinfo[i].Public_Type == "Private"))
 				result_Notice.push_back(dm_noticeinfo[i]);
 			}
 		}
