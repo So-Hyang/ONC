@@ -61,7 +61,11 @@ void GuiClientInterface::ConncetWithServer()
 {
 	
 	ConnectServerSocket = ConnectStart.ConnectWithServer();
-	                                                                
+	CDataPacket::getInstance()->SenderMessage.nType = 9;
+	CDataPacket::getInstance()->SenderMessage.cUserID = "KimSiWan";
+	CDataPacket::getInstance()->SenderMessage.cPassWord = "1234";
+	
+	send(ConnectServerSocket, (char*)&CDataPacket::getInstance()->SenderMessage, sizeof(CDataPacket::getInstance()->SenderMessage), 0);
 //	CDataPacket::getInstance()->ClientSocket.ClientSock = ConnectServerSocket;
 	ClientRecv.RecvThread(ConnectServerSocket);
 }

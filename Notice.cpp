@@ -320,7 +320,7 @@ void CPropertiesWnd::OnViewNSLBtnCLicked()
 		Dialog_detail_Contents = ((cur_NSL_notice[i].cMsg).c_str());
 		Dialog_detail.TempDataVector.Add(Dialog_detail_Contents);
 	}*/
-	*/
+	
 	Dialog_detail.DoModal();
 }
 
@@ -333,7 +333,7 @@ void CPropertiesWnd::OnViewPERSONALBtnCLicked()
 	{
 //		Dialog_detail_Contents = ((cur_Personal_notice[i].cMsg).c_str());
 //		Dialog_detail.TempDataVector.Add(Dialog_detail_Contents);
-	}*/
+	}
 
 	Dialog_detail.DoModal();
 }

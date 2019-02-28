@@ -25,102 +25,109 @@ DataPacket PacketManager::PacketAnalysis(DataPacket RecvMessage)
 
 	case CalendarPublicPacket:
 
-#ifdef SERVERMODE
-		CalendarPublicPacketAnalysis(RecvMessage);
-#endif
+		#ifdef SERVERMODE
+			CalendarPublicPacketAnalysis(RecvMessage);
+		#endif
 
-#ifdef CLIENTMODE
-		Interface->OnCalendarMessage(RecvMessage.cUserID, RecvMessage.cMsg, RecvMessage.cDate);
-#endif
+		#ifdef CLIENTMODE
+			Interface->OnCalendarMessage(RecvMessage.cUserID, RecvMessage.cMsg, RecvMessage.cDate);
+		#endif
 
-		RecvMessage.nType = 0;
+			CDataPacket::getInstance()->RecvMessageClear();
 		break;
+
 	case CalendarPrivatePacket:
 
-#ifdef SERVERMODE
-		CalendarPrivatePacketAnalysis(RecvMessage);
-#endif
+		#ifdef SERVERMODE
+			CalendarPrivatePacketAnalysis(RecvMessage);
+		#endif
 
-		RecvMessage.nType = 0;
+			CDataPacket::getInstance()->RecvMessageClear();
 		break;
 	case NoicePacket:
 
-#ifdef SERVERMODE
+		#ifdef SERVERMODE
 		NoicePacketAnalysis(RecvMessage);
-#endif	
+		#endif	
 
-#ifdef CLIENTMODE
-		Interface->OnNoticeMessage(RecvMessage.cUserID, RecvMessage.cMsg);
-#endif
+		#ifdef CLIENTMODE
+			Interface->OnNoticeMessage(RecvMessage.cUserID, RecvMessage.cMsg);
+		#endif
 
-		RecvMessage.nType = 0;
+		CDataPacket::getInstance()->RecvMessageClear();
 		break;
 	case ChattingPacket:
 
-#ifdef SERVERMODE
-		ChattingPacketAnalysis(RecvMessage);
-#endif
+		#ifdef SERVERMODE
+			ChattingPacketAnalysis(RecvMessage);
+		#endif
 
-#ifdef CLIENTMODE
-		Interface->OnChatMessage(RecvMessage.TopicTitle, RecvMessage.cUserID, RecvMessage.cMsg);
-#endif
+		#ifdef CLIENTMODE
+			Interface->OnChatMessage(RecvMessage.TopicTitle, RecvMessage.cUserID, RecvMessage.cMsg);
+		#endif
 
-		RecvMessage.nType = 0;
+			CDataPacket::getInstance()->RecvMessageClear();
 		break;
+
 	case TopicEnterPacket:
 
-#ifdef SERVERMODE
-		TopicEnterPacketAnalysis(RecvMessage);
-#endif	
+		#ifdef SERVERMODE
+			TopicEnterPacketAnalysis(RecvMessage);
+		#endif	
 
-		RecvMessage.nType = 0;
+		CDataPacket::getInstance()->RecvMessageClear();
 		break;
+
 	case TopicLeavePacket:
 
-#ifdef SERVERMODE
-		TopicLeavePacketAnalysis(RecvMessage);
-#endif	
+		#ifdef SERVERMODE
+			TopicLeavePacketAnalysis(RecvMessage);
+		#endif	
 
-		RecvMessage.nType = 0;
+			CDataPacket::getInstance()->RecvMessageClear();
 		break;
+
 	case TopicParticipantPacket:
 
-#ifdef SERVERMODE
-		TopicParticipantPacketAnalysis(RecvMessage);
-#endif	
+		#ifdef SERVERMODE
+			TopicParticipantPacketAnalysis(RecvMessage);
+		#endif	
 
-#ifdef CLIENTMODE
-		Interface->OnTopicParticipantMessage(RecvMessage.cUserID, RecvMessage.TopicTitle, RecvMessage.Participants);
-#endif
+		#ifdef CLIENTMODE
+			Interface->OnTopicParticipantMessage(RecvMessage.cUserID, RecvMessage.TopicTitle, RecvMessage.Participants);
+		#endif
 
-		RecvMessage.nType = 0;
+			CDataPacket::getInstance()->RecvMessageClear();
 		break;
+
 	case EmergencyPacket:
 
-#ifdef SERVERMODE
-		EmergencyPacketAnalysis(RecvMessage);
-#endif
+		#ifdef SERVERMODE
+			EmergencyPacketAnalysis(RecvMessage);
+		#endif
 
-#ifdef CLIENTMODE
-		Interface->OnEmergencyAramMessage(RecvMessage.cUserID, RecvMessage.cMsg);
-#endif
+		#ifdef CLIENTMODE
+			Interface->OnEmergencyAramMessage(RecvMessage.cUserID, RecvMessage.cMsg);
+		#endif
 
-		RecvMessage.nType = 0;
+			CDataPacket::getInstance()->RecvMessageClear();
 		break;
+
 	case PasswordPacket:
 
-#ifdef SERVERMODE
-		PassWordPacketAnalysis(RecvMessage);
-#endif	
+		#ifdef SERVERMODE
+			PassWordPacketAnalysis(RecvMessage);
+		#endif	
 
-		RecvMessage.nType = 0;
+			CDataPacket::getInstance()->RecvMessageClear();
 		break;
+
 	case  AllTopicTitlePAcket:
 
-#ifdef CLIENTMODE
-		Interface->OnAllTopicTitleMessage(RecvMessage.AllTopicTitle);
-#endif
-		RecvMessage.nType = 0;
+		#ifdef CLIENTMODE
+			Interface->OnAllTopicTitleMessage(RecvMessage.AllTopicTitle);
+		#endif
+			CDataPacket::getInstance()->RecvMessageClear();
 		break;
 	}
 	return CDataPacket::getInstance()->SenderMessage;
