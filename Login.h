@@ -27,7 +27,6 @@ private:
 	PeopleInfo PeopleInfo;
 	afx_msg void OnIPAuthenticationBtnClicked();
 	afx_msg void OnLogOKBtnClicked();
-	string GetIpAddress();
 	CString PassWord;
 	CString UserID;
 

@@ -29,7 +29,6 @@ void CDetailView::DoDataExchange(CDataExchange * pDX)
 	CDialogEx::DoDataExchange(pDX);
 	CPropertiesWnd NoticeView;
 	CString NewNoticecontents;
-	int i;
 
 	DDX_Control(pDX, IDC_LIST_NOTICE, D_Notice);
 	DDX_Control(pDX, IDC_Date, D_Title);
