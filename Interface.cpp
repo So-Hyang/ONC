@@ -22,16 +22,12 @@ void GuiClientInterface::OnChatMessage(string TopicTitle, string cUserID, string
 void GuiClientInterface::OnNoticeMessage(string UserID, string cMsg)
 {
 	CONCApp *pApp = (CONCApp *)AfxGetApp();
-	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
-	//CChildFrame *pChild = (CChildFrame *)pFrame->GetActiveFrame();
-	CPropertiesWnd *pDetaiView = (CPropertiesWnd *)pFrame->GetActiveView();
-	/*
+	CMainFrame* pMain = (CMainFrame*)pApp->GetMainWnd();
+	CChildFrame *pChild = (CChildFrame *)pMain->GetActiveFrame();
 	ALLNoticeInfo NoticeInfos;
-
 	NoticeInfos.Notice_CUserID = UserID;
 	NoticeInfos.Notice_cMsg = cMsg;
-	pDetaiView->AddNoticeInfo(NoticeInfos);
-	*/
+	pMain->m_wndProperties.AddNoticeInfo(NoticeInfos);
 	CDataPacket::getInstance()->RecvMessageClear();
 }
 
@@ -106,7 +102,11 @@ SOCKET GuiClientInterface::ConncetWithServer()
 {
 	
 	ConnectServerSocket = ConnectStart.ConnectWithServer();
-	                                                                
+	CDataPacket::getInstance()->SenderMessage.nType = 9;
+	CDataPacket::getInstance()->SenderMessage.cUserID = "KimSiWan";
+	CDataPacket::getInstance()->SenderMessage.cPassWord = "1234";
+	
+	send(ConnectServerSocket, (char*)&CDataPacket::getInstance()->SenderMessage, sizeof(CDataPacket::getInstance()->SenderMessage), 0);
 //	CDataPacket::getInstance()->ClientSocket.ClientSock = ConnectServerSocket;
 	ClientRecv.RecvThread(ConnectServerSocket);
 	return ConnectServerSocket;
@@ -139,7 +139,7 @@ void GuiClientInterface::SendNoticeMessage(unsigned int nType, string cUserID, s
 	CDataPacket::getInstance()->SenderMessage.cUserID = cUserID;
 	CDataPacket::getInstance()->SenderMessage.cMsg = cMsg;
 	CDataPacket::getInstance()->SenderMessage.cDate = cDate;
-	if (Sender.Send(CDataPacket::getInstance()->SenderMessage, CDataPacket::getInstance()->ClientSocket.ClientSock) == 1)
+	if (Sender.Send(CDataPacket::getInstance()->SenderMessage, CDataPacket::getInstance()->ClientSocket.ClientSock) != -1)
 	{
 		CDataPacket::getInstance()->SendMessageClear();
 	}
@@ -152,7 +152,7 @@ void GuiClientInterface::SendCalendarPublicMessage(unsigned int nType, string cU
 	CDataPacket::getInstance()->SenderMessage.cMsg = cMsg;
 	CDataPacket::getInstance()->SenderMessage.cDate = cDate;
 	CDataPacket::getInstance()->SenderMessage.PubPrivate = PubPrivate;
-	if (Sender.Send(CDataPacket::getInstance()->SenderMessage, CDataPacket::getInstance()->ClientSocket.ClientSock) == 1)
+	if (Sender.Send(CDataPacket::getInstance()->SenderMessage, CDataPacket::getInstance()->ClientSocket.ClientSock) != -1)
 	{
 		CDataPacket::getInstance()->SendMessageClear();
 	}
@@ -164,7 +164,7 @@ void GuiClientInterface::SendCalendarPrivateMessage(unsigned int nType, string c
 	CDataPacket::getInstance()->SenderMessage.cMsg = cMsg;
 	CDataPacket::getInstance()->SenderMessage.cDate = cDate;
 	CDataPacket::getInstance()->SenderMessage.PubPrivate = PubPrivate;
-	if (Sender.Send(CDataPacket::getInstance()->SenderMessage, CDataPacket::getInstance()->ClientSocket.ClientSock) == 1)
+	if (Sender.Send(CDataPacket::getInstance()->SenderMessage, CDataPacket::getInstance()->ClientSocket.ClientSock) != -1)
 	{
 		CDataPacket::getInstance()->SendMessageClear();
 	}
@@ -175,7 +175,7 @@ void GuiClientInterface::SendTopicEnterMessage(unsigned int nType, string cUserI
 	CDataPacket::getInstance()->SenderMessage.cUserID = cUserID;
 	CDataPacket::getInstance()->SenderMessage.TopicTitle = TopicTitle;
 
-	if (Sender.Send(CDataPacket::getInstance()->SenderMessage, CDataPacket::getInstance()->ClientSocket.ClientSock) == 1)
+	if (Sender.Send(CDataPacket::getInstance()->SenderMessage, CDataPacket::getInstance()->ClientSocket.ClientSock) != -1)
 	{
 		CDataPacket::getInstance()->SendMessageClear();
 	}
@@ -186,7 +186,7 @@ void GuiClientInterface::SendTopicLeaveMessage(unsigned int nType, string cUserI
 	CDataPacket::getInstance()->SenderMessage.cUserID = cUserID;
 	CDataPacket::getInstance()->SenderMessage.TopicTitle = TopicTitle;
 
-	if (Sender.Send(CDataPacket::getInstance()->SenderMessage, CDataPacket::getInstance()->ClientSocket.ClientSock) == 1)
+	if (Sender.Send(CDataPacket::getInstance()->SenderMessage, CDataPacket::getInstance()->ClientSocket.ClientSock) != -1)
 	{
 		CDataPacket::getInstance()->SendMessageClear();
 	}
@@ -197,7 +197,7 @@ void GuiClientInterface::SendEmergencyAramMessage(unsigned int nType, string cUs
 	CDataPacket::getInstance()->SenderMessage.cUserID = cUserID;
 	CDataPacket::getInstance()->SenderMessage.cMsg = cMsg;
 
-	if (Sender.Send(CDataPacket::getInstance()->SenderMessage, CDataPacket::getInstance()->ClientSocket.ClientSock) == 1)
+	if (Sender.Send(CDataPacket::getInstance()->SenderMessage, CDataPacket::getInstance()->ClientSocket.ClientSock) != -1)
 	{
 		CDataPacket::getInstance()->SendMessageClear();
 	}
@@ -219,7 +219,7 @@ void GuiClientInterface::SendPassWordMessage(unsigned int nType, string cUserID,
 	CDataPacket::getInstance()->SenderMessage.cUserID = cUserID;
 	CDataPacket::getInstance()->SenderMessage.cPassWord = PassWord;
 
-	if (Sender.Send(CDataPacket::getInstance()->SenderMessage, CDataPacket::getInstance()->ClientSocket.ClientSock) == 1)
+	if (Sender.Send(CDataPacket::getInstance()->SenderMessage, CDataPacket::getInstance()->ClientSocket.ClientSock) != -1)
 	{
 		CDataPacket::getInstance()->SendMessageClear();
 	}
