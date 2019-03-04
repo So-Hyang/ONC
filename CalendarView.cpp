@@ -60,20 +60,20 @@ CCalendarView::CCalendarView()
 	//SeverSock = Main_Start.ConnectWithServer();
 	//CDataPacket::getInstance()->SenderMessage.nType = 5;
 	//CDataPacket::getInstance()->SenderMessage.cMsg = "성공";
-	
-	
-	
+
+
+
 	/*SeverSock = Main_Start.ConnectWithServer();
 	CDataPacket::getInstance()->SenderMessage.nType = 5;
 	CDataPacket::getInstance()->SenderMessage.cMsg = "성공";
-	
+
 	//Recieve.Send(CDataPacket::getInstance()->SenderMessage, SeverSock);
 	SeverSock = Main_Start.ConnectWithServer();
 	//CDataPacket::getInstance()->Temp_struct.nType_Temp = 7;
-	
+
 	//aa.Temp_cMsg = "000klkkkk";
 	//CDataPacket::getInstance()->RecverMessage.nType = 5;
-    //scanf("성공", CDataPacket::getInstance()->RecverMessage.temp);
+	//scanf("성공", CDataPacket::getInstance()->RecverMessage.temp);
 	//CDataPacket::getInstance()->RecverMessage.cMsg = "성공";
 	//send(SeverSock,(char*)&CDataPacket::getInstance()->Temp_struct, sizeof(CDataPacket::getInstance()->Temp_struct),0);
 	//Recieve.Send(CDataPacket::getInstance()->RecverMessage.temp, SeverSock);
@@ -107,7 +107,7 @@ void CCalendarView::OnLeftRightBtnClicked(UINT uiID)
 	}
 	CalcaulateCalendar();
 	s_date = to_string((C_cur_Year * 10000) + (C_cur_Month * 100));
-	DrawCalendarList(LoadListSchedule(C_type,C_name, s_date));
+	DrawCalendarList(LoadListSchedule(C_type, C_name, s_date));
 
 	Invalidate(TRUE);
 	UpdateWindow();
@@ -116,12 +116,12 @@ void CCalendarView::OnLeftRightBtnClicked(UINT uiID)
 
 void CCalendarView::OnCalendarReadBtnClicked()
 {
-		/*
+	/*
 	if (temp_noticecolor_key) {
-		ChangeColorEmergencyNotice("Red");
+	ChangeColorEmergencyNotice("Red");
 	}
 	else {
-		ChangeColorEmergencyNotice("White");
+	ChangeColorEmergencyNotice("White");
 	}
 	temp_noticecolor_key = !temp_noticecolor_key;
 	*/
@@ -133,7 +133,7 @@ void CCalendarView::OnCalendarTodayBtnClicked()
 	GetCurrentYearMonth();
 	CalcaulateCalendar();
 	s_date = to_string((C_cur_Year * 10000) + (C_cur_Month * 100));
-	DrawCalendarList(LoadListSchedule(C_type,C_name, s_date));
+	DrawCalendarList(LoadListSchedule(C_type, C_name, s_date));
 	Invalidate(TRUE);
 	UpdateWindow();
 }
@@ -217,14 +217,19 @@ void CCalendarView::OnLButtonDblClk(UINT nFlags, CPoint point)////종우선배
 	CalenderNotice n_calinfo_vector;
 	DataPacket n_calinfo_datapaket;
 
+	CONCApp *pApp = (CONCApp *)AfxGetApp();
+	CMainFrame* pMain = (CMainFrame*)pApp->GetMainWnd();
+	CPropertiesWnd *pProWnd = (CPropertiesWnd*)pMain->GetPropertyViewPT();
+
+
 	n_matrix = CalculateCoordinatevalueLocation(point);
 	ColorMatrix(n_matrix);
 	n_date = CalculateDateInformation(n_matrix);
 
-	if (n_date == "NULL") 
+	if (n_date == "NULL")
 	{
 	}
-	else 
+	else
 	{
 		Adddlg.Caption = n_date;
 
@@ -235,25 +240,28 @@ void CCalendarView::OnLButtonDblClk(UINT nFlags, CPoint point)////종우선배
 
 			//DB용 벡터값 추가하기
 			n_calinfo_vector.Main_Contents = n_contents;
-			n_calinfo_vector.Who = s_name; 
+			n_calinfo_vector.Who = s_name;
 			n_calinfo_vector.Date = s_date;
 			n_calinfo_vector.Contents_Type = "Calendar";
 
 			n_status = Adddlg.a_status;
 
-			if (n_status == "공개") 
+			if (n_status == "공개")
 			{
 				n_calinfo_vector.Public_Type = "Public";
 				GuiClientInterface::getInstance()->SendCalendarPublicMessage(1, s_name, n_contents, s_date, true);
 			}
-			else if (n_status == "비공개") 
+			else if (n_status == "비공개")
 			{
 				n_calinfo_vector.Public_Type = "Private";
 				GuiClientInterface::getInstance()->SendCalendarPrivateMessage(2, s_name, n_contents, s_date, false);
+				//내가 가진 DM 벡터에 추가된 벡터 추가하기
+				AddListSchedule(n_calinfo_vector);
+				pProWnd->AddListNotice(n_calinfo_vector); //노티스뷰에 데이터 추가함
+				pProWnd->Invalidate();
 			}
 
-			//내가 가진 DM 벡터에 추가된 벡터 추가하기
-			AddListSchedule(n_calinfo_vector);
+
 		}
 		Invalidate(TRUE);
 		UpdateWindow();
@@ -291,10 +299,10 @@ void CCalendarView::OnInitialUpdate()
 	CView::OnInitialUpdate();
 
 
-	
+
 
 	GetCurrentYearMonth();
-	
+
 
 	// TODO: 여기에 특수화된 코드를 추가 및/또는 기본 클래스를 호출합니다.
 	leftbtn = new CButton();
@@ -319,11 +327,11 @@ void CCalendarView::OnInitialUpdate()
 	publictab->ShowWindow(SW_SHOW);
 
 	int cnt = 0;
-	
-		for (int j = 1; j < 6; j++)
+
+	for (int j = 1; j < 6; j++)
+	{
+		for (int i = 1; i < 8; i++)
 		{
-			for (int i = 1; i < 8; i++)
-			{
 			list_cal[cnt] = new CListBox();
 			list_cal[cnt]->Create(LBS_STANDARD, CRect(((i - 1) * 90 + 2), (100 + ((j - 1) * 74)), (((i - 1) * 90) + 89), (((j - 1) * 74) + 154)), this, 20000 + (j * 10) + i);
 			list_cal[cnt]->ShowWindow(SW_SHOW);
@@ -331,10 +339,10 @@ void CCalendarView::OnInitialUpdate()
 			cnt++;
 		}
 	}
-		Get_CalendarNotice_Calendar();
-		CalcaulateCalendar();
-		s_date = to_string((C_cur_Year * 10000) + (C_cur_Month * 100));
-		DrawCalendarList(LoadListSchedule(C_type, C_name, s_date));
+	Get_CalendarNotice_Calendar();
+	CalcaulateCalendar();
+	s_date = to_string((C_cur_Year * 10000) + (C_cur_Month * 100));
+	DrawCalendarList(LoadListSchedule(C_type, C_name, s_date));
 
 }
 
@@ -358,7 +366,7 @@ void CCalendarView::OnPaint()
 		dc.MoveTo(0 + (90 * x), 50);
 		dc.LineTo(0 + (90 * x), 77 + (74 * 5));
 	}
-	
+
 	DrawCalendar();
 }
 
@@ -410,7 +418,7 @@ void CCalendarView::CalcaulateCalendar()
 		else {//공백으로 처리할 부분이 없을 때
 			if (this_month_date >  0) { //이번 달에 남은 날짜가 있을 경우
 				t_date[i].Format(_T("%d"), num_date); //날짜 표시
-				if (num_date < 10) 
+				if (num_date < 10)
 				{
 					t_date[i] = L"0" + t_date[i];
 				}
@@ -438,13 +446,13 @@ CPoint CCalendarView::CalculateCursorPosition()
 CPoint CCalendarView::CalculateCoordinatevalueLocation(CPoint xylocation)
 {
 	CPoint location;
-	if ((446 < xylocation.y) || (630< xylocation.x)) 
+	if ((446 < xylocation.y) || (630< xylocation.x))
 	{
 		location.x = -1;
 		location.y = -1;
 		return location;
 	}
-	else 
+	else
 	{
 		for (int i = 0; i < 5; i++) {
 			if (((i * 74) + 76 <= xylocation.y) && (((i + 1) * 74) + 76> xylocation.y))
@@ -460,7 +468,7 @@ CPoint CCalendarView::CalculateCoordinatevalueLocation(CPoint xylocation)
 			}
 		}
 	}
-	
+
 	return location;
 }
 
@@ -473,7 +481,7 @@ CString CCalendarView::CalculateDateInformation(CPoint matrixlocation)
 	{
 		clickeddate = "NULL";
 	}
-	else 
+	else
 	{
 		for (int i = 0; i < 5; i++) {
 			if (matrixlocation.y == i)
@@ -493,7 +501,7 @@ CString CCalendarView::CalculateDateInformation(CPoint matrixlocation)
 			M.Format(_T("%d"), C_cur_Month);
 			M = L"0" + M;
 		}
-		else 
+		else
 		{
 			M.Format(_T("%d"), C_cur_Month);
 		}
@@ -501,11 +509,11 @@ CString CCalendarView::CalculateDateInformation(CPoint matrixlocation)
 		D = t_date[matrixindex];
 		clickeddate = Y + L"-" + M + L"-" + D;
 	}
-	if (D == "  ") 
+	if (D == "  ")
 	{
 		clickeddate = "NULL";
 	}
-	
+
 
 	return clickeddate;
 }
@@ -516,10 +524,10 @@ void CCalendarView::ColorMatrix(CPoint matrixlocation)
 	CBrush MyBrush;
 	CBrush *OldBrush;
 
-	if ((matrixlocation.x == -1) &&(matrixlocation.y == -1))
+	if ((matrixlocation.x == -1) && (matrixlocation.y == -1))
 	{
 	}
-	else 
+	else
 	{
 		MyBrush.CreateHatchBrush(HS_DIAGCROSS, RGB(0, 0, 255));
 		OldBrush = DC.SelectObject(&MyBrush);
@@ -539,13 +547,13 @@ vector<CalenderNotice> CCalendarView::LoadListSchedule(string pubsub_status, CSt
 	//DM에서 가져온 벡터
 	int pubsub_type = 0;
 	vector<CalenderNotice> n_calendarinfo; //반환할 벡터
-										 //DM에서 데이터 가져왔다고 가정
+										   //DM에서 데이터 가져왔다고 가정
 
-	if (pubsub_status == "Public") 
+	if (pubsub_status == "Public")
 	{
 		pubsub_type = 1;
 	}
-	else if (pubsub_status == "Private") 
+	else if (pubsub_status == "Private")
 	{
 		pubsub_type = 2;
 	}
@@ -587,7 +595,7 @@ vector<CalenderNotice> CCalendarView::LoadListSchedule(string pubsub_status, CSt
 	default:
 		break;
 	}
-	
+
 	return n_calendarinfo;
 }
 
@@ -601,7 +609,7 @@ void CCalendarView::AddListSchedule(CalenderNotice newschedule)
 
 void CCalendarView::ChangeColorEmergencyNotice(string color)
 {
-	
+
 	CClientDC DC(this);
 	CBrush Noticebrush, *Oldbrush;
 	//워닝 메세지 비트맵 띄우는 과정
@@ -653,7 +661,7 @@ void CCalendarView::DrawCalendar()
 	CDC MemDC;
 	int date_num = 0;
 	CString temp_y, temp_m;
-	
+
 
 	// 날짜 표시하기 위해 형 변환
 	MemDC.CreateCompatibleDC(&DC);
@@ -685,11 +693,11 @@ void CCalendarView::OnCalendatTabBtnClicked(UINT uiID)
 
 	vector<CalenderNotice> calendar;
 	s_date = to_string((C_cur_Year * 10000) + (C_cur_Month * 100));
-	
+
 	switch (uiID) {
 	case 105://NSL
 		C_type = "Public";
-		calendar = LoadListSchedule(C_type,C_name, s_date);//DM에서 코드 가져오는 함수
+		calendar = LoadListSchedule(C_type, C_name, s_date);//DM에서 코드 가져오는 함수
 		DrawCalendarList(calendar);
 		break;
 	case 106://개인
@@ -782,8 +790,8 @@ void CCalendarView::Get_CalendarNotice_Calendar()
 		dm_vector_data.Contents_Type = (*i).Contents_Type;
 		dm_vector_data.Main_Contents = (*i).Main_Contents;
 		dm_vector_data.Public_Type = (*i).Public_Type;
-		if((*i).Contents_Type == "Calendar")
-		dm_calendarinfo.push_back(dm_vector_data);
+		if ((*i).Contents_Type == "Calendar")
+			dm_calendarinfo.push_back(dm_vector_data);
 	}
 
 }

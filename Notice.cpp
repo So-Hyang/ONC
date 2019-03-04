@@ -77,6 +77,7 @@ int CPropertiesWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	CRect rectDummy;
 	rectDummy.SetRectEmpty();
+
 	AddNoticeInfoDB();
 	// Create combo:
 	const DWORD dwViewStyle = WS_CHILD | WS_VISIBLE | CBS_DROPDOWNLIST | WS_BORDER | CBS_SORT | WS_CLIPSIBLINGS | WS_CLIPCHILDREN;
@@ -99,18 +100,10 @@ int CPropertiesWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	string N_cur_Month = to_string(cur_time.GetMonth());
 	string N_cur_Day = to_string(cur_time.GetDay());
 
-
-	
-
-	DataManager *mDataManager;
-	mDataManager = DataManager::GetInstance();
-//	n_userID = "sohyang";
-	n_userID = mDataManager->myinfo.Name;
-
 	if (cur_time.GetMonth() < 10)
 		N_cur_Month = "0" + N_cur_Month;
 	if (cur_time.GetDay() < 10)
-		N_cur_Month = "0" + N_cur_Day;
+		N_cur_Day = "0" + N_cur_Day;
 	n_cur_date = N_cur_Year + "-" + N_cur_Month + "-" + N_cur_Day;
 
 
@@ -165,8 +158,7 @@ void CPropertiesWnd::InitPropList()
 	string str_Personal_notice;
 	CString C_NSL_notice;
 	CString C_Personal_notice;
-
-	string b = vecNoticeInfo.back().Notice_cMsg + vecNoticeInfo.back().Notice_CUserID;
+	string b = "[" + vecNoticeInfo.back().Notice_CUserID + "] : " + vecNoticeInfo.back().Notice_cMsg;
 	CString bb(b.c_str());
 	bbb = (LPCTSTR)bb;
 	pAll = new CMFCPropertyGridProperty(_T("전체공지사항 List"));
@@ -175,7 +167,7 @@ void CPropertiesWnd::InitPropList()
 
 
 	if (cur_NSL_notice.size() > 0)
-		str_NSL_notice = cur_NSL_notice.back().Main_Contents;
+		str_NSL_notice = cur_NSL_notice.back().Main_Contents+ "_" + cur_NSL_notice.back().Who;
 	else
 		str_NSL_notice = "";
 	C_NSL_notice = str_NSL_notice.c_str();
@@ -188,25 +180,14 @@ void CPropertiesWnd::InitPropList()
 	else
 		str_Personal_notice = "";
 	C_Personal_notice = str_Personal_notice.c_str();
-	pNSL = new CMFCPropertyGridProperty(_T("NSL 일정 List"));
-	pNSL->AddSubItem(new CMFCPropertyGridProperty(_T("NSL 일정 List"), C_Personal_notice));
-	m_wndPropList.AddProperty(pNSL);
+	pPersonal = new CMFCPropertyGridProperty(_T("개인 일정 List"));
+	pPersonal->AddSubItem(new CMFCPropertyGridProperty(_T("개인 일정 List"), C_Personal_notice));
+	m_wndPropList.AddProperty(pPersonal);
 
 
 	
 }
 
-void CPropertiesWnd::setPropertysWnd()
-{
-	LPCTSTR newNoticedata;
-	string b = vecNoticeInfo.back().Notice_cMsg + vecNoticeInfo.back().Notice_CUserID;
-	CString bb(b.c_str());
-	newNoticedata = (LPCTSTR)bb;
-	pAll->AddSubItem(new CMFCPropertyGridProperty(_T("전체 공지사항"), newNoticedata));
-	m_wndPropList.DeleteProperty(pAll);
-	//pAll = new CMFCPropertyGridProperty(_T("전체공지사항 List"));
-	m_wndPropList.AddProperty(pAll);
-}
 
 ///////////////////////////////////////////
 ///////// 달력/공지 정보 가져오기
@@ -241,32 +222,39 @@ void CPropertiesWnd::AddNoticeInfoDB()
 	DataManager *mDataManager;
 	mDataManager = DataManager::GetInstance();
 
-	for (int i = 0; i < mDataManager->calendernotice_v.size(); i++)
+	if (mDataManager->calendernotice_v.size() > 0)
 	{
-		if (mDataManager->calendernotice_v[i].Contents_Type == "Notice")
+		for (int i = 0; i < mDataManager->calendernotice_v.size(); i++)
 		{
-			NoticeInfos.Notice_cMsg = mDataManager->calendernotice_v[i].Main_Contents;
-			NoticeInfos.Notice_CUserID = mDataManager->calendernotice_v[i].Who;
-			vecNoticeInfo.push_back(NoticeInfos);
+			if (mDataManager->calendernotice_v[i].Contents_Type == "Notice")
+			{
+				NoticeInfos.Notice_cMsg = mDataManager->calendernotice_v[i].Main_Contents;
+				NoticeInfos.Notice_CUserID = mDataManager->calendernotice_v[i].Who;
+				vecNoticeInfo.push_back(NoticeInfos);
+			}
 		}
+	}
+	else
+	{ 
+	NoticeInfos.Notice_CUserID = "testUSer";
+	NoticeInfos.Notice_cMsg = "ALLNoticeList";
+	vecNoticeInfo.push_back(NoticeInfos);
 	}
 }
 
 void CPropertiesWnd::AddListNotice(CalenderNotice newschedule) 
 {
 	LPCTSTR propertycontents_P, propertycontents_N;
+	
+	DataManager *mDataManager;
+	mDataManager = DataManager::GetInstance();
+	n_userID = mDataManager->myinfo.Name;
+
 	//일정 추가하기
 	dm_noticeinfo.push_back(newschedule);
 	cur_NSL_notice = LoadListNotice(1, n_userID, n_cur_date);
 	cur_Personal_notice = LoadListNotice(2, n_userID, n_cur_date);
 
-	/*propertycontents_P = (LPCTSTR) ((cur_Personal_notice[0].Main_Contents).c_str());
-	pPersonal->AddSubItem(new CMFCPropertyGridProperty(_T("개인 일정 List"), propertycontents_P));
-	m_wndPropList.AddProperty(pPersonal);
-
-	propertycontents_N = (LPCTSTR)((cur_NSL_notice[0].Main_Contents).c_str());
-	pNSL->AddSubItem(new CMFCPropertyGridProperty(_T("NSL 일정 List"), propertycontents_N));
-	m_wndPropList.AddProperty(pNSL);*/
 }
 
 void CPropertiesWnd::OnSetFocus(CWnd* pOldWnd)
@@ -368,12 +356,13 @@ void CPropertiesWnd::OnViewAddBtnCLicked()
 {
 	AddView AD;
 	
+	AD.Caption = L"ADD Notice";
 	if (IDOK == AD.DoModal())
 	{
 		CT2CA pszConvertedAnsiString(AD.a_contents);
 		string notice_msg(pszConvertedAnsiString);
 		string notice_name = DataManager::GetInstance()->myinfo.Name;
-		string notice_date = "2019-02-28";
+		string notice_date = "Today";
 		GuiClientInterface::getInstance()->SendNoticeMessage(3, notice_name, notice_msg, notice_date);
 	}
 }

@@ -43,7 +43,6 @@ public:
 	CMFCPropertyGridProperty* pNSL;
 	CMFCPropertyGridProperty* pPersonal;
 	CMFCPropertyGridProperty* pAll;
-	void setPropertysWnd();
 	// 특성입니다.
 public:
 	void SetVSDotNetLook(BOOL bSet)
