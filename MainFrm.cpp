@@ -57,6 +57,12 @@ CMainFrame::~CMainFrame()
 {
 }
 
+CDockablePane * CMainFrame::GetPropertyViewPT()
+{
+	CWnd* pWnd = (CWnd *)&m_wndProperties;
+	return (CDockablePane *)pWnd;
+}
+
 int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
 	if (CMDIFrameWndEx::OnCreate(lpCreateStruct) == -1)

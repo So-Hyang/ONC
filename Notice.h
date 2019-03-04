@@ -28,20 +28,22 @@ public:
 	CPropertiesWnd();
 
 	void AdjustLayout();
-
+	CMFCPropertyGridCtrl m_wndPropList;
 	vector<CalenderNotice> dm_noticeinfo{};
 	vector<CalenderNotice> cur_NSL_notice{};
 	vector<CalenderNotice> cur_Personal_notice{};
 
 	string n_userID;
 	string n_cur_date;
-
+	
 	vector<ALLNoticeInfo>vecNoticeInfo;
 	void AddNoticeInfo(ALLNoticeInfo Infos);
 	void AddNoticeInfoDB();
 	void AddListNotice(CalenderNotice newschedule);
 	CMFCPropertyGridProperty* pNSL;
 	CMFCPropertyGridProperty* pPersonal;
+	CMFCPropertyGridProperty* pAll;
+	void setPropertysWnd();
 	// 특성입니다.
 public:
 	void SetVSDotNetLook(BOOL bSet)
@@ -54,7 +56,7 @@ protected:
 	CFont m_fntPropList;
 	CComboBox m_wndObjectCombo;
 	CPropertiesToolBar m_wndToolBar;
-	CMFCPropertyGridCtrl m_wndPropList;
+
 
 	// 구현입니다.
 public:
@@ -68,8 +70,7 @@ protected:
 	afx_msg void OnViewNSLBtnCLicked();
 	afx_msg void OnViewPERSONALBtnCLicked();
 	afx_msg void OnViewAddBtnCLicked();
-	afx_msg
-		void Get_CalendarNotice_Notice();
+	afx_msg void Get_CalendarNotice_Notice();
 	void OnSetFocus(CWnd* pOldWnd);
 	afx_msg void OnSettingChange(UINT uFlags, LPCTSTR lpszSection);
 	vector<CalenderNotice> LoadListNotice(int type, string name, string date);
@@ -83,5 +84,7 @@ protected:
 	void OnViewAllBtnCLicked();
 
 	int m_nComboHeight;
+public:
+	afx_msg void OnPaint();
 };
 

@@ -23,11 +23,14 @@ void GuiClientInterface::OnNoticeMessage(string UserID, string cMsg)
 {
 	CONCApp *pApp = (CONCApp *)AfxGetApp();
 	CMainFrame* pMain = (CMainFrame*)pApp->GetMainWnd();
-	CChildFrame *pChild = (CChildFrame *)pMain->GetActiveFrame();
+	CPropertiesWnd *pProWnd = (CPropertiesWnd*)pMain->GetPropertyViewPT();
+
 	ALLNoticeInfo NoticeInfos;
 	NoticeInfos.Notice_CUserID = UserID;
 	NoticeInfos.Notice_cMsg = cMsg;
-	pMain->m_wndProperties.AddNoticeInfo(NoticeInfos);
+	pProWnd->AddNoticeInfo(NoticeInfos);
+
+	pProWnd->Invalidate();
 	CDataPacket::getInstance()->RecvMessageClear();
 }
 
@@ -39,6 +42,7 @@ void GuiClientInterface::OnCalendarMessage(string UserID, string cMsg, string cD
 	CChildFrame *pChild = (CChildFrame *)pMain->GetActiveFrame();
 	CONCDoc *pDoc = (CONCDoc *)pApp->pDoc;
 	CCalendarView *pCalView = (CCalendarView *)pDoc->GetCalendarView();
+	CPropertiesWnd *pProWnd = (CPropertiesWnd*)pMain->GetPropertyViewPT();
 
 	CalenderNotice i_newschedule_CN;
 
@@ -49,8 +53,8 @@ void GuiClientInterface::OnCalendarMessage(string UserID, string cMsg, string cD
 	i_newschedule_CN.Contents_Type = "Calendar";
 
 	pCalView->AddListSchedule(i_newschedule_CN);
-	pMain->m_wndProperties.AddListNotice(i_newschedule_CN); //노티스뷰에 데이터 추가함
-
+	pProWnd->AddListNotice(i_newschedule_CN); //노티스뷰에 데이터 추가함
+	pProWnd->Invalidate();
 	CDataPacket::getInstance()->RecvMessageClear();
 }
 

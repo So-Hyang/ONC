@@ -32,6 +32,7 @@ public:
 // 구현입니다.
 public:
 	virtual ~CMainFrame();
+	CDockablePane * GetPropertyViewPT();
 #ifdef _DEBUG
 	virtual void AssertValid() const;
 	virtual void Dump(CDumpContext& dc) const;

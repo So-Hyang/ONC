@@ -1,4 +1,5 @@
 
+
 ///////////////////////////////////////////////////////////////////
 /* 작성자 : 박성화*/////////////////////////////////////////////////
 /* 작업 날짜 : 2019년 2월 21일*/////////////////////////////////////   
@@ -48,6 +49,7 @@ BEGIN_MESSAGE_MAP(CPropertiesWnd, CDockablePane)
 	ON_COMMAND(ID_VIEW_ADD, OnViewAddBtnCLicked)
 	ON_WM_SETFOCUS()
 	ON_WM_SETTINGCHANGE()
+	ON_WM_PAINT()
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -90,7 +92,36 @@ int CPropertiesWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	}
 
 	Get_CalendarNotice_Notice();
-	InitPropList();
+
+	CTime cur_time = CTime::GetCurrentTime();
+
+	string N_cur_Year = to_string(cur_time.GetYear());
+	string N_cur_Month = to_string(cur_time.GetMonth());
+	string N_cur_Day = to_string(cur_time.GetDay());
+
+
+	
+
+	DataManager *mDataManager;
+	mDataManager = DataManager::GetInstance();
+//	n_userID = "sohyang";
+	n_userID = mDataManager->myinfo.Name;
+
+	if (cur_time.GetMonth() < 10)
+		N_cur_Month = "0" + N_cur_Month;
+	if (cur_time.GetDay() < 10)
+		N_cur_Month = "0" + N_cur_Day;
+	n_cur_date = N_cur_Year + "-" + N_cur_Month + "-" + N_cur_Day;
+
+
+	SetPropListFont();
+
+	m_wndPropList.EnableHeaderCtrl(FALSE);
+	//m_wndPropList.EnableDescriptionArea();
+	m_wndPropList.SetVSDotNetLook();
+	m_wndPropList.MarkModifiedProperties();
+
+	//InitPropList();
 
 	m_wndToolBar.Create(this, AFX_DEFAULT_TOOLBAR_STYLE, IDR_PROPERTIES);
 	m_wndToolBar.LoadToolBar(IDR_PROPERTIES, 0, 0, TRUE /* Is locked */);
@@ -126,67 +157,55 @@ void CPropertiesWnd::OnUpdateExpandAllProperties(CCmdUI* /* pCmdUI */)
 
 void CPropertiesWnd::InitPropList()
 {
-	CTime cur_time = CTime::GetCurrentTime();
-
-	string N_cur_Year = to_string(cur_time.GetYear());
-	string N_cur_Month = to_string(cur_time.GetMonth());
-	string N_cur_Day = to_string(cur_time.GetDay());
-
-
 	LPCTSTR propertycontents;
 	LPCTSTR bbb;
 	CString temp_propertycontents;
-	
-	DataManager *mDataManager;
-	mDataManager = DataManager::GetInstance();
-	n_userID = "sohyang";
-	//n_userID = mDataManager->myinfo.Name;
 
-	if (cur_time.GetMonth() < 10)
-		N_cur_Month = "0" + N_cur_Month;
-	if (cur_time.GetDay() < 10)
-		N_cur_Month = "0" + N_cur_Day;
-	n_cur_date = N_cur_Year + "-" + N_cur_Month + "-" + N_cur_Day;
-
-
-	SetPropListFont();
-
-	m_wndPropList.EnableHeaderCtrl(FALSE);
-	//m_wndPropList.EnableDescriptionArea();
-	m_wndPropList.SetVSDotNetLook();
-	m_wndPropList.MarkModifiedProperties();
+	string str_NSL_notice;
+	string str_Personal_notice;
+	CString C_NSL_notice;
+	CString C_Personal_notice;
 
 	string b = vecNoticeInfo.back().Notice_cMsg + vecNoticeInfo.back().Notice_CUserID;
 	CString bb(b.c_str());
 	bbb = (LPCTSTR)bb;
-	CMFCPropertyGridProperty* pAll = new CMFCPropertyGridProperty(_T("전체공지사항 List"));
-
-	pAll->AddSubItem(new CMFCPropertyGridProperty(_T("전체 공지사항"), bbb));
+	pAll = new CMFCPropertyGridProperty(_T("전체공지사항 List"));
+	pAll->AddSubItem(new CMFCPropertyGridProperty(_T("전체 공지사항"), bb));
 	m_wndPropList.AddProperty(pAll);
 
-	//NSL 일정
-	cur_NSL_notice = LoadListNotice(1, n_userID, n_cur_date);
-	if (cur_NSL_notice.size() != 0)
-		temp_propertycontents = ((cur_NSL_notice[0].Main_Contents).c_str());
+
+	if (cur_NSL_notice.size() > 0)
+		str_NSL_notice = cur_NSL_notice.back().Main_Contents;
 	else
-		temp_propertycontents = L"";
-	propertycontents = (LPCTSTR)temp_propertycontents;
+		str_NSL_notice = "";
+	C_NSL_notice = str_NSL_notice.c_str();
 	pNSL = new CMFCPropertyGridProperty(_T("NSL 일정 List"));
-	pNSL->AddSubItem(new CMFCPropertyGridProperty(_T("NSL 일정 List"), propertycontents));
+	pNSL->AddSubItem(new CMFCPropertyGridProperty(_T("NSL 일정 List"), C_NSL_notice));
 	m_wndPropList.AddProperty(pNSL);
 
-	//개인 일정
-	cur_Personal_notice = LoadListNotice(2, n_userID, n_cur_date);
-	if (cur_Personal_notice.size() != 0)
-		temp_propertycontents = ((cur_Personal_notice[0].Main_Contents).c_str());
+	if (cur_Personal_notice.size() > 0)
+		str_Personal_notice = cur_Personal_notice.back().Main_Contents;
 	else
-		temp_propertycontents = L"";
-	propertycontents = (LPCTSTR)temp_propertycontents;
-	pPersonal = new CMFCPropertyGridProperty(_T("개인 일정 List"));
-	pPersonal->AddSubItem(new CMFCPropertyGridProperty(_T("개인 일정 List"), propertycontents));
-	m_wndPropList.AddProperty(pPersonal);
+		str_Personal_notice = "";
+	C_Personal_notice = str_Personal_notice.c_str();
+	pNSL = new CMFCPropertyGridProperty(_T("NSL 일정 List"));
+	pNSL->AddSubItem(new CMFCPropertyGridProperty(_T("NSL 일정 List"), C_Personal_notice));
+	m_wndPropList.AddProperty(pNSL);
+
+
 	
-	
+}
+
+void CPropertiesWnd::setPropertysWnd()
+{
+	LPCTSTR newNoticedata;
+	string b = vecNoticeInfo.back().Notice_cMsg + vecNoticeInfo.back().Notice_CUserID;
+	CString bb(b.c_str());
+	newNoticedata = (LPCTSTR)bb;
+	pAll->AddSubItem(new CMFCPropertyGridProperty(_T("전체 공지사항"), newNoticedata));
+	m_wndPropList.DeleteProperty(pAll);
+	//pAll = new CMFCPropertyGridProperty(_T("전체공지사항 List"));
+	m_wndPropList.AddProperty(pAll);
 }
 
 ///////////////////////////////////////////
@@ -241,13 +260,13 @@ void CPropertiesWnd::AddListNotice(CalenderNotice newschedule)
 	cur_NSL_notice = LoadListNotice(1, n_userID, n_cur_date);
 	cur_Personal_notice = LoadListNotice(2, n_userID, n_cur_date);
 
-	propertycontents_P = (LPCTSTR) ((cur_Personal_notice[0].Main_Contents).c_str());
+	/*propertycontents_P = (LPCTSTR) ((cur_Personal_notice[0].Main_Contents).c_str());
 	pPersonal->AddSubItem(new CMFCPropertyGridProperty(_T("개인 일정 List"), propertycontents_P));
 	m_wndPropList.AddProperty(pPersonal);
 
 	propertycontents_N = (LPCTSTR)((cur_NSL_notice[0].Main_Contents).c_str());
 	pNSL->AddSubItem(new CMFCPropertyGridProperty(_T("NSL 일정 List"), propertycontents_N));
-	m_wndPropList.AddProperty(pNSL);
+	m_wndPropList.AddProperty(pNSL);*/
 }
 
 void CPropertiesWnd::OnSetFocus(CWnd* pOldWnd)
@@ -388,4 +407,13 @@ void CPropertiesWnd::OnViewPERSONALBtnCLicked()
 	}
 
 	Dialog_detail.DoModal();
+}
+
+void CPropertiesWnd::OnPaint()
+{
+	CPaintDC dc(this); // device context for painting
+					   // TODO: Add your message handler code here
+					   // Do not call CDockablePane::OnPaint() for painting messages
+	m_wndPropList.RemoveAll();
+	InitPropList();
 }
